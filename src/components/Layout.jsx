@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Trophy, Users, Calendar, BarChart3, Shield, Home, MapPin } from 'lucide-react'
+import { Menu, X, Trophy, Users, Calendar, BarChart3, Shield, Home, MapPin, TrendingUp } from 'lucide-react'
 
 const navItems = [
-  { to: '/', label: 'Home', icon: Home, exact: true },
+  { to: '/', label: 'Home', icon: Home },
   { to: '/groups', label: 'Groups', icon: BarChart3 },
+  { to: '/standings', label: 'Standings', icon: TrendingUp },
   { to: '/bracket', label: 'Bracket', icon: Trophy },
   { to: '/matches', label: 'Matches', icon: Calendar },
   { to: '/teams', label: 'Teams', icon: Shield },
   { to: '/stadiums', label: 'Stadiums', icon: MapPin },
+  { to: '/stats', label: 'Stats', icon: Users },
 ]
 
 export default function Layout() {
@@ -33,15 +35,13 @@ export default function Layout() {
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled
-            ? 'rgba(10, 10, 15, 0.95)'
-            : 'rgba(10, 10, 15, 0.7)',
+          background: scrolled ? 'rgba(10, 10, 15, 0.97)' : 'rgba(10, 10, 15, 0.7)',
           backdropFilter: 'blur(20px)',
           borderBottom: scrolled ? '1px solid rgba(245, 158, 11, 0.2)' : '1px solid transparent',
         }}
       >
         <div className="page-container">
-          <div className="flex items-center justify-between h-16 md:h-18">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <NavLink to="/" className="flex items-center gap-2 flex-shrink-0">
               <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg"
@@ -56,13 +56,11 @@ export default function Layout() {
                   2026
                 </div>
               </div>
-              <div className="sm:hidden font-display text-xl" style={{ color: '#f59e0b' }}>
-                WC26
-              </div>
+              <div className="sm:hidden font-display text-xl" style={{ color: '#f59e0b' }}>WC26</div>
             </NavLink>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-0.5">
               {navItems.map(({ to, label, icon: Icon }) => (
                 <NavLink
                   key={to}
@@ -76,7 +74,7 @@ export default function Layout() {
                     }`
                   }
                 >
-                  <Icon size={15} />
+                  <Icon size={14} />
                   {label}
                 </NavLink>
               ))}
@@ -85,7 +83,7 @@ export default function Layout() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 rounded-lg transition-colors"
+              className="lg:hidden p-2 rounded-lg transition-colors"
               style={{ color: 'var(--color-text-muted)' }}
               aria-label="Toggle menu"
             >
@@ -103,20 +101,20 @@ export default function Layout() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 md:hidden"
+            className="fixed top-16 left-0 right-0 z-40 lg:hidden"
             style={{
               background: 'rgba(10, 10, 15, 0.98)',
               backdropFilter: 'blur(20px)',
               borderBottom: '1px solid rgba(245, 158, 11, 0.2)',
             }}
           >
-            <nav className="page-container py-4 flex flex-col gap-1">
+            <nav className="page-container py-4 grid grid-cols-2 gap-1">
               {navItems.map(({ to, label, icon: Icon }, i) => (
                 <motion.div
                   key={to}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
+                  transition={{ delay: i * 0.04 }}
                 >
                   <NavLink
                     to={to}
@@ -139,14 +137,14 @@ export default function Layout() {
         )}
       </AnimatePresence>
 
-      {/* Overlay for mobile menu */}
+      {/* Overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-30 md:hidden"
+            className="fixed inset-0 z-30 lg:hidden"
             style={{ background: 'rgba(0,0,0,0.5)' }}
             onClick={() => setMenuOpen(false)}
           />
