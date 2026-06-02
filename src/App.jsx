@@ -1,14 +1,14 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Layout from './components/layout/Layout'
-import Home from './pages/Home'
-import Groups from './pages/Groups'
-import Bracket from './pages/Bracket'
-import Matches from './pages/Matches'
-import Teams from './pages/Teams'
-import TeamDetail from './pages/TeamDetail'
-import Stadiums from './pages/Stadiums'
-import StadiumDetail from './pages/StadiumDetail'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import Home from "./pages/Home";
+import Groups from "./pages/Groups";
+import Bracket from "./pages/Bracket";
+import Matches from "./pages/Matches";
+import Teams from "./pages/Teams";
+import TeamDetail from "./pages/TeamDetail";
+import Stadiums from "./pages/Stadiums";
+import StadiumDetail from "./pages/StadiumDetail";
 
 export default function App() {
   return (
@@ -26,5 +26,5 @@ export default function App() {
         </Route>
       </Routes>
     </Router>
-  )
+  );
 }
