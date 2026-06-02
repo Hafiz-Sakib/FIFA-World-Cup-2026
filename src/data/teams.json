@@ -1,0 +1,482 @@
+[
+  {
+    "id": "BRA",
+    "name": "Brazil",
+    "flag": "🇧🇷",
+    "confederation": "CONMEBOL",
+    "group": "A",
+    "ranking": 1,
+    "coach": "Dorival Júnior",
+    "qualified": true
+  },
+  {
+    "id": "ARG",
+    "name": "Argentina",
+    "flag": "🇦🇷",
+    "confederation": "CONMEBOL",
+    "group": "B",
+    "ranking": 2,
+    "coach": "Lionel Scaloni",
+    "qualified": true
+  },
+  {
+    "id": "FRA",
+    "name": "France",
+    "flag": "🇫🇷",
+    "confederation": "UEFA",
+    "group": "C",
+    "ranking": 3,
+    "coach": "Didier Deschamps",
+    "qualified": true
+  },
+  {
+    "id": "ENG",
+    "name": "England",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "confederation": "UEFA",
+    "group": "D",
+    "ranking": 4,
+    "coach": "Thomas Tuchel",
+    "qualified": true
+  },
+  {
+    "id": "BEL",
+    "name": "Belgium",
+    "flag": "🇧🇪",
+    "confederation": "UEFA",
+    "group": "E",
+    "ranking": 5,
+    "coach": "Domenico Tedesco",
+    "qualified": true
+  },
+  {
+    "id": "POR",
+    "name": "Portugal",
+    "flag": "🇵🇹",
+    "confederation": "UEFA",
+    "group": "F",
+    "ranking": 6,
+    "coach": "Roberto Martínez",
+    "qualified": true
+  },
+  {
+    "id": "ESP",
+    "name": "Spain",
+    "flag": "🇪🇸",
+    "confederation": "UEFA",
+    "group": "G",
+    "ranking": 7,
+    "coach": "Luis de la Fuente",
+    "qualified": true
+  },
+  {
+    "id": "GER",
+    "name": "Germany",
+    "flag": "🇩🇪",
+    "confederation": "UEFA",
+    "group": "H",
+    "ranking": 8,
+    "coach": "Julian Nagelsmann",
+    "qualified": true
+  },
+  {
+    "id": "NED",
+    "name": "Netherlands",
+    "flag": "🇳🇱",
+    "confederation": "UEFA",
+    "group": "I",
+    "ranking": 9,
+    "coach": "Ronald Koeman",
+    "qualified": true
+  },
+  {
+    "id": "URU",
+    "name": "Uruguay",
+    "flag": "🇺🇾",
+    "confederation": "CONMEBOL",
+    "group": "J",
+    "ranking": 10,
+    "coach": "Marcelo Bielsa",
+    "qualified": true
+  },
+  {
+    "id": "COL",
+    "name": "Colombia",
+    "flag": "🇨🇴",
+    "confederation": "CONMEBOL",
+    "group": "K",
+    "ranking": 11,
+    "coach": "Néstor Lorenzo",
+    "qualified": true
+  },
+  {
+    "id": "DEN",
+    "name": "Denmark",
+    "flag": "🇩🇰",
+    "confederation": "UEFA",
+    "group": "L",
+    "ranking": 12,
+    "coach": "Kasper Hjulmand",
+    "qualified": true
+  },
+  {
+    "id": "MEX",
+    "name": "Mexico",
+    "flag": "🇲🇽",
+    "confederation": "CONCACAF",
+    "group": "A",
+    "ranking": 13,
+    "coach": "Javier Aguirre",
+    "qualified": true
+  },
+  {
+    "id": "USA",
+    "name": "USA",
+    "flag": "🇺🇸",
+    "confederation": "CONCACAF",
+    "group": "B",
+    "ranking": 14,
+    "coach": "Mauricio Pochettino",
+    "qualified": true
+  },
+  {
+    "id": "CAN",
+    "name": "Canada",
+    "flag": "🇨🇦",
+    "confederation": "CONCACAF",
+    "group": "C",
+    "ranking": 15,
+    "coach": "Jesse Marsch",
+    "qualified": true
+  },
+  {
+    "id": "SEN",
+    "name": "Senegal",
+    "flag": "🇸🇳",
+    "confederation": "CAF",
+    "group": "D",
+    "ranking": 16,
+    "coach": "Aliou Cissé",
+    "qualified": true
+  },
+  {
+    "id": "MAR",
+    "name": "Morocco",
+    "flag": "🇲🇦",
+    "confederation": "CAF",
+    "group": "E",
+    "ranking": 17,
+    "coach": "Walid Regragui",
+    "qualified": true
+  },
+  {
+    "id": "AUS",
+    "name": "Australia",
+    "flag": "🇦🇺",
+    "confederation": "AFC",
+    "group": "F",
+    "ranking": 18,
+    "coach": "Tony Popovic",
+    "qualified": true
+  },
+  {
+    "id": "JPN",
+    "name": "Japan",
+    "flag": "🇯🇵",
+    "confederation": "AFC",
+    "group": "G",
+    "ranking": 19,
+    "coach": "Hajime Moriyasu",
+    "qualified": true
+  },
+  {
+    "id": "KOR",
+    "name": "South Korea",
+    "flag": "🇰🇷",
+    "confederation": "AFC",
+    "group": "H",
+    "ranking": 20,
+    "coach": "Hong Myung-bo",
+    "qualified": true
+  },
+  {
+    "id": "IRI",
+    "name": "Iran",
+    "flag": "🇮🇷",
+    "confederation": "AFC",
+    "group": "I",
+    "ranking": 21,
+    "coach": "Amir Ghalenoei",
+    "qualified": true
+  },
+  {
+    "id": "SAU",
+    "name": "Saudi Arabia",
+    "flag": "🇸🇦",
+    "confederation": "AFC",
+    "group": "J",
+    "ranking": 22,
+    "coach": "Roberto Mancini",
+    "qualified": true
+  },
+  {
+    "id": "EGY",
+    "name": "Egypt",
+    "flag": "🇪🇬",
+    "confederation": "CAF",
+    "group": "K",
+    "ranking": 23,
+    "coach": "Hossam Hassan",
+    "qualified": true
+  },
+  {
+    "id": "NGA",
+    "name": "Nigeria",
+    "flag": "🇳🇬",
+    "confederation": "CAF",
+    "group": "L",
+    "ranking": 24,
+    "coach": "Augustine Eguavoen",
+    "qualified": true
+  },
+  {
+    "id": "CMR",
+    "name": "Cameroon",
+    "flag": "🇨🇲",
+    "confederation": "CAF",
+    "group": "A",
+    "ranking": 25,
+    "coach": "Rigobert Song",
+    "qualified": true
+  },
+  {
+    "id": "GHA",
+    "name": "Ghana",
+    "flag": "🇬🇭",
+    "confederation": "CAF",
+    "group": "B",
+    "ranking": 26,
+    "coach": "Otto Addo",
+    "qualified": true
+  },
+  {
+    "id": "TUN",
+    "name": "Tunisia",
+    "flag": "🇹🇳",
+    "confederation": "CAF",
+    "group": "C",
+    "ranking": 27,
+    "coach": "Jalel Kadri",
+    "qualified": true
+  },
+  {
+    "id": "ALG",
+    "name": "Algeria",
+    "flag": "🇩🇿",
+    "confederation": "CAF",
+    "group": "D",
+    "ranking": 28,
+    "coach": "Vladimir Petkovic",
+    "qualified": true
+  },
+  {
+    "id": "CRO",
+    "name": "Croatia",
+    "flag": "🇭🇷",
+    "confederation": "UEFA",
+    "group": "E",
+    "ranking": 29,
+    "coach": "Zlatko Dalić",
+    "qualified": true
+  },
+  {
+    "id": "SUI",
+    "name": "Switzerland",
+    "flag": "🇨🇭",
+    "confederation": "UEFA",
+    "group": "F",
+    "ranking": 30,
+    "coach": "Murat Yakin",
+    "qualified": true
+  },
+  {
+    "id": "SRB",
+    "name": "Serbia",
+    "flag": "🇷🇸",
+    "confederation": "UEFA",
+    "group": "G",
+    "ranking": 31,
+    "coach": "Dragan Stojković",
+    "qualified": true
+  },
+  {
+    "id": "POL",
+    "name": "Poland",
+    "flag": "🇵🇱",
+    "confederation": "UEFA",
+    "group": "H",
+    "ranking": 32,
+    "coach": "Michał Probierz",
+    "qualified": true
+  },
+  {
+    "id": "AUT",
+    "name": "Austria",
+    "flag": "🇦🇹",
+    "confederation": "UEFA",
+    "group": "I",
+    "ranking": 33,
+    "coach": "Ralf Rangnick",
+    "qualified": true
+  },
+  {
+    "id": "SCO",
+    "name": "Scotland",
+    "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "confederation": "UEFA",
+    "group": "J",
+    "ranking": 34,
+    "coach": "Steve Clarke",
+    "qualified": true
+  },
+  {
+    "id": "TUR",
+    "name": "Türkiye",
+    "flag": "🇹🇷",
+    "confederation": "UEFA",
+    "group": "K",
+    "ranking": 35,
+    "coach": "Vincenzo Montella",
+    "qualified": true
+  },
+  {
+    "id": "UKR",
+    "name": "Ukraine",
+    "flag": "🇺🇦",
+    "confederation": "UEFA",
+    "group": "L",
+    "ranking": 36,
+    "coach": "Serhiy Rebrov",
+    "qualified": true
+  },
+  {
+    "id": "PER",
+    "name": "Peru",
+    "flag": "🇵🇪",
+    "confederation": "CONMEBOL",
+    "group": "A",
+    "ranking": 37,
+    "coach": "Jorge Fossati",
+    "qualified": true
+  },
+  {
+    "id": "VEN",
+    "name": "Venezuela",
+    "flag": "🇻🇪",
+    "confederation": "CONMEBOL",
+    "group": "B",
+    "ranking": 38,
+    "coach": "Fernando Batista",
+    "qualified": true
+  },
+  {
+    "id": "ECU",
+    "name": "Ecuador",
+    "flag": "🇪🇨",
+    "confederation": "CONMEBOL",
+    "group": "C",
+    "ranking": 39,
+    "coach": "Sebastián Beccacece",
+    "qualified": true
+  },
+  {
+    "id": "PAR",
+    "name": "Paraguay",
+    "flag": "🇵🇾",
+    "confederation": "CONMEBOL",
+    "group": "D",
+    "ranking": 40,
+    "coach": "Gustavo Alfaro",
+    "qualified": true
+  },
+  {
+    "id": "CHL",
+    "name": "Chile",
+    "flag": "🇨🇱",
+    "confederation": "CONMEBOL",
+    "group": "E",
+    "ranking": 41,
+    "coach": "Ricardo Gareca",
+    "qualified": true
+  },
+  {
+    "id": "BOL",
+    "name": "Bolivia",
+    "flag": "🇧🇴",
+    "confederation": "CONMEBOL",
+    "group": "F",
+    "ranking": 42,
+    "coach": "Oscar Villegas",
+    "qualified": true
+  },
+  {
+    "id": "HON",
+    "name": "Honduras",
+    "flag": "🇭🇳",
+    "confederation": "CONCACAF",
+    "group": "G",
+    "ranking": 43,
+    "coach": "Reinaldo Rueda",
+    "qualified": true
+  },
+  {
+    "id": "CRC",
+    "name": "Costa Rica",
+    "flag": "🇨🇷",
+    "confederation": "CONCACAF",
+    "group": "H",
+    "ranking": 44,
+    "coach": "Alexandre Guimarães",
+    "qualified": true
+  },
+  {
+    "id": "PAN",
+    "name": "Panama",
+    "flag": "🇵🇦",
+    "confederation": "CONCACAF",
+    "group": "I",
+    "ranking": 45,
+    "coach": "Thomas Christiansen",
+    "qualified": true
+  },
+  {
+    "id": "JAM",
+    "name": "Jamaica",
+    "flag": "🇯🇲",
+    "confederation": "CONCACAF",
+    "group": "J",
+    "ranking": 46,
+    "coach": "Lorne Donaldson",
+    "qualified": true
+  },
+  {
+    "id": "NZL",
+    "name": "New Zealand",
+    "flag": "🇳🇿",
+    "confederation": "OFC",
+    "group": "K",
+    "ranking": 47,
+    "coach": "Darren Bazeley",
+    "qualified": true
+  },
+  {
+    "id": "IVY",
+    "name": "Ivory Coast",
+    "flag": "🇨🇮",
+    "confederation": "CAF",
+    "group": "L",
+    "ranking": 48,
+    "coach": "Emerse Faé",
+    "qualified": true
+  }
+]
