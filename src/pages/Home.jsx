@@ -1,258 +1,319 @@
-import React, { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Trophy, Users, Calendar, MapPin, ArrowRight, Globe } from 'lucide-react'
-import matchesData from '../data/matches.json'
-import teamsData from '../data/teams.json'
-import stadiumsData from '../data/stadiums.json'
-import { formatDate, formatTime } from '../hooks/useDateFormat'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Trophy,
+  Users,
+  CalendarDays,
+  Globe,
+  Search,
+  ChevronRight,
+  Zap,
+} from "lucide-react";
+import fixtures from "../data/fixtures.json";
+import { getAllTeams } from "../utils/countryUtils";
 
-const stats = [
-  { label: 'Teams', value: '48', icon: Users, color: '#f59e0b' },
-  { label: 'Matches', value: '104', icon: Calendar, color: '#3b82f6' },
-  { label: 'Stadiums', value: '16', icon: MapPin, color: '#10b981' },
-  { label: 'Groups', value: '12', icon: Globe, color: '#8b5cf6' },
-]
+const GROUP_STAGE = fixtures.filter(
+  (f) =>
+    ![
+      "Round of 32",
+      "Round of 16",
+      "Quarter-Final",
+      "Semi-Final",
+      "Third Place",
+      "Final",
+    ].includes(f.group),
+);
 
-const hostCities = [
-  { city: 'New York/NJ', country: '🇺🇸', venue: 'MetLife Stadium' },
-  { city: 'Los Angeles', country: '🇺🇸', venue: 'SoFi Stadium' },
-  { city: 'Dallas', country: '🇺🇸', venue: 'AT&T Stadium' },
-  { city: 'Toronto', country: '🇨🇦', venue: 'BMO Field' },
-  { city: 'Mexico City', country: '🇲🇽', venue: 'Estadio Azteca' },
-  { city: 'Miami', country: '🇺🇸', venue: 'Hard Rock Stadium' },
-]
+// Unique teams count
+const TEAM_COUNT = getAllTeams().length;
 
+// Unique groups
+const GROUPS = [...new Set(GROUP_STAGE.map((f) => f.group))].sort();
+
+// Upcoming group stage matches (first 6)
+const FEATURED = GROUP_STAGE.slice(0, 6);
+
+/**
+ * Home – landing page with hero, stats, and quick nav cards.
+ */
 export default function Home() {
-  const upcomingMatches = matchesData
-    .filter(m => m.status === 'upcoming')
-    .slice(0, 6)
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
-  const containerVariants = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.1 } }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  }
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search.trim()) {
+      navigate(`/by-team`);
+    }
+  };
 
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden min-h-[85vh] flex items-center">
-        {/* Background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0" style={{
-            background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(245, 158, 11, 0.12) 0%, transparent 70%)'
-          }} />
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-10" style={{
-            background: 'radial-gradient(circle, #ea580c, transparent 70%)',
-            transform: 'translate(30%, -30%)'
-          }} />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10" style={{
-            background: 'radial-gradient(circle, #3b82f6, transparent 70%)',
-            transform: 'translate(-30%, 30%)'
-          }} />
+    <div className="hero-bg min-h-screen">
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden">
+        {/* Decorative orbs */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div
+            className="absolute rounded-full blur-3xl opacity-20"
+            style={{
+              width: 600,
+              height: 600,
+              top: -200,
+              left: -100,
+              background:
+                "radial-gradient(circle, rgba(42,82,152,0.6), transparent)",
+            }}
+          />
+          <div
+            className="absolute rounded-full blur-3xl opacity-10"
+            style={{
+              width: 400,
+              height: 400,
+              bottom: 0,
+              right: -100,
+              background:
+                "radial-gradient(circle, rgba(201,168,76,0.5), transparent)",
+            }}
+          />
         </div>
 
-        <div className="page-container relative z-10 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto"
+        <div className="relative max-w-6xl mx-auto px-4 pt-16 pb-14 text-center">
+          {/* FIFA badge */}
+          <div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-xs font-semibold tracking-widest uppercase"
+            style={{
+              background: "rgba(201,168,76,0.1)",
+              border: "1px solid rgba(201,168,76,0.3)",
+              color: "#C9A84C",
+            }}
           >
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-6xl sm:text-7xl mb-6"
-            >
-              ⚽
-            </motion.div>
-
-            <div className="badge badge-gold mb-4 mx-auto text-xs tracking-widest uppercase">
-              Official Tournament Tracker
-            </div>
-
-            <h1 className="font-display mb-4" style={{
-              fontSize: 'clamp(3rem, 10vw, 7rem)',
-              lineHeight: 1,
-              letterSpacing: '0.02em',
-            }}>
-              <span className="shimmer-text">FIFA</span>
-              <br />
-              <span style={{ color: 'white' }}>WORLD CUP</span>
-              <br />
-              <span className="shimmer-text">2026</span>
-            </h1>
-
-            <p className="text-base sm:text-lg mb-4 max-w-xl mx-auto" style={{ color: 'var(--color-text-muted)' }}>
-              48 nations. 3 host countries. The greatest football tournament ever.
-            </p>
-
-            <div className="flex items-center justify-center gap-2 mb-8 flex-wrap">
-              {['🇺🇸 USA', '🇨🇦 Canada', '🇲🇽 Mexico'].map(c => (
-                <span key={c} className="badge badge-gold text-xs">{c}</span>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Link to="/groups" className="btn-primary flex items-center gap-2">
-                View Groups <ArrowRight size={16} />
-              </Link>
-              <Link to="/bracket" className="btn-ghost flex items-center gap-2">
-                Tournament Bracket <Trophy size={16} />
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Decorative bottom line */}
-        <div className="absolute bottom-0 left-0 right-0 horizon-line" />
-      </section>
-
-      {/* Stats */}
-      <section className="py-12">
-        <div className="page-container">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4"
-          >
-            {stats.map(({ label, value, icon: Icon, color }) => (
-              <motion.div key={label} variants={itemVariants}>
-                <div className="glass-card p-6 text-center group hover:border-yellow-400/20 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3"
-                    style={{ background: `${color}20`, color }}>
-                    <Icon size={22} />
-                  </div>
-                  <div className="font-display text-4xl mb-1" style={{ color }}>{value}</div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--color-text-muted)' }}>{label}</div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Upcoming Matches */}
-      <section className="py-12">
-        <div className="page-container">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="section-title gold-text">Upcoming Matches</h2>
-            <Link to="/matches" className="text-sm flex items-center gap-1 transition-colors hover:text-yellow-400"
-              style={{ color: 'var(--color-text-muted)' }}>
-              All matches <ArrowRight size={14} />
-            </Link>
+            <Zap size={12} /> Official Tournament Fixtures
           </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
+          {/* Title */}
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-2">
+            <span className="gold-text">FIFA World Cup</span>
+          </h1>
+          <h2
+            className="text-5xl md:text-7xl font-bold text-white mb-3"
+            style={{ letterSpacing: "-1px" }}
           >
-            {upcomingMatches.map((match) => (
-              <motion.div key={match.id} variants={itemVariants}>
-                <div className="glass-card p-5 hover:border-yellow-400/20 transition-all duration-300 group">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="badge badge-gold text-xs">
-                      {match.stage === 'Group Stage' ? `Group ${match.group}` : match.stage}
-                    </span>
-                    <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                      {formatDate(match.date)}
-                    </span>
-                  </div>
+            2026
+          </h2>
+          <p className="text-gray-400 text-base md:text-lg mb-2">
+            USA · Canada · Mexico
+          </p>
+          <p className="text-sm text-gray-500 mb-10">
+            All match times in{" "}
+            <span style={{ color: "#C9A84C" }}>
+              Bangladesh Standard Time (BST / UTC+6)
+            </span>
+          </p>
 
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex-1 text-center">
-                      <div className="text-3xl mb-1">{match.homeTeam.flag}</div>
-                      <div className="text-sm font-semibold truncate">{match.homeTeam.name}</div>
-                    </div>
-                    <div className="flex flex-col items-center flex-shrink-0 px-2">
-                      <div className="font-display text-xl" style={{ color: '#f59e0b' }}>VS</div>
-                    </div>
-                    <div className="flex-1 text-center">
-                      <div className="text-3xl mb-1">{match.awayTeam.flag}</div>
-                      <div className="text-sm font-semibold truncate">{match.awayTeam.name}</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                    <span className="flex items-center gap-1">
-                      <MapPin size={11} /> {match.city}
-                    </span>
-                    <span>{formatTime(match.date)}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Host Cities */}
-      <section className="py-12">
-        <div className="page-container">
-          <h2 className="section-title gold-text mb-6">Host Cities</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {hostCities.map((c, i) => (
-              <motion.div
-                key={c.city}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}
+          {/* Search bar */}
+          <form onSubmit={handleSearch} className="max-w-xl mx-auto relative">
+            <div className="relative">
+              <Search
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ color: "#C9A84C" }}
+              />
+              <input
+                type="text"
+                className="field-input w-full pl-12 pr-32 py-4 text-sm rounded-2xl"
+                placeholder="Search for a team (e.g. Brazil, Germany...)"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="btn-gold absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 text-sm rounded-xl"
               >
-                <div className="glass-card p-4 text-center hover:border-yellow-400/20 transition-all cursor-default">
-                  <div className="text-2xl mb-2">{c.country}</div>
-                  <div className="text-sm font-semibold mb-1">{c.city}</div>
-                  <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{c.venue}</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                Search
+              </button>
+            </div>
+          </form>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16">
-        <div className="page-container">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="glass-card p-8 sm:p-12 text-center relative overflow-hidden"
+      {/* ── STATS ── */}
+      <section className="max-w-6xl mx-auto px-4 pb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            {
+              icon: CalendarDays,
+              label: "Total Matches",
+              value: fixtures.length,
+              color: "#C9A84C",
+            },
+            {
+              icon: Users,
+              label: "Participating Teams",
+              value: TEAM_COUNT,
+              color: "#60a5fa",
+            },
+            {
+              icon: Trophy,
+              label: "Groups",
+              value: GROUPS.length,
+              color: "#34d399",
+            },
+            {
+              icon: Globe,
+              label: "Host Countries",
+              value: 3,
+              color: "#f472b6",
+            },
+          ].map(({ icon: Icon, label, value, color }) => (
+            <div key={label} className="stat-card px-5 py-5 text-center">
+              <Icon size={24} className="mx-auto mb-2" style={{ color }} />
+              <div className="text-2xl md:text-3xl font-bold text-white mb-1">
+                {value}
+              </div>
+              <div className="text-xs text-gray-400 font-medium">{label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── QUICK NAV ── */}
+      <section className="max-w-6xl mx-auto px-4 pb-14">
+        <h3 className="text-lg font-bold text-white mb-4">Browse Fixtures</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* By Team */}
+          <a
+            href="/by-team"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/by-team");
+            }}
+            className="glass-card p-6 flex items-center gap-4 cursor-pointer no-underline group"
           >
-            <div className="absolute inset-0 pointer-events-none" style={{
-              background: 'radial-gradient(ellipse 60% 80% at 50% 50%, rgba(245, 158, 11, 0.06), transparent)'
-            }} />
-            <div className="relative z-10">
-              <Trophy size={40} className="mx-auto mb-4 text-yellow-400" />
-              <h2 className="font-display text-3xl sm:text-5xl mb-4 text-white">
-                Who Will Lift The Trophy?
-              </h2>
-              <p className="text-base mb-6 max-w-md mx-auto" style={{ color: 'var(--color-text-muted)' }}>
-                Follow the complete tournament from the group stage through to the grand final at MetLife Stadium.
-              </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                <Link to="/teams" className="btn-primary flex items-center gap-2">
-                  <Users size={16} /> Explore Teams
-                </Link>
-                <Link to="/stadiums" className="btn-ghost flex items-center gap-2">
-                  <MapPin size={16} /> View Stadiums
-                </Link>
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(42,82,152,0.4), rgba(42,82,152,0.2))",
+                border: "1px solid rgba(42,82,152,0.4)",
+              }}
+            >
+              <Users size={22} style={{ color: "#93c5fd" }} />
+            </div>
+            <div className="min-w-0">
+              <div className="font-bold text-white text-base mb-0.5">
+                Fixtures by Team
+              </div>
+              <div className="text-sm text-gray-400">
+                Select any of the {TEAM_COUNT} teams to view their full schedule
               </div>
             </div>
-          </motion.div>
+            <ChevronRight
+              size={18}
+              className="flex-shrink-0 text-gray-500 group-hover:text-yellow-400 transition-colors ml-auto"
+            />
+          </a>
+
+          {/* By Date */}
+          <a
+            href="/by-date"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/by-date");
+            }}
+            className="glass-card p-6 flex items-center gap-4 cursor-pointer no-underline group"
+          >
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.05))",
+                border: "1px solid rgba(201,168,76,0.25)",
+              }}
+            >
+              <CalendarDays size={22} style={{ color: "#C9A84C" }} />
+            </div>
+            <div className="min-w-0">
+              <div className="font-bold text-white text-base mb-0.5">
+                Fixtures by Date
+              </div>
+              <div className="text-sm text-gray-400">
+                Browse all matches by date — from June 11 to July 19, 2026
+              </div>
+            </div>
+            <ChevronRight
+              size={18}
+              className="flex-shrink-0 text-gray-500 group-hover:text-yellow-400 transition-colors ml-auto"
+            />
+          </a>
+        </div>
+      </section>
+
+      {/* ── GROUPS ── */}
+      <section className="max-w-6xl mx-auto px-4 pb-16">
+        <h3 className="text-lg font-bold text-white mb-4">Tournament Groups</h3>
+        <div className="flex flex-wrap gap-2">
+          {GROUPS.map((g) => (
+            <span
+              key={g}
+              className="px-4 py-2 rounded-xl text-sm font-semibold"
+              style={{
+                background: "rgba(15,22,40,0.85)",
+                border: "1px solid rgba(201,168,76,0.2)",
+                color: "#e2e8f0",
+              }}
+            >
+              Group {g}
+            </span>
+          ))}
+        </div>
+        <p className="mt-4 text-sm text-gray-500">
+          12 groups · 4 teams per group · 48 group stage matches total
+        </p>
+      </section>
+
+      {/* ── HOST VENUES ── */}
+      <section className="max-w-6xl mx-auto px-4 pb-16">
+        <h3 className="text-lg font-bold text-white mb-4">Host Stadiums</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {[
+            { name: "MetLife Stadium", city: "New York/NJ", country: "USA" },
+            { name: "SoFi Stadium", city: "Los Angeles", country: "USA" },
+            { name: "AT&T Stadium", city: "Dallas", country: "USA" },
+            { name: "Hard Rock Stadium", city: "Miami", country: "USA" },
+            { name: "Levi's Stadium", city: "San Francisco", country: "USA" },
+            { name: "Mercedes-Benz Stadium", city: "Atlanta", country: "USA" },
+            { name: "Gillette Stadium", city: "Boston", country: "USA" },
+            { name: "Arrowhead Stadium", city: "Kansas City", country: "USA" },
+            {
+              name: "Lincoln Financial Field",
+              city: "Philadelphia",
+              country: "USA",
+            },
+            { name: "Estadio Azteca", city: "Mexico City", country: "Mexico" },
+            { name: "Estadio BBVA", city: "Monterrey", country: "Mexico" },
+            { name: "Estadio Akron", city: "Guadalajara", country: "Mexico" },
+            { name: "BMO Field", city: "Toronto", country: "Canada" },
+            { name: "BC Place", city: "Vancouver", country: "Canada" },
+            { name: "Stade Olympique", city: "Montreal", country: "Canada" },
+          ].map((v) => (
+            <div
+              key={v.name}
+              className="px-3 py-2.5 rounded-xl text-xs"
+              style={{
+                background: "rgba(15,22,40,0.7)",
+                border: "1px solid rgba(30,45,74,0.8)",
+              }}
+            >
+              <div className="font-semibold text-white text-xs leading-snug">
+                {v.name}
+              </div>
+              <div className="text-gray-500 mt-0.5">
+                {v.city} · {v.country}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
-  )
+  );
 }
