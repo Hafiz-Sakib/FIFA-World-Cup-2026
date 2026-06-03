@@ -611,6 +611,424 @@ function FootballAnimator({ kickSide, kickCount }) {
   );
 }
 
+/* ── Football Pitch Animation Component ── */
+function PitchAnimation({
+  team1,
+  flag1,
+  team2,
+  flag2,
+  score1,
+  score2,
+  result,
+  kickSide,
+}) {
+  const [frame, setFrame] = useState(0);
+  const [goalFlash, setGoalFlash] = useState(null); // 'left' | 'right' | null
+  const prevKick = useRef(null);
+
+  // Animate ball continuously on pitch
+  useEffect(() => {
+    const id = setInterval(() => setFrame((f) => f + 1), 40);
+    return () => clearInterval(id);
+  }, []);
+
+  // Flash goal net when kick happens
+  useEffect(() => {
+    if (kickSide && kickSide !== prevKick.current) {
+      prevKick.current = kickSide;
+      setGoalFlash(kickSide);
+      const t = setTimeout(() => setGoalFlash(null), 700);
+      return () => clearTimeout(t);
+    }
+  }, [kickSide]);
+
+  // Ball trajectory: figure-8 idle path, or rush toward goal on kick
+  const t = frame / 60;
+  const ballX =
+    kickSide === "left"
+      ? 12 + Math.sin(frame / 4) * 3
+      : kickSide === "right"
+        ? 88 - Math.sin(frame / 4) * 3
+        : 50 + Math.sin(t * 1.3) * 28;
+  const ballY = 50 + Math.sin(t * 2.6) * 18;
+  const ballRotate =
+    frame * (kickSide === "left" ? -6 : kickSide === "right" ? 6 : 4);
+  const ballScale = kickSide ? 1.3 : 1 + Math.sin(t * 2.6) * 0.08;
+
+  // Player dots: 2 per team moving around
+  const players = [
+    // Team 1 (left side)
+    {
+      x: 25 + Math.sin(t * 0.7 + 0) * 8,
+      y: 35 + Math.cos(t * 0.9 + 0) * 12,
+      color: "#22C55E",
+    },
+    {
+      x: 30 + Math.sin(t * 0.6 + 1) * 7,
+      y: 60 + Math.cos(t * 0.8 + 1) * 10,
+      color: "#22C55E",
+    },
+    {
+      x: 18 + Math.sin(t * 0.5 + 2) * 5,
+      y: 50 + Math.cos(t * 1.0 + 2) * 8,
+      color: "#22C55E",
+    },
+    // Team 2 (right side)
+    {
+      x: 75 + Math.sin(t * 0.7 + 3) * 8,
+      y: 38 + Math.cos(t * 0.9 + 3) * 12,
+      color: "#60A5FA",
+    },
+    {
+      x: 70 + Math.sin(t * 0.6 + 4) * 7,
+      y: 62 + Math.cos(t * 0.8 + 4) * 10,
+      color: "#60A5FA",
+    },
+    {
+      x: 82 + Math.sin(t * 0.5 + 5) * 5,
+      y: 50 + Math.cos(t * 1.0 + 5) * 8,
+      color: "#60A5FA",
+    },
+  ];
+
+  const winnerColor =
+    result === "left" ? "#22C55E" : result === "right" ? "#60A5FA" : "#F4C542";
+  const winnerLabel =
+    result === "left"
+      ? `${team1.toUpperCase()} WINS!`
+      : result === "right"
+        ? `${team2.toUpperCase()} WINS!`
+        : "⚖️ DRAW";
+
+  return (
+    <div
+      style={{
+        borderTop: "1px solid rgba(255,255,255,0.05)",
+        padding: "14px 18px 16px",
+        marginTop: 14,
+      }}
+    >
+      {/* Label */}
+      <div
+        style={{
+          fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
+          fontSize: "0.62rem",
+          fontWeight: 700,
+          color: "#334155",
+          letterSpacing: "1.5px",
+          textTransform: "uppercase",
+          marginBottom: 10,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <span>Live Pitch</span>
+        <span
+          style={{
+            color: winnerColor,
+            fontSize: "0.7rem",
+            letterSpacing: "1px",
+            transition: "color 0.4s",
+            fontWeight: 800,
+          }}
+        >
+          {winnerLabel}
+        </span>
+      </div>
+
+      {/* SVG Pitch */}
+      <div
+        style={{
+          position: "relative",
+          borderRadius: 12,
+          overflow: "hidden",
+          background: "rgba(4,30,18,0.85)",
+          border: "1px solid rgba(34,197,94,0.12)",
+        }}
+      >
+        <svg
+          viewBox="0 0 400 200"
+          width="100%"
+          style={{ display: "block" }}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Pitch grass stripes */}
+          {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+            <rect
+              key={i}
+              x={i * 57}
+              y={0}
+              width={57}
+              height={200}
+              fill={i % 2 === 0 ? "rgba(5,46,22,0.8)" : "rgba(3,36,17,0.8)"}
+            />
+          ))}
+
+          {/* Outer boundary */}
+          <rect
+            x="10"
+            y="12"
+            width="380"
+            height="176"
+            fill="none"
+            stroke="rgba(34,197,94,0.35)"
+            strokeWidth="1.2"
+            rx="2"
+          />
+
+          {/* Centre line */}
+          <line
+            x1="200"
+            y1="12"
+            x2="200"
+            y2="188"
+            stroke="rgba(34,197,94,0.3)"
+            strokeWidth="1"
+          />
+
+          {/* Centre circle */}
+          <circle
+            cx="200"
+            cy="100"
+            r="35"
+            fill="none"
+            stroke="rgba(34,197,94,0.3)"
+            strokeWidth="1"
+          />
+          <circle cx="200" cy="100" r="2.5" fill="rgba(34,197,94,0.5)" />
+
+          {/* Left penalty box */}
+          <rect
+            x="10"
+            y="62"
+            width="52"
+            height="76"
+            fill="none"
+            stroke="rgba(34,197,94,0.28)"
+            strokeWidth="1"
+          />
+          {/* Left goal box */}
+          <rect
+            x="10"
+            y="80"
+            width="22"
+            height="40"
+            fill="none"
+            stroke="rgba(34,197,94,0.28)"
+            strokeWidth="1"
+          />
+          {/* Left goal net */}
+          <rect
+            x="0"
+            y="82"
+            width="10"
+            height="36"
+            fill={
+              goalFlash === "left"
+                ? "rgba(34,197,94,0.4)"
+                : "rgba(34,197,94,0.06)"
+            }
+            stroke="rgba(34,197,94,0.4)"
+            strokeWidth="0.8"
+            style={{ transition: "fill 0.15s" }}
+          />
+          {/* Left penalty arc */}
+          <path
+            d="M62,83 Q85,100 62,117"
+            fill="none"
+            stroke="rgba(34,197,94,0.22)"
+            strokeWidth="1"
+          />
+
+          {/* Right penalty box */}
+          <rect
+            x="338"
+            y="62"
+            width="52"
+            height="76"
+            fill="none"
+            stroke="rgba(34,197,94,0.28)"
+            strokeWidth="1"
+          />
+          {/* Right goal box */}
+          <rect
+            x="368"
+            y="80"
+            width="22"
+            height="40"
+            fill="none"
+            stroke="rgba(34,197,94,0.28)"
+            strokeWidth="1"
+          />
+          {/* Right goal net */}
+          <rect
+            x="390"
+            y="82"
+            width="10"
+            height="36"
+            fill={
+              goalFlash === "right"
+                ? "rgba(96,165,250,0.4)"
+                : "rgba(34,197,94,0.06)"
+            }
+            stroke="rgba(34,197,94,0.4)"
+            strokeWidth="0.8"
+            style={{ transition: "fill 0.15s" }}
+          />
+          {/* Right penalty arc */}
+          <path
+            d="M338,83 Q315,100 338,117"
+            fill="none"
+            stroke="rgba(34,197,94,0.22)"
+            strokeWidth="1"
+          />
+
+          {/* Corner arcs */}
+          {[
+            [10, 12],
+            [390, 12],
+            [10, 188],
+            [390, 188],
+          ].map(([cx, cy], i) => (
+            <circle
+              key={i}
+              cx={cx}
+              cy={cy}
+              r="6"
+              fill="none"
+              stroke="rgba(34,197,94,0.22)"
+              strokeWidth="1"
+            />
+          ))}
+
+          {/* Player dots */}
+          {players.map((p, i) => (
+            <g key={i}>
+              <circle
+                cx={p.x * 4}
+                cy={p.y * 2}
+                r="5.5"
+                fill={p.color}
+                opacity="0.9"
+              />
+              <circle
+                cx={p.x * 4}
+                cy={p.y * 2}
+                r="8"
+                fill={p.color}
+                opacity="0.15"
+              />
+            </g>
+          ))}
+
+          {/* Ball shadow */}
+          <ellipse
+            cx={ballX * 4}
+            cy={ballY * 2 + 8}
+            rx={6 * ballScale}
+            ry={2.5}
+            fill="rgba(0,0,0,0.35)"
+            style={{ filter: "blur(2px)" }}
+          />
+
+          {/* Football */}
+          <text
+            x={ballX * 4}
+            y={ballY * 2}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize={20 * ballScale}
+            style={{
+              transform: `rotate(${ballRotate}deg)`,
+              transformOrigin: `${ballX * 4}px ${ballY * 2}px`,
+              filter: kickSide
+                ? "drop-shadow(0 0 8px rgba(34,197,94,0.9))"
+                : "drop-shadow(0 3px 6px rgba(0,0,0,0.5))",
+              transition: kickSide ? "none" : undefined,
+            }}
+          >
+            ⚽
+          </text>
+
+          {/* Goal flash overlay */}
+          {goalFlash && (
+            <rect
+              x="0"
+              y="0"
+              width="400"
+              height="200"
+              fill={
+                goalFlash === "left"
+                  ? "rgba(34,197,94,0.08)"
+                  : "rgba(96,165,250,0.08)"
+              }
+              style={{ animation: "none" }}
+            />
+          )}
+
+          {/* Team labels on pitch */}
+          <text
+            x="80"
+            y="198"
+            textAnchor="middle"
+            fontSize="9"
+            fontWeight="700"
+            fill="rgba(34,197,94,0.5)"
+            fontFamily="'Barlow Condensed',sans-serif"
+            letterSpacing="1"
+          >
+            {team1.toUpperCase()}
+          </text>
+          <text
+            x="320"
+            y="198"
+            textAnchor="middle"
+            fontSize="9"
+            fontWeight="700"
+            fill="rgba(96,165,250,0.5)"
+            fontFamily="'Barlow Condensed',sans-serif"
+            letterSpacing="1"
+          >
+            {team2.toUpperCase()}
+          </text>
+        </svg>
+
+        {/* Goal flash text */}
+        {goalFlash && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              fontFamily: "'Barlow Condensed',sans-serif",
+              fontSize: "2rem",
+              fontWeight: 900,
+              color: goalFlash === "left" ? "#4ADE80" : "#93C5FD",
+              textShadow: "0 0 20px currentColor",
+              letterSpacing: "4px",
+              pointerEvents: "none",
+              animation: "goalFlashAnim 0.7s ease forwards",
+            }}
+          >
+            GOAL!
+          </div>
+        )}
+      </div>
+
+      <style>{`
+        @keyframes goalFlashAnim {
+          0%   { opacity:0; transform:translate(-50%,-50%) scale(0.6); }
+          30%  { opacity:1; transform:translate(-50%,-50%) scale(1.15); }
+          70%  { opacity:1; transform:translate(-50%,-50%) scale(1); }
+          100% { opacity:0; transform:translate(-50%,-50%) scale(0.9); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function ScorePredictorWidget() {
   const [scores, setScores] = useState({
     1: { s1: 0, s2: 0 },
@@ -642,46 +1060,14 @@ function ScorePredictorWidget() {
     }
   };
 
-  const standings = useMemo(() => {
-    const table = {};
-    PREDICT_MATCHES.forEach(({ id, team1, flag1, team2, flag2 }) => {
-      [team1, team2].forEach((t, i) => {
-        if (!table[t])
-          table[t] = {
-            team: t,
-            flag: i === 0 ? flag1 : flag2,
-            pts: 0,
-            gf: 0,
-            ga: 0,
-            w: 0,
-            d: 0,
-            l: 0,
-          };
-      });
-      const { s1, s2 } = scores[id];
-      table[team1].gf += s1;
-      table[team1].ga += s2;
-      table[team2].gf += s2;
-      table[team2].ga += s1;
-      if (s1 > s2) {
-        table[team1].pts += 3;
-        table[team1].w += 1;
-        table[team2].l += 1;
-      } else if (s1 < s2) {
-        table[team2].pts += 3;
-        table[team2].w += 1;
-        table[team1].l += 1;
-      } else {
-        table[team1].pts += 1;
-        table[team1].d += 1;
-        table[team2].pts += 1;
-        table[team2].d += 1;
-      }
-    });
-    return Object.values(table).sort(
-      (a, b) => b.pts - a.pts || b.gf - b.ga - (a.gf - a.ga),
-    );
-  }, [scores]);
+  // Derive winner label for pitch animation
+  const curScores = scores[active];
+  const matchResult =
+    curScores.s1 > curScores.s2
+      ? "left"
+      : curScores.s2 > curScores.s1
+        ? "right"
+        : "draw";
 
   const cur = PREDICT_MATCHES.find((m) => m.id === active);
 
@@ -742,7 +1128,7 @@ function ScorePredictorWidget() {
             textTransform: "uppercase",
           }}
         >
-          INTERACTIVE
+          FIFA World Cup 2026
         </span>
       </div>
 
@@ -775,7 +1161,8 @@ function ScorePredictorWidget() {
               transition: "color 0.2s, border-color 0.2s",
             }}
           >
-            {m.flag1} v {m.flag2}
+            <FlagIcon teamName={m.team1} size={14} /> v{" "}
+            <FlagIcon teamName={m.team2} size={14} />
           </button>
         ))}
       </div>
@@ -785,8 +1172,15 @@ function ScorePredictorWidget() {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {/* Team 1 */}
           <div style={{ flex: 1, textAlign: "center" }}>
-            <div style={{ fontSize: "1.7rem", marginBottom: 4 }}>
-              {cur.flag1}
+            <div
+              style={{
+                fontSize: "1.7rem",
+                marginBottom: 4,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <FlagIcon teamName={cur.team1} size={36} />
             </div>
             <div
               style={{
@@ -854,8 +1248,15 @@ function ScorePredictorWidget() {
 
           {/* Team 2 */}
           <div style={{ flex: 1, textAlign: "center" }}>
-            <div style={{ fontSize: "1.7rem", marginBottom: 4 }}>
-              {cur.flag2}
+            <div
+              style={{
+                fontSize: "1.7rem",
+                marginBottom: 4,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <FlagIcon teamName={cur.team2} size={36} />
             </div>
             <div
               style={{
@@ -906,115 +1307,17 @@ function ScorePredictorWidget() {
         </div>
       </div>
 
-      {/* Standings */}
-      <div
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          padding: "12px 18px 16px",
-          marginTop: 14,
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
-            fontSize: "0.62rem",
-            fontWeight: 700,
-            color: "#334155",
-            letterSpacing: "1.5px",
-            textTransform: "uppercase",
-            marginBottom: 8,
-          }}
-        >
-          Your Predicted Standings
-        </div>
-        {standings.map((row, i) => (
-          <div
-            key={row.team}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "5px 8px",
-              borderRadius: 8,
-              marginBottom: 3,
-              background: i === 0 ? "rgba(22,163,74,0.08)" : "transparent",
-              border:
-                i === 0
-                  ? "1px solid rgba(22,163,74,0.12)"
-                  : "1px solid transparent",
-              transition: "all 0.3s ease",
-            }}
-          >
-            <span
-              style={{
-                width: 16,
-                textAlign: "center",
-                fontFamily: "'Barlow Condensed',sans-serif",
-                fontSize: "0.75rem",
-                fontWeight: 700,
-                color: i === 0 ? "#22C55E" : "#475569",
-              }}
-            >
-              {i + 1}
-            </span>
-            <span style={{ fontSize: "0.9rem" }}>{row.flag}</span>
-            <span
-              style={{
-                flex: 1,
-                fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
-                fontSize: "0.78rem",
-                fontWeight: 700,
-                color: i === 0 ? "#fff" : "#94A3B8",
-                textTransform: "uppercase",
-                letterSpacing: "0.4px",
-              }}
-            >
-              {row.team}
-            </span>
-            <span
-              style={{
-                fontSize: "0.65rem",
-                color: "#475569",
-                minWidth: 36,
-                textAlign: "right",
-              }}
-            >
-              {row.gf}–{row.ga}
-            </span>
-            <span
-              style={{
-                minWidth: 28,
-                textAlign: "center",
-                padding: "2px 6px",
-                borderRadius: 6,
-                fontSize: "0.75rem",
-                fontWeight: 800,
-                fontFamily: "'Barlow Condensed',sans-serif",
-                background:
-                  i === 0 ? "rgba(22,163,74,0.18)" : "rgba(255,255,255,0.04)",
-                color: i === 0 ? "#4ADE80" : "#64748B",
-                border:
-                  i === 0
-                    ? "1px solid rgba(22,163,74,0.2)"
-                    : "1px solid rgba(255,255,255,0.04)",
-              }}
-            >
-              {row.pts}
-            </span>
-          </div>
-        ))}
-        <div
-          style={{
-            marginTop: 8,
-            fontSize: "0.6rem",
-            color: "#334155",
-            textAlign: "right",
-            letterSpacing: "0.5px",
-          }}
-        >
-          GF–GA · PTS
-        </div>
-      </div>
+      {/* ── Football Pitch Animation ── */}
+      <PitchAnimation
+        team1={cur.team1}
+        flag1={cur.flag1}
+        team2={cur.team2}
+        flag2={cur.flag2}
+        score1={curScores.s1}
+        score2={curScores.s2}
+        result={matchResult}
+        kickSide={kickSide}
+      />
     </div>
   );
 }
