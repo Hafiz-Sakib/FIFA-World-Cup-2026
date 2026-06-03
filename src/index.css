@@ -187,11 +187,11 @@ body {
    ══════════════════════════════════════════════════════════ */
 
 .display-font {
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
 }
 
 .hero-title {
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -199,7 +199,7 @@ body {
 }
 
 .section-heading {
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -244,10 +244,22 @@ body {
    BUTTONS
    ══════════════════════════════════════════════════════════ */
 
+input::placeholder,
+textarea::placeholder {
+  font-family: "Hind Siliguri", "Inter", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: "Inter", "Hind Siliguri", sans-serif;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, var(--green-dim), var(--green));
   color: #ffffff;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", "Hind Siliguri", sans-serif;
   font-weight: 600;
   font-size: 0.9rem;
   letter-spacing: 0.02em;
@@ -537,7 +549,7 @@ body {
   gap: 5px;
 }
 .countdown-num {
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-size: 3rem;
   font-weight: 800;
   color: #fff;
@@ -560,7 +572,7 @@ body {
   color: var(--text-muted);
 }
 .countdown-sep {
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-size: 2.2rem;
   font-weight: 800;
   color: rgba(22, 163, 74, 0.4);
@@ -626,7 +638,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -712,7 +724,7 @@ body {
 }
 .group-card-header {
   padding: 10px 14px;
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--green-hi);
@@ -768,7 +780,7 @@ body {
 .vs-badge {
   background: linear-gradient(135deg, var(--green-dim), var(--green));
   color: #fff;
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-weight: 800;
   font-size: 0.72rem;
   padding: 5px 12px;
@@ -780,7 +792,7 @@ body {
   background: rgba(22, 163, 74, 0.15);
   border: 1px solid rgba(22, 163, 74, 0.4);
   color: #4ade80;
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-size: 0.75rem;
   font-weight: 800;
   padding: 3px 10px;
@@ -816,7 +828,7 @@ body {
   letter-spacing: 0.01em;
 }
 .card-time {
-  font-family: "Barlow Condensed", sans-serif;
+  font-family: "Barlow Condensed", "Hind Siliguri", sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   color: #4ade80;

@@ -51,7 +51,7 @@ export default function FixturesByTeam() {
             </div>
             <h1
               className="text-white"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.04em" }}
+              style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.04em" }}
             >
               Fixtures by Team
             </h1>
@@ -82,7 +82,7 @@ export default function FixturesByTeam() {
               <div>
                 <h2
                   className="text-white font-bold"
-                  style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.5rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
+                  style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "1.5rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
                 >
                   {selectedTeam}
                 </h2>
@@ -121,7 +121,7 @@ export default function FixturesByTeam() {
             </div>
             <h3
               className="text-white mb-2"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.2rem", fontWeight: 700, textTransform: "uppercase" }}
+              style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "1.2rem", fontWeight: 700, textTransform: "uppercase" }}
             >
               কোনো দল নির্বাচিত হয়নি
             </h3>

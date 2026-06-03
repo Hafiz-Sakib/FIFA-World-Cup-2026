@@ -200,7 +200,7 @@ function TrophyGraphic() {
           color: "#22C55E",
           fontWeight: 700,
           letterSpacing: "1px",
-          fontFamily: "'Barlow Condensed', sans-serif",
+          fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
           textTransform: "uppercase",
         }}
       >
@@ -215,7 +215,7 @@ function TrophyGraphic() {
           color: "#F4C542",
           fontWeight: 700,
           letterSpacing: "1px",
-          fontFamily: "'Barlow Condensed', sans-serif",
+          fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
           textTransform: "uppercase",
         }}
       >
@@ -266,7 +266,7 @@ function TodaySection({ navigate }) {
             <h2
               className="text-white mb-2"
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "'Hind Siliguri', 'Barlow Condensed', 'Hind Siliguri', sans-serif",
                 fontSize: "clamp(2rem, 5vw, 3.5rem)",
                 fontWeight: 800,
                 textTransform: "uppercase",
@@ -308,12 +308,12 @@ function TodaySection({ navigate }) {
             <div className="text-6xl mb-4" style={{ filter: "drop-shadow(0 0 20px rgba(244,197,66,0.5))" }}>🏆</div>
             <h2
               className="text-white mb-3"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "2.5rem", fontWeight: 800, textTransform: "uppercase" }}
+              style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "2.5rem", fontWeight: 800, textTransform: "uppercase" }}
             >
               Tournament Complete!
             </h2>
             <p className="text-sm mb-8" style={{ color: "#64748B" }}>
-              FIFA World Cup 2026 শেষ হয়েছে। সকল ফিক্সচার আর্কাইভ দেখুন।
+              <span style={{ fontFamily: "'Hind Siliguri', sans-serif" }}>FIFA World Cup 2026 শেষ হয়েছে। সকল ফিক্সচার আর্কাইভ দেখুন।</span>
             </p>
             <button
               onClick={() => navigate("/by-date")}
@@ -336,7 +336,7 @@ function TodaySection({ navigate }) {
           <div>
             <h2
               className="text-white leading-none"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.5rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
+              style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "1.5rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
             >
               Match Center
             </h2>
@@ -363,7 +363,7 @@ function TodaySection({ navigate }) {
         todayMatches.length === 0 ? (
           <div className="no-matches-today">
             <div className="text-4xl mb-3">📅</div>
-            <p className="text-xl text-white mb-1" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, textTransform: "uppercase" }}>
+            <p className="text-xl text-white mb-1" style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontWeight: 700, textTransform: "uppercase" }}>
               আজ কোনো ম্যাচ নেই
             </p>
             <p className="text-sm" style={{ color: "#64748B" }}>No matches scheduled for today.</p>
@@ -449,7 +449,7 @@ function NextMatchTicker() {
             background: "rgba(22,163,74,0.1)",
             border: "1px solid rgba(22,163,74,0.28)",
             color: "#22C55E",
-            fontFamily: "'Barlow Condensed', sans-serif",
+            fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
           }}
         >
           <Zap size={9}/> Next Match
@@ -466,7 +466,7 @@ function NextMatchTicker() {
         </div>
         <span
           className="text-xs font-bold px-3 py-1.5 rounded-lg"
-          style={{ background: "rgba(22,163,74,0.1)", color: "#22C55E", border: "1px solid rgba(22,163,74,0.2)", fontFamily: "'Barlow Condensed', sans-serif" }}
+          style={{ background: "rgba(22,163,74,0.1)", color: "#22C55E", border: "1px solid rgba(22,163,74,0.2)", fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif" }}
         >
           VS
         </span>
@@ -656,7 +656,7 @@ export default function Home() {
               </div>
               <div
                 className="mb-1 text-white"
-                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 800 }}
+                style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 800 }}
               >
                 <AnimCounter value={value}/>
               </div>
@@ -733,7 +733,7 @@ export default function Home() {
                 <div className="flex items-center gap-2.5 mb-1.5">
                   <span
                     className="text-white"
-                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.2rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
+                    style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "1.2rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
                   >
                     {item.title}
                   </span>

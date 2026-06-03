@@ -101,7 +101,7 @@ function PlayerCard({ player }) {
         </div>
         <div style={{ flex:1, minWidth:0 }}>
           <div style={{
-            fontFamily:"'Barlow Condensed', sans-serif",
+            fontFamily:"'Barlow Condensed', 'Hind Siliguri', sans-serif",
             fontSize:"0.95rem", fontWeight:700, color:"#fff",
             whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis",
           }} title={player.name}>{player.name}</div>
@@ -153,7 +153,7 @@ function PositionSection({ pos, players }) {
           background:c.text, boxShadow:`0 0 7px ${c.text}`,
         }} />
         <span style={{
-          fontFamily:"'Barlow Condensed', sans-serif",
+          fontFamily:"'Barlow Condensed', 'Hind Siliguri', sans-serif",
           fontSize:"0.82rem", fontWeight:700,
           letterSpacing:"3px", textTransform:"uppercase", color:c.text,
         }}>{c.label}s</span>
@@ -206,7 +206,7 @@ function TeamTile({ teamName, hasSquad, onSelect }) {
         position:"absolute", top:8, right:8,
         fontSize:9, fontWeight:800, letterSpacing:1,
         color:grpColor, opacity:.9,
-        fontFamily:"'Barlow Condensed', sans-serif",
+        fontFamily:"'Barlow Condensed', 'Hind Siliguri', sans-serif",
       }}>GRP {grp}</div>
 
       {/* Flag */}
@@ -220,7 +220,7 @@ function TeamTile({ teamName, hasSquad, onSelect }) {
 
       {/* Name */}
       <div style={{
-        fontFamily:"'Barlow Condensed', sans-serif",
+        fontFamily:"'Barlow Condensed', 'Hind Siliguri', sans-serif",
         fontSize:"0.85rem", fontWeight:700,
         color: hov && hasSquad ? "#fff" : "#CBD5E1",
         textTransform:"uppercase", letterSpacing:"0.06em",
@@ -300,7 +300,7 @@ function SquadDetail({ teamData, onBack }) {
           </div>
           <div style={{ flex:1 }}>
             <h2 style={{
-              fontFamily:"'Barlow Condensed', sans-serif",
+              fontFamily:"'Barlow Condensed', 'Hind Siliguri', sans-serif",
               fontSize:"clamp(1.6rem,4vw,2.2rem)", fontWeight:800,
               color:"#fff", textTransform:"uppercase", letterSpacing:"0.05em",
             }}>{teamData.team}</h2>
@@ -421,7 +421,7 @@ export default function Squads() {
               <Shirt size={20} style={{ color:"#22C55E" }} />
             </div>
             <h1 style={{
-              fontFamily:"'Barlow Condensed', sans-serif",
+              fontFamily:"'Barlow Condensed', 'Hind Siliguri', sans-serif",
               fontSize:"clamp(2rem,5vw,3rem)", fontWeight:800,
               color:"#fff", textTransform:"uppercase", letterSpacing:"0.04em",
             }}>
@@ -460,7 +460,7 @@ export default function Squads() {
                       background: active ? `${gc}18` : "rgba(255,255,255,0.03)",
                       color: active ? gc : "#64748B",
                       fontSize:11, fontWeight:700,
-                      fontFamily:"'Barlow Condensed', sans-serif",
+                      fontFamily:"'Barlow Condensed', 'Hind Siliguri', sans-serif",
                       letterSpacing:1, transition:"all .18s",
                     }}>
                       {g === "ALL" ? "ALL GROUPS" : `GRP ${g}`}

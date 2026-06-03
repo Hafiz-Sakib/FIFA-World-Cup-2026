@@ -40,7 +40,7 @@ export default function Navbar() {
             >FIFA</div>
             <div
               className="text-sm text-white tracking-wide font-semibold"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1rem", letterSpacing: "0.04em" }}
+              style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "1rem", letterSpacing: "0.04em" }}
             >World Cup 2026</div>
           </div>
         </NavLink>

@@ -33,7 +33,7 @@ export default function Footer() {
               <div>
                 <div
                   className="text-white tracking-wide"
-                  style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1rem", fontWeight: 700, letterSpacing: "0.04em" }}
+                  style={{ fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif", fontSize: "1rem", fontWeight: 700, letterSpacing: "0.04em" }}
                 >
                   FIFA World Cup 2026
                 </div>
