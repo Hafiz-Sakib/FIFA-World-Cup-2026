@@ -65,7 +65,6 @@ function getCountdown(targetDateStr) {
   };
 }
 
-/* ── Animated Counter ── */
 function AnimCounter({ value, duration = 1400 }) {
   const [display, setDisplay] = useState(0);
   const raf = useRef(null);
@@ -83,7 +82,6 @@ function AnimCounter({ value, duration = 1400 }) {
   return <>{display}</>;
 }
 
-/* ── Intersection Observer hook ── */
 function useInView(options = {}) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -105,7 +103,6 @@ function useInView(options = {}) {
   return [ref, inView];
 }
 
-/* ── Scroll progress bar ── */
 function ScrollProgress() {
   const [pct, setPct] = useState(0);
   useEffect(() => {
@@ -133,7 +130,7 @@ function ScrollProgress() {
         style={{
           height: "100%",
           width: `${pct}%`,
-          background: "linear-gradient(90deg, #16A34A, #22C55E, #4ADE80)",
+          background: "linear-gradient(90deg,#16A34A,#22C55E,#4ADE80)",
           transition: "width 0.05s linear",
           boxShadow: "0 0 10px rgba(34,197,94,0.6)",
         }}
@@ -142,11 +139,11 @@ function ScrollProgress() {
   );
 }
 
-/* ── Particles ── */
+/* ── Enhanced Particles with soccer field elements ── */
 function Particles() {
   const particles = useMemo(
     () =>
-      Array.from({ length: 22 }, (_, i) => ({
+      Array.from({ length: 28 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
@@ -174,12 +171,12 @@ function Particles() {
           }}
         />
       ))}
-      {[0, 1, 2, 3].map((i) => (
+      {[0, 1, 2, 3, 4].map((i) => (
         <div
           key={`ball-${i}`}
           className="particle-ball"
           style={{
-            left: `${12 + i * 22}%`,
+            left: `${8 + i * 20}%`,
             animationDelay: `${i * 2.5}s`,
             animationDuration: `${14 + i * 2.5}s`,
             fontSize: `${12 + i * 4}px`,
@@ -188,6 +185,100 @@ function Particles() {
           ⚽
         </div>
       ))}
+    </div>
+  );
+}
+
+/* ── Animated pitch SVG overlay ── */
+function PitchOverlay() {
+  return (
+    <div
+      className="absolute inset-0 pointer-events-none overflow-hidden"
+      style={{ opacity: 0.04 }}
+    >
+      <svg
+        width="100%"
+        height="100%"
+        viewBox="0 0 800 500"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <rect
+          x="40"
+          y="30"
+          width="720"
+          height="440"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1.5"
+        />
+        <line
+          x1="400"
+          y1="30"
+          x2="400"
+          y2="470"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <circle
+          cx="400"
+          cy="250"
+          r="70"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <circle cx="400" cy="250" r="4" fill="#22C55E" />
+        <rect
+          x="40"
+          y="175"
+          width="100"
+          height="150"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <rect
+          x="660"
+          y="175"
+          width="100"
+          height="150"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <rect
+          x="40"
+          y="210"
+          width="50"
+          height="80"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <rect
+          x="710"
+          y="210"
+          width="50"
+          height="80"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <path
+          d="M140 175 Q175 250 140 325"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <path
+          d="M660 175 Q625 250 660 325"
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="1"
+        />
+        <circle cx="140" cy="250" r="3" fill="#22C55E" />
+        <circle cx="660" cy="250" r="3" fill="#22C55E" />
+      </svg>
     </div>
   );
 }
@@ -228,50 +319,80 @@ function CountdownBox({ label, value }) {
 
 /* ── Trophy Graphic ── */
 function TrophyGraphic() {
+  const [pulse, setPulse] = useState(false);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPulse((p) => !p);
+    }, 2500);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <div
       className="relative flex items-center justify-center"
-      style={{ width: "100%", maxWidth: "400px" }}
+      style={{ width: "100%", maxWidth: "420px" }}
     >
+      {/* Animated rings */}
+      {[280, 220, 160].map((s, i) => (
+        <div
+          key={i}
+          className="absolute"
+          style={{
+            width: s,
+            height: s,
+            borderRadius: "50%",
+            border: `1px solid rgba(22,163,74,${0.06 + i * 0.04})`,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            animation: `spin ${20 + i * 8}s linear infinite${i % 2 ? " reverse" : ""}`,
+          }}
+        />
+      ))}
+      {/* Glow blobs */}
       <div
         className="absolute"
         style={{
-          width: "280px",
-          height: "280px",
+          width: 280,
+          height: 280,
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(22,163,74,0.18) 0%, rgba(30,58,138,0.2) 50%, transparent 70%)",
+            "radial-gradient(circle,rgba(22,163,74,0.18) 0%,rgba(30,58,138,0.2) 50%,transparent 70%)",
           filter: "blur(40px)",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%,-50%)",
         }}
       />
       <div
         className="absolute"
         style={{
-          width: "180px",
-          height: "180px",
+          width: 180,
+          height: 180,
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(244,197,66,0.12) 0%, transparent 70%)",
+            "radial-gradient(circle,rgba(244,197,66,0.14) 0%,transparent 70%)",
           filter: "blur(30px)",
           top: "30%",
           left: "60%",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%,-50%)",
         }}
       />
+      {/* Trophy */}
       <div
         className="trophy-float relative z-10 select-none text-center"
         style={{
-          fontSize: "clamp(6rem, 15vw, 10rem)",
+          fontSize: "clamp(6rem,15vw,10rem)",
           lineHeight: 1,
-          filter:
-            "drop-shadow(0 0 40px rgba(244,197,66,0.6)) drop-shadow(0 20px 60px rgba(0,0,0,0.5))",
+          filter: pulse
+            ? "drop-shadow(0 0 60px rgba(244,197,66,0.95)) drop-shadow(0 20px 80px rgba(0,0,0,0.6))"
+            : "drop-shadow(0 0 40px rgba(244,197,66,0.7)) drop-shadow(0 20px 60px rgba(0,0,0,0.5))",
+          transition: "filter 1s ease",
         }}
       >
         🏆
       </div>
+      {/* Host flags */}
       <div
         className="absolute bottom-0 left-1/2 flex items-center gap-3"
         style={{ transform: "translateX(-50%)" }}
@@ -281,13 +402,15 @@ function TrophyGraphic() {
             key={i}
             className="flex items-center justify-center text-2xl"
             style={{
-              width: "44px",
-              height: "44px",
+              width: 44,
+              height: 44,
               borderRadius: "50%",
               background: "rgba(8,38,61,0.9)",
               border: "2px solid rgba(255,255,255,0.1)",
               backdropFilter: "blur(8px)",
               boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+              animation: `floatBob ${2 + i * 0.5}s ease-in-out infinite alternate`,
+              animationDelay: `${i * 0.3}s`,
             }}
           >
             {flag}
@@ -303,7 +426,7 @@ function TrophyGraphic() {
           color: "#22C55E",
           fontWeight: 700,
           letterSpacing: "1px",
-          fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+          fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
           textTransform: "uppercase",
         }}
       >
@@ -318,7 +441,7 @@ function TrophyGraphic() {
           color: "#F4C542",
           fontWeight: 700,
           letterSpacing: "1px",
-          fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+          fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
           textTransform: "uppercase",
         }}
       >
@@ -328,9 +451,10 @@ function TrophyGraphic() {
   );
 }
 
-/* ── Animated Stat Card ── */
+/* ── Animated Stat Card with shimmer ── */
 function StatCard({ icon: Icon, label, value, color, delay = 0 }) {
   const [ref, inView] = useInView();
+  const [hov, setHov] = useState(false);
   return (
     <div
       ref={ref}
@@ -341,16 +465,36 @@ function StatCard({ icon: Icon, label, value, color, delay = 0 }) {
           ? "translateY(0) scale(1)"
           : "translateY(24px) scale(0.95)",
         transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms`,
+        cursor: "default",
+        position: "relative",
+        overflow: "hidden",
       }}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
     >
+      {/* shimmer on hover */}
+      {hov && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "-100%",
+            width: "60%",
+            height: "100%",
+            background:
+              "linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent)",
+            animation: "card-sweep 0.7s ease forwards",
+          }}
+        />
+      )}
       <div className="stat-icon-wrap">
         <Icon size={20} style={{ color }} />
       </div>
       <div
         className="mb-1 text-white"
         style={{
-          fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
-          fontSize: "clamp(2rem, 4vw, 2.8rem)",
+          fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
+          fontSize: "clamp(2rem,4vw,2.8rem)",
           fontWeight: 800,
         }}
       >
@@ -361,6 +505,109 @@ function StatCard({ icon: Icon, label, value, color, delay = 0 }) {
         style={{ color: "#64748B" }}
       >
         {label}
+      </div>
+      {hov && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 2,
+            background: `linear-gradient(90deg,transparent,${color},transparent)`,
+            opacity: 0.6,
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ── Horizontal Marquee for upcoming matches ── */
+function MatchMarquee() {
+  const today = getTodayBDT();
+  const matches = useMemo(() => {
+    const future = fixtures.filter(
+      (f) => f.date >= today && f.team1 !== "TBD" && f.team2 !== "TBD",
+    );
+    return sortByDateTime(future).slice(0, 16);
+  }, [today]);
+
+  if (matches.length === 0) return null;
+  const doubled = [...matches, ...matches];
+
+  return (
+    <div
+      style={{
+        overflow: "hidden",
+        borderTop: "1px solid rgba(22,163,74,0.1)",
+        borderBottom: "1px solid rgba(22,163,74,0.1)",
+        background: "rgba(0,0,0,0.2)",
+        padding: "10px 0",
+        marginBottom: 24,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          gap: 0,
+          animation: "marqueeScroll 40s linear infinite",
+          width: "max-content",
+        }}
+      >
+        {doubled.map((m, i) => (
+          <div
+            key={i}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "4px 24px",
+              borderRight: "1px solid rgba(255,255,255,0.05)",
+              flexShrink: 0,
+            }}
+          >
+            <FlagIcon teamName={m.team1} size={18} />
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#CBD5E1",
+                fontFamily: "'Barlow Condensed',sans-serif",
+                letterSpacing: "0.05em",
+              }}
+            >
+              {m.team1}
+            </span>
+            <span
+              style={{
+                fontSize: 10,
+                color: "#22C55E",
+                fontWeight: 800,
+                padding: "1px 6px",
+                background: "rgba(22,163,74,0.12)",
+                borderRadius: 4,
+              }}
+            >
+              VS
+            </span>
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#CBD5E1",
+                fontFamily: "'Barlow Condensed',sans-serif",
+                letterSpacing: "0.05em",
+              }}
+            >
+              {m.team2}
+            </span>
+            <FlagIcon teamName={m.team2} size={18} />
+            <span style={{ fontSize: 10, color: "#475569", marginLeft: 4 }}>
+              {m.date}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -376,6 +623,7 @@ function NextMatchTicker() {
     return sortByDateTime(future)[0] || null;
   }, [today]);
   const [ref, inView] = useInView();
+  const [hov, setHov] = useState(false);
 
   if (!next) return null;
   return (
@@ -386,7 +634,10 @@ function NextMatchTicker() {
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0)" : "translateY(20px)",
         transition: "opacity 0.5s ease, transform 0.5s ease",
+        cursor: "default",
       }}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
     >
       <div className="flex items-center gap-3">
         <div
@@ -395,7 +646,7 @@ function NextMatchTicker() {
             background: "rgba(22,163,74,0.1)",
             border: "1px solid rgba(22,163,74,0.28)",
             color: "#22C55E",
-            fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+            fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
           }}
         >
           <Zap size={9} /> Next Match
@@ -405,14 +656,19 @@ function NextMatchTicker() {
             weekday: "short",
             day: "numeric",
             month: "short",
-          })}
-          {" · "}
-          {next.time} BST
+          })}{" "}
+          · {next.time} BST
         </span>
       </div>
       <div className="flex items-center gap-6">
-        <div className="flex items-center gap-3">
-          <FlagIcon teamName={next.team1} size={30} />
+        <div
+          className="flex items-center gap-3"
+          style={{
+            transform: hov ? "scale(1.04)" : "scale(1)",
+            transition: "transform 0.2s",
+          }}
+        >
+          <FlagIcon teamName={next.team1} size={32} />
           <span className="text-lg text-white font-semibold">{next.team1}</span>
         </div>
         <span
@@ -421,14 +677,20 @@ function NextMatchTicker() {
             background: "rgba(22,163,74,0.1)",
             color: "#22C55E",
             border: "1px solid rgba(22,163,74,0.2)",
-            fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+            fontFamily: "'Barlow Condensed',sans-serif",
           }}
         >
           VS
         </span>
-        <div className="flex items-center gap-3">
+        <div
+          className="flex items-center gap-3"
+          style={{
+            transform: hov ? "scale(1.04)" : "scale(1)",
+            transition: "transform 0.2s",
+          }}
+        >
           <span className="text-lg text-white font-semibold">{next.team2}</span>
-          <FlagIcon teamName={next.team2} size={30} />
+          <FlagIcon teamName={next.team2} size={32} />
         </div>
       </div>
       <div
@@ -441,7 +703,6 @@ function NextMatchTicker() {
   );
 }
 
-/* ── Animated Section Wrapper ── */
 function AnimSection({ children, delay = 0, className = "" }) {
   const [ref, inView] = useInView();
   return (
@@ -498,17 +759,7 @@ function TodaySection({ navigate }) {
           style={{ position: "relative", overflow: "hidden" }}
         >
           <div className="pre-tournament-glow" />
-          {/* Animated pitch lines overlay */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: 0.04,
-              backgroundImage:
-                "repeating-linear-gradient(90deg, #22C55E 0px, #22C55E 1px, transparent 1px, transparent 80px)",
-              pointerEvents: "none",
-            }}
-          />
+          <PitchOverlay />
           <div className="relative z-10 text-center py-14 px-6">
             <div className="hero-badge mx-auto mb-6 w-fit">
               <Zap size={10} /> Tournament Countdown
@@ -516,8 +767,8 @@ function TodaySection({ navigate }) {
             <h2
               className="text-white mb-2"
               style={{
-                fontFamily: "'Hind Siliguri', 'Barlow Condensed', sans-serif",
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                fontFamily: "'Hind Siliguri','Barlow Condensed',sans-serif",
+                fontSize: "clamp(2rem,5vw,3.5rem)",
                 fontWeight: 800,
                 textTransform: "uppercase",
                 letterSpacing: "0.03em",
@@ -543,12 +794,11 @@ function TodaySection({ navigate }) {
             )}
             <p className="mt-10 text-xs" style={{ color: "#475569" }}>
               <span
-                style={{ fontFamily: "'Hind Siliguri', 'Inter', sans-serif" }}
+                style={{ fontFamily: "'Hind Siliguri','Inter',sans-serif" }}
               >
                 সময় Bangladesh Standard Time (UTC+6) অনুযায়ী
               </span>
             </p>
-            {/* Quick action buttons in countdown */}
             <div className="flex items-center justify-center gap-3 mt-8 flex-wrap">
               <button
                 onClick={() => navigate("/squads")}
@@ -583,7 +833,7 @@ function TodaySection({ navigate }) {
             <h2
               className="text-white mb-3"
               style={{
-                fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+                fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
                 fontSize: "2.5rem",
                 fontWeight: 800,
                 textTransform: "uppercase",
@@ -592,7 +842,7 @@ function TodaySection({ navigate }) {
               Tournament Complete!
             </h2>
             <p className="text-sm mb-8" style={{ color: "#64748B" }}>
-              <span style={{ fontFamily: "'Hind Siliguri', sans-serif" }}>
+              <span style={{ fontFamily: "'Hind Siliguri',sans-serif" }}>
                 FIFA World Cup 2026 শেষ হয়েছে। সকল ফিক্সচার আর্কাইভ দেখুন।
               </span>
             </p>
@@ -602,7 +852,7 @@ function TodaySection({ navigate }) {
             >
               <CalendarDays size={15} />
               <span
-                style={{ fontFamily: "'Hind Siliguri', 'Inter', sans-serif" }}
+                style={{ fontFamily: "'Hind Siliguri','Inter',sans-serif" }}
               >
                 সব ম্যাচ দেখুন
               </span>
@@ -625,7 +875,7 @@ function TodaySection({ navigate }) {
             <h2
               className="text-white leading-none"
               style={{
-                fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+                fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
                 fontSize: "1.5rem",
                 fontWeight: 700,
                 textTransform: "uppercase",
@@ -664,9 +914,7 @@ function TodaySection({ navigate }) {
             onClick={() => navigate("/by-date")}
             className="btn-ghost px-4 py-2 text-xs rounded-xl inline-flex items-center gap-1.5"
           >
-            <span
-              style={{ fontFamily: "'Hind Siliguri', 'Inter', sans-serif" }}
-            >
+            <span style={{ fontFamily: "'Hind Siliguri','Inter',sans-serif" }}>
               সব
             </span>
             <ArrowRight size={12} />
@@ -680,7 +928,7 @@ function TodaySection({ navigate }) {
             <p
               className="text-xl text-white mb-1"
               style={{
-                fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+                fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
                 fontWeight: 700,
                 textTransform: "uppercase",
               }}
@@ -836,7 +1084,6 @@ function TournamentTimeline() {
             transition: `opacity 0.5s ease ${i * 80}ms, transform 0.5s ease ${i * 80}ms`,
           }}
         >
-          {/* Timeline dot + line */}
           <div
             style={{
               display: "flex",
@@ -875,7 +1122,7 @@ function TournamentTimeline() {
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
               style={{
-                fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+                fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
                 fontSize: "0.9rem",
                 fontWeight: 700,
                 color: "#fff",
@@ -984,10 +1231,14 @@ function HighlightBanner({ navigate }) {
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "rgba(244,197,66,0.4)";
               e.currentTarget.style.background = "rgba(7,36,58,1)";
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.4)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(244,197,66,0.15)";
               e.currentTarget.style.background = "rgba(7,36,58,0.8)";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             <FlagIcon teamName={match.team1} size={28} />
@@ -997,7 +1248,7 @@ function HighlightBanner({ navigate }) {
                   fontSize: 12,
                   fontWeight: 700,
                   color: "#fff",
-                  fontFamily: "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+                  fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
                   textTransform: "uppercase",
                   letterSpacing: "0.04em",
                 }}
@@ -1082,8 +1333,7 @@ export default function Home() {
                 style={{
                   animationDelay: "0.14s",
                   fontSize: "clamp(2.2rem,5.5vw,4.2rem)",
-                  background:
-                    "linear-gradient(135deg, #CBD5E1 0%, #94A3B8 100%)",
+                  background: "linear-gradient(135deg,#CBD5E1 0%,#94A3B8 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -1098,7 +1348,7 @@ export default function Home() {
                   fontSize: "clamp(5rem,14vw,10rem)",
                   letterSpacing: "-0.03em",
                   background:
-                    "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.5) 100%)",
+                    "linear-gradient(180deg,#FFFFFF 0%,rgba(255,255,255,0.5) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -1139,7 +1389,7 @@ export default function Home() {
                 style={{ animationDelay: "0.26s", color: "#475569" }}
               >
                 <span
-                  style={{ fontFamily: "'Hind Siliguri', 'Inter', sans-serif" }}
+                  style={{ fontFamily: "'Hind Siliguri','Inter',sans-serif" }}
                 >
                   সব সময়
                 </span>{" "}
@@ -1147,7 +1397,7 @@ export default function Home() {
                   Bangladesh Standard Time (UTC+6)
                 </span>{" "}
                 <span
-                  style={{ fontFamily: "'Hind Siliguri', 'Inter', sans-serif" }}
+                  style={{ fontFamily: "'Hind Siliguri','Inter',sans-serif" }}
                 >
                   অনুযায়ী
                 </span>
@@ -1173,7 +1423,7 @@ export default function Home() {
                   <button type="submit" className="btn-primary search-btn">
                     <span
                       style={{
-                        fontFamily: "'Hind Siliguri', 'Inter', sans-serif",
+                        fontFamily: "'Hind Siliguri','Inter',sans-serif",
                       }}
                     >
                       খুঁজুন
@@ -1188,18 +1438,31 @@ export default function Home() {
                 <button
                   onClick={() => navigate("/by-date")}
                   className="btn-primary px-6 py-2.5 text-sm rounded-xl inline-flex items-center gap-2"
+                  style={{ transition: "all .2s" }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "translateY(-2px)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "translateY(0)")
+                  }
                 >
                   <CalendarDays size={14} /> Match Schedule
                 </button>
                 <button
                   onClick={() => navigate("/by-team")}
                   className="btn-ghost px-6 py-2.5 text-sm rounded-xl inline-flex items-center gap-2"
+                  style={{ transition: "all .2s" }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "translateY(-2px)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "translateY(0)")
+                  }
                 >
                   <Users size={14} /> By Team
                 </button>
               </div>
             </div>
-
             {/* Right */}
             <div
               className="flex-1 flex items-center justify-center animate-fade-up"
@@ -1210,6 +1473,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ─── MATCH MARQUEE ─── */}
+      <MatchMarquee />
 
       {/* ─── STATS ─── */}
       <section className="max-w-6xl mx-auto px-4 md:px-6 pb-14">
@@ -1325,7 +1591,7 @@ export default function Home() {
                       className="text-white"
                       style={{
                         fontFamily:
-                          "'Barlow Condensed', 'Hind Siliguri', sans-serif",
+                          "'Barlow Condensed','Hind Siliguri',sans-serif",
                         fontSize: "1.2rem",
                         fontWeight: 700,
                         textTransform: "uppercase",
@@ -1360,13 +1626,12 @@ export default function Home() {
         </AnimSection>
       </section>
 
-      {/* ─── TOURNAMENT TIMELINE + GROUPS (side by side on large) ─── */}
+      {/* ─── TOURNAMENT TIMELINE + GROUPS ─── */}
       <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16">
         <div
           style={{ display: "grid", gridTemplateColumns: "1fr", gap: 32 }}
           className="lg:grid-cols-[1fr_1.6fr]"
         >
-          {/* Timeline */}
           <AnimSection>
             <div className="flex items-center gap-4 mb-6">
               <h3 className="section-title">
@@ -1386,8 +1651,6 @@ export default function Home() {
               <TournamentTimeline />
             </div>
           </AnimSection>
-
-          {/* Groups */}
           <AnimSection delay={100}>
             <div className="flex items-center gap-4 mb-6">
               <h3 className="section-title">
