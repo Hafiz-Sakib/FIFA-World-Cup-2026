@@ -7,17 +7,19 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'hind': ['"Hind Siliguri"', 'sans-serif'],
+        'barlow': ['"Barlow Condensed"', 'sans-serif'],
+        'inter':  ['"Inter"', 'sans-serif'],
       },
       colors: {
-        'fifa-green':  '#00D84C',
-        'fifa-bright': '#39FF8A',
-        'fifa-dim':    '#00A83A',
-        'fifa-gold':   '#FFD700',
-        'fifa-gold-d': '#C9A84C',
-        'fifa-dark':   '#03080A',
-        'fifa-s1':     '#071210',
-        'fifa-s2':     '#0B1C17',
+        'fifa-green':  '#16A34A',
+        'fifa-bright': '#22C55E',
+        'fifa-dim':    '#15803D',
+        'fifa-blue':   '#1E3A8A',
+        'fifa-gold':   '#F4C542',
+        'fifa-gold-d': '#D4A017',
+        'fifa-dark':   '#001B2A',
+        'fifa-card':   '#08263D',
+        'fifa-card-hi':'#0E3554',
       },
     },
   },

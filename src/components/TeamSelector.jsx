@@ -122,21 +122,21 @@ export default function TeamSelector({ selectedTeam, onSelect }) {
         <div
           className="absolute left-0 right-0 mt-1 rounded-xl shadow-2xl"
           style={{
-            background: "#0a1710",
-            border: "1px solid rgba(0,200,83,0.3)",
+            background: "var(--card)",
+            border: "1px solid rgba(22,163,74,0.28)",
             zIndex: 9999,
           }}
         >
           {/* Search input */}
           <div
             className="p-2"
-            style={{ borderBottom: "1px solid rgba(0,200,83,0.15)" }}
+            style={{ borderBottom: "1px solid rgba(22,163,74,0.12)" }}
           >
             <div className="relative">
               <Search
                 size={14}
                 className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ color: "#00C853" }}
+                style={{ color: "#16A34A" }}
               />
               <input
                 type="text"
@@ -183,9 +183,9 @@ export default function TeamSelector({ selectedTeam, onSelect }) {
                     className="flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors"
                     style={{
                       background: isSelected
-                        ? "rgba(0,200,83,0.15)"
+                        ? "rgba(22,163,74,0.12)"
                         : "transparent",
-                      color: isSelected ? "#00E676" : "#e2e8f0",
+                      color: isSelected ? "#22C55E" : "#e2e8f0",
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected)
@@ -202,7 +202,7 @@ export default function TeamSelector({ selectedTeam, onSelect }) {
                     {isSelected && (
                       <span
                         className="ml-auto text-xs font-bold"
-                        style={{ color: "#00C853" }}
+                        style={{ color: "#16A34A" }}
                       >
                         ✓
                       </span>

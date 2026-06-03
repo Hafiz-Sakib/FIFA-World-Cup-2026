@@ -13,7 +13,6 @@ import {
   Flame,
   Star,
   ArrowRight,
-  TrendingUp,
   Shield,
 } from "lucide-react";
 import fixtures from "../data/fixtures.json";
@@ -22,23 +21,14 @@ import FlagIcon from "../components/FlagIcon";
 import { getAllTeams } from "../utils/countryUtils";
 import { sortByDateTime } from "../utils/dateUtils";
 
-//version 01
 /* ── Constants ─────────────────────────────────────────── */
 const TOURNAMENT_START = "2026-06-12";
-const TOURNAMENT_END = "2026-07-20";
+const TOURNAMENT_END   = "2026-07-20";
 const GROUP_STAGE = fixtures.filter(
-  (f) =>
-    ![
-      "Round of 32",
-      "Round of 16",
-      "Quarter-Final",
-      "Semi-Final",
-      "Third Place",
-      "Final",
-    ].includes(f.group),
+  (f) => !["Round of 32","Round of 16","Quarter-Final","Semi-Final","Third Place","Final"].includes(f.group),
 );
-const TEAM_COUNT = getAllTeams().length;
-const GROUPS = [...new Set(GROUP_STAGE.map((f) => f.group))].sort();
+const TEAM_COUNT  = getAllTeams().length;
+const GROUPS      = [...new Set(GROUP_STAGE.map((f) => f.group))].sort();
 const GROUP_TEAMS = {};
 GROUP_STAGE.forEach((f) => {
   if (!GROUP_TEAMS[f.group]) GROUP_TEAMS[f.group] = new Set();
@@ -52,13 +42,13 @@ function getTodayBDT() {
   return bdt.toISOString().slice(0, 10);
 }
 function getCountdown(targetDateStr) {
-  const now = new Date();
+  const now    = new Date();
   const target = new Date(targetDateStr + "T00:00:00+06:00");
-  const diff = target - now;
+  const diff   = target - now;
   if (diff <= 0) return null;
   return {
-    days: Math.floor(diff / 86400000),
-    hours: Math.floor((diff % 86400000) / 3600000),
+    days:    Math.floor(diff / 86400000),
+    hours:   Math.floor((diff % 86400000) / 3600000),
     minutes: Math.floor((diff % 3600000) / 60000),
     seconds: Math.floor((diff % 60000) / 1000),
   };
@@ -69,7 +59,7 @@ function AnimCounter({ value, duration = 1400 }) {
   const [display, setDisplay] = useState(0);
   const raf = useRef(null);
   useEffect(() => {
-    const start = performance.now();
+    const start   = performance.now();
     const animate = (now) => {
       const p = Math.min((now - start) / duration, 1);
       const e = 1 - Math.pow(1 - p, 3);
@@ -82,22 +72,21 @@ function AnimCounter({ value, duration = 1400 }) {
   return <>{display}</>;
 }
 
-/* ── Floating Particles ── */
+/* ── Particles ── */
 function Particles() {
   const particles = useMemo(
     () =>
-      Array.from({ length: 28 }, (_, i) => ({
+      Array.from({ length: 22 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 3.5 + 0.8,
+        size: Math.random() * 3 + 0.8,
         delay: Math.random() * 8,
-        duration: Math.random() * 10 + 7,
-        opacity: Math.random() * 0.45 + 0.08,
+        duration: Math.random() * 10 + 8,
+        opacity: Math.random() * 0.35 + 0.06,
       })),
     [],
   );
-
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {particles.map((p) => (
@@ -105,29 +94,23 @@ function Particles() {
           key={p.id}
           className="particle-dot"
           style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
+            left: `${p.x}%`, top: `${p.y}%`,
+            width: p.size, height: p.size,
             opacity: p.opacity,
             animationDelay: `${p.delay}s`,
             animationDuration: `${p.duration}s`,
           }}
         />
       ))}
-      {[0, 1, 2, 3, 4].map((i) => (
-        <div
-          key={`ball-${i}`}
-          className="particle-ball"
+      {[0, 1, 2, 3].map((i) => (
+        <div key={`ball-${i}`} className="particle-ball"
           style={{
-            left: `${10 + i * 18}%`,
-            animationDelay: `${i * 2.2}s`,
-            animationDuration: `${13 + i * 2.5}s`,
-            fontSize: `${13 + i * 3}px`,
+            left: `${12 + i * 22}%`,
+            animationDelay: `${i * 2.5}s`,
+            animationDuration: `${14 + i * 2.5}s`,
+            fontSize: `${12 + i * 4}px`,
           }}
-        >
-          ⚽
-        </div>
+        >⚽</div>
       ))}
     </div>
   );
@@ -143,18 +126,113 @@ function CountdownBox({ label, value }) {
   );
 }
 
-/* ── Today's Section ── */
+/* ── Trophy SVG Graphic ── */
+function TrophyGraphic() {
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: "100%", maxWidth: "400px" }}>
+      {/* Backdrop glow blobs */}
+      <div
+        className="absolute"
+        style={{
+          width: "280px", height: "280px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(22,163,74,0.18) 0%, rgba(30,58,138,0.2) 50%, transparent 70%)",
+          filter: "blur(40px)",
+          top: "50%", left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+      <div
+        className="absolute"
+        style={{
+          width: "180px", height: "180px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(244,197,66,0.12) 0%, transparent 70%)",
+          filter: "blur(30px)",
+          top: "30%", left: "60%",
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+
+      {/* Trophy emoji large */}
+      <div
+        className="trophy-float relative z-10 select-none text-center"
+        style={{
+          fontSize: "clamp(6rem, 15vw, 10rem)",
+          lineHeight: 1,
+          filter: "drop-shadow(0 0 40px rgba(244,197,66,0.6)) drop-shadow(0 20px 60px rgba(0,0,0,0.5))",
+        }}
+      >
+        🏆
+      </div>
+
+      {/* Host flags row */}
+      <div
+        className="absolute bottom-0 left-1/2 flex items-center gap-3"
+        style={{ transform: "translateX(-50%)" }}
+      >
+        {["🇺🇸", "🇨🇦", "🇲🇽"].map((flag, i) => (
+          <div
+            key={i}
+            className="flex items-center justify-center text-2xl"
+            style={{
+              width: "44px", height: "44px",
+              borderRadius: "50%",
+              background: "rgba(8,38,61,0.9)",
+              border: "2px solid rgba(255,255,255,0.1)",
+              backdropFilter: "blur(8px)",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+            }}
+          >
+            {flag}
+          </div>
+        ))}
+      </div>
+
+      {/* Corner decorative badges */}
+      <div
+        className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+        style={{
+          background: "rgba(22,163,74,0.12)",
+          border: "1px solid rgba(22,163,74,0.28)",
+          fontSize: "0.65rem",
+          color: "#22C55E",
+          fontWeight: 700,
+          letterSpacing: "1px",
+          fontFamily: "'Barlow Condensed', sans-serif",
+          textTransform: "uppercase",
+        }}
+      >
+        <Zap size={9}/> 48 Teams
+      </div>
+      <div
+        className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+        style={{
+          background: "rgba(244,197,66,0.1)",
+          border: "1px solid rgba(244,197,66,0.28)",
+          fontSize: "0.65rem",
+          color: "#F4C542",
+          fontWeight: 700,
+          letterSpacing: "1px",
+          fontFamily: "'Barlow Condensed', sans-serif",
+          textTransform: "uppercase",
+        }}
+      >
+        <Star size={9} fill="#F4C542"/> Finals 2026
+      </div>
+    </div>
+  );
+}
+
+/* ── Today Section ── */
 function TodaySection({ navigate }) {
-  const today = getTodayBDT();
+  const today       = getTodayBDT();
   const [countdown, setCountdown] = useState(getCountdown(TOURNAMENT_START));
   const [activeTab, setActiveTab] = useState("today");
 
   useEffect(() => {
     if (today < TOURNAMENT_START) {
-      const id = setInterval(
-        () => setCountdown(getCountdown(TOURNAMENT_START)),
-        1000,
-      );
+      const id = setInterval(() => setCountdown(getCountdown(TOURNAMENT_START)), 1000);
       return () => clearInterval(id);
     }
   }, [today]);
@@ -163,8 +241,6 @@ function TodaySection({ navigate }) {
     () => sortByDateTime(fixtures.filter((f) => f.date === today)),
     [today],
   );
-
-  // Get upcoming matches (next 3 days with matches)
   const upcomingMatches = useMemo(() => {
     const upcoming = [];
     for (let d = 1; d <= 14 && upcoming.length < 6; d++) {
@@ -179,40 +255,41 @@ function TodaySection({ navigate }) {
   /* Before tournament */
   if (today < TOURNAMENT_START) {
     return (
-      <section className="max-w-6xl mx-auto px-4 pb-16 animate-section">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16 animate-section">
         <div className="pre-tournament-banner">
           <div className="pre-tournament-glow" />
-          <div className="relative z-10 text-center py-12 px-6">
-            <div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-xs font-bold tracking-widest uppercase"
+          <div className="relative z-10 text-center py-14 px-6">
+            <div className="hero-badge mx-auto mb-6 w-fit">
+              <Zap size={10} /> Tournament Countdown
+            </div>
+            <h2
+              className="text-white mb-2"
               style={{
-                background: "rgba(0,216,76,0.08)",
-                border: "1px solid rgba(0,216,76,0.3)",
-                color: "#00D84C",
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                fontWeight: 800,
+                textTransform: "uppercase",
+                letterSpacing: "0.03em",
               }}
             >
-              <Zap size={11} /> Tournament Countdown
-            </div>
-            <h2 className="text-4xl md:text-5xl text-white mb-2 tracking-wide">
               টুর্নামেন্ট শুরু হতে আর
             </h2>
-            <p className="text-gray-400 text-sm mb-10">
+            <p className="text-sm mb-10" style={{ color: "#64748B" }}>
               Opening match:{" "}
-              <span style={{ color: "#00D84C" }}>12 June 2026</span> — Estadio
-              Azteca, Mexico City
+              <span style={{ color: "#22C55E" }}>12 June 2026</span> — Estadio Azteca, Mexico City
             </p>
             {countdown && (
               <div className="flex items-center justify-center gap-4 md:gap-6 flex-wrap">
-                <CountdownBox label="Days" value={countdown.days} />
+                <CountdownBox label="Days"    value={countdown.days}    />
                 <div className="countdown-sep">:</div>
-                <CountdownBox label="Hours" value={countdown.hours} />
+                <CountdownBox label="Hours"   value={countdown.hours}   />
                 <div className="countdown-sep">:</div>
                 <CountdownBox label="Minutes" value={countdown.minutes} />
                 <div className="countdown-sep">:</div>
                 <CountdownBox label="Seconds" value={countdown.seconds} />
               </div>
             )}
-            <p className="mt-10 text-xs text-gray-600">
+            <p className="mt-10 text-xs" style={{ color: "#475569" }}>
               সময় Bangladesh Standard Time (UTC+6) অনুযায়ী
             </p>
           </div>
@@ -224,26 +301,24 @@ function TodaySection({ navigate }) {
   /* After tournament */
   if (today > TOURNAMENT_END) {
     return (
-      <section className="max-w-6xl mx-auto px-4 pb-16 animate-section">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16 animate-section">
         <div className="finished-banner">
           <div className="text-center py-14 px-6 relative z-10">
-            <div
-              className="text-6xl mb-4"
-              style={{ filter: "drop-shadow(0 0 20px rgba(255,215,0,0.5))" }}
+            <div className="text-6xl mb-4" style={{ filter: "drop-shadow(0 0 20px rgba(244,197,66,0.5))" }}>🏆</div>
+            <h2
+              className="text-white mb-3"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "2.5rem", fontWeight: 800, textTransform: "uppercase" }}
             >
-              🏆
-            </div>
-            <h2 className="text-4xl text-white mb-3 tracking-wide">
               Tournament Complete!
             </h2>
-            <p className="text-gray-400 text-sm mb-8">
+            <p className="text-sm mb-8" style={{ color: "#64748B" }}>
               FIFA World Cup 2026 শেষ হয়েছে। সকল ফিক্সচার আর্কাইভ দেখুন।
             </p>
             <button
               onClick={() => navigate("/by-date")}
-              className="btn-gold px-8 py-3 text-sm rounded-xl inline-flex items-center gap-2"
+              className="btn-primary px-8 py-3 text-sm rounded-xl inline-flex items-center gap-2"
             >
-              <CalendarDays size={15} /> সব ম্যাচ দেখুন
+              <CalendarDays size={15}/> সব ম্যাচ দেখুন
             </button>
           </div>
         </div>
@@ -253,50 +328,32 @@ function TodaySection({ navigate }) {
 
   /* During tournament */
   return (
-    <section className="max-w-6xl mx-auto px-4 pb-16 animate-section">
-      {/* Header row */}
+    <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16 animate-section">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
-          <div className="live-dot-wrapper">
-            <div className="live-dot" />
-            <div className="live-dot-ring" />
-          </div>
+          <div className="live-dot-wrapper"><div className="live-dot"/><div className="live-dot-ring"/></div>
           <div>
-            <h2 className="text-2xl text-white tracking-wide leading-none">
+            <h2
+              className="text-white leading-none"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.5rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
+            >
               Match Center
             </h2>
-            <p className="text-xs text-gray-500 mt-0.5">
-              {new Date().toLocaleDateString("en-GB", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}{" "}
-              · BST
+            <p className="text-xs mt-0.5" style={{ color: "#475569" }}>
+              {new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} · BST
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          {/* Tab strip */}
           <div className="tab-strip">
-            <button
-              className={`tab-btn${activeTab === "today" ? " active" : ""}`}
-              onClick={() => setActiveTab("today")}
-            >
-              Today
-            </button>
-            <button
-              className={`tab-btn${activeTab === "upcoming" ? " active" : ""}`}
-              onClick={() => setActiveTab("upcoming")}
-            >
-              Upcoming
-            </button>
+            <button className={`tab-btn${activeTab === "today"    ? " active" : ""}`} onClick={() => setActiveTab("today")}>Today</button>
+            <button className={`tab-btn${activeTab === "upcoming" ? " active" : ""}`} onClick={() => setActiveTab("upcoming")}>Upcoming</button>
           </div>
           <button
             onClick={() => navigate("/by-date")}
-            className="btn-outline px-4 py-2 text-xs rounded-xl inline-flex items-center gap-1.5"
+            className="btn-ghost px-4 py-2 text-xs rounded-xl inline-flex items-center gap-1.5"
           >
-            সব <ArrowRight size={12} />
+            সব <ArrowRight size={12}/>
           </button>
         </div>
       </div>
@@ -305,28 +362,22 @@ function TodaySection({ navigate }) {
         todayMatches.length === 0 ? (
           <div className="no-matches-today">
             <div className="text-4xl mb-3">📅</div>
-            <p className="text-xl text-white tracking-wide mb-1">
+            <p className="text-xl text-white mb-1" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, textTransform: "uppercase" }}>
               আজ কোনো ম্যাচ নেই
             </p>
-            <p className="text-gray-500 text-sm">
-              No matches scheduled for today.
-            </p>
+            <p className="text-sm" style={{ color: "#64748B" }}>No matches scheduled for today.</p>
             <button
               onClick={() => setActiveTab("upcoming")}
-              className="mt-5 btn-gold px-6 py-2.5 text-sm rounded-xl inline-flex items-center gap-1.5"
+              className="mt-5 btn-primary px-6 py-2.5 text-sm rounded-xl inline-flex items-center gap-1.5"
             >
-              <CalendarDays size={13} /> See Upcoming
+              <CalendarDays size={13}/> See Upcoming
             </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {todayMatches.map((match, i) => (
-              <div
-                key={match.id}
-                className="card-stagger"
-                style={{ animationDelay: `${i * 80}ms` }}
-              >
-                <MatchCard match={match} />
+              <div key={match.id} className="card-stagger" style={{ animationDelay: `${i * 75}ms` }}>
+                <MatchCard match={match}/>
               </div>
             ))}
           </div>
@@ -335,18 +386,12 @@ function TodaySection({ navigate }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {upcomingMatches.length === 0 ? (
             <div className="col-span-full no-matches-today">
-              <p className="text-gray-400 text-sm">
-                No upcoming matches found.
-              </p>
+              <p className="text-sm" style={{ color: "#64748B" }}>No upcoming matches found.</p>
             </div>
           ) : (
             upcomingMatches.map((match, i) => (
-              <div
-                key={match.id}
-                className="card-stagger"
-                style={{ animationDelay: `${i * 80}ms` }}
-              >
-                <MatchCard match={match} />
+              <div key={match.id} className="card-stagger" style={{ animationDelay: `${i * 75}ms` }}>
+                <MatchCard match={match}/>
               </div>
             ))
           )}
@@ -363,23 +408,17 @@ function GroupsSection({ navigate }) {
       {GROUPS.map((g, gi) => {
         const teams = Array.from(GROUP_TEAMS[g] || []).sort();
         return (
-          <div
-            key={g}
-            className="group-card card-stagger"
-            style={{ animationDelay: `${gi * 50}ms` }}
-          >
+          <div key={g} className="group-card card-stagger" style={{ animationDelay: `${gi * 45}ms` }}>
             <div className="group-card-header">Group {g}</div>
             <div className="px-2 py-1.5">
               {teams.map((team) => (
                 <button
                   key={team}
                   type="button"
-                  onClick={() =>
-                    navigate("/by-team", { state: { selectedTeam: team } })
-                  }
+                  onClick={() => navigate("/by-team", { state: { selectedTeam: team } })}
                   className="team-row"
                 >
-                  <FlagIcon teamName={team} size={18} />
+                  <FlagIcon teamName={team} size={18}/>
                   <span className="font-medium truncate text-xs">{team}</span>
                 </button>
               ))}
@@ -391,13 +430,11 @@ function GroupsSection({ navigate }) {
   );
 }
 
-/* ── Featured Match Ticker ── */
+/* ── Next Match Ticker ── */
 function NextMatchTicker() {
   const today = getTodayBDT();
-  const next = useMemo(() => {
-    const future = fixtures.filter(
-      (f) => f.date >= today && f.team1 !== "TBD" && f.team2 !== "TBD",
-    );
+  const next  = useMemo(() => {
+    const future = fixtures.filter((f) => f.date >= today && f.team1 !== "TBD" && f.team2 !== "TBD");
     return sortByDateTime(future)[0] || null;
   }, [today]);
 
@@ -406,50 +443,39 @@ function NextMatchTicker() {
     <div className="featured-match px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
       <div className="flex items-center gap-3">
         <div
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase"
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase"
           style={{
-            background: "rgba(0,216,76,0.08)",
-            border: "1px solid rgba(0,216,76,0.3)",
-            color: "#00D84C",
+            background: "rgba(22,163,74,0.1)",
+            border: "1px solid rgba(22,163,74,0.28)",
+            color: "#22C55E",
+            fontFamily: "'Barlow Condensed', sans-serif",
           }}
         >
-          <Zap size={9} /> Next Match
+          <Zap size={9}/> Next Match
         </div>
-        <span className="text-gray-500 text-sm">
-          {new Date(next.date + "T00:00:00").toLocaleDateString("en-GB", {
-            weekday: "short",
-            day: "numeric",
-            month: "short",
-          })}
-          {" · "}
-          {next.time} BST
+        <span className="text-sm" style={{ color: "#475569" }}>
+          {new Date(next.date + "T00:00:00").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })}
+          {" · "}{next.time} BST
         </span>
       </div>
-      <div className="flex items-center gap-5">
-        <div className="flex items-center gap-2.5">
-          <FlagIcon teamName={next.team1} size={28} />
-          <span className="text-xl text-white tracking-wider">
-            {next.team1}
-          </span>
+      <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3">
+          <FlagIcon teamName={next.team1} size={30}/>
+          <span className="text-lg text-white font-semibold">{next.team1}</span>
         </div>
         <span
-          className="text-xs font-bold px-3 py-1.5 rounded-lg text-green-400"
-          style={{
-            background: "rgba(0,216,76,0.08)",
-            border: "1px solid rgba(0,216,76,0.2)",
-          }}
+          className="text-xs font-bold px-3 py-1.5 rounded-lg"
+          style={{ background: "rgba(22,163,74,0.1)", color: "#22C55E", border: "1px solid rgba(22,163,74,0.2)", fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           VS
         </span>
-        <div className="flex items-center gap-2.5">
-          <span className="text-xl text-white tracking-wider">
-            {next.team2}
-          </span>
-          <FlagIcon teamName={next.team2} size={28} />
+        <div className="flex items-center gap-3">
+          <span className="text-lg text-white font-semibold">{next.team2}</span>
+          <FlagIcon teamName={next.team2} size={30}/>
         </div>
       </div>
-      <div className="flex items-center gap-1.5 text-gray-500 text-xs">
-        <MapPin size={12} /> {next.venue}, {next.city}
+      <div className="flex items-center gap-2 text-xs" style={{ color: "#475569" }}>
+        <MapPin size={12}/> {next.venue}, {next.city}
       </div>
     </div>
   );
@@ -459,7 +485,7 @@ function NextMatchTicker() {
    HOME PAGE
    ══════════════════════════════════════════════════════════ */
 export default function Home() {
-  const [search, setSearch] = useState("");
+  const [search,  setSearch]  = useState("");
   const [scrollY, setScrollY] = useState(0);
   const navigate = useNavigate();
 
@@ -471,145 +497,169 @@ export default function Home() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (search.trim())
-      navigate("/by-team", { state: { searchQuery: search.trim() } });
+    if (search.trim()) navigate("/by-team", { state: { searchQuery: search.trim() } });
   };
 
   return (
     <div className="hero-bg pitch-lines min-h-screen">
-      {/* ─── HERO ─────────────────────────────────────── */}
+
+      {/* ─── HERO ──────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
-        <Particles />
+        <Particles/>
 
         {/* Glow orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="glow-orb glow-orb-1" />
-          <div className="glow-orb glow-orb-2" />
-          <div className="glow-orb glow-orb-3" />
-          <div className="glow-orb glow-orb-gold" />
+          <div className="glow-orb glow-orb-blue"/>
+          <div className="glow-orb glow-orb-green"/>
+          <div className="glow-orb glow-orb-gold"/>
         </div>
 
         <div
-          className="relative max-w-6xl mx-auto px-4 pt-20 pb-16 text-center"
-          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
+          className="relative max-w-6xl mx-auto px-4 md:px-6"
+          style={{
+            paddingTop: "clamp(56px, 10vw, 96px)",
+            paddingBottom: "clamp(48px, 8vw, 80px)",
+            transform: `translateY(${scrollY * 0.1}px)`,
+          }}
         >
-          {/* Badge */}
-          <div className="hero-badge animate-fade-down">
-            <Zap size={11} /> Official Tournament Fixtures
-          </div>
+          {/* Two-column layout */}
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
 
-          {/* Trophy */}
-          <div
-            className="trophy-icon animate-fade-down"
-            style={{ animationDelay: "0.1s" }}
-          >
-            🏆
-          </div>
+            {/* Left: Text + Buttons */}
+            <div className="flex-1 text-center lg:text-left">
+              {/* Badge */}
+              <div className="hero-badge animate-fade-down mb-6 mx-auto lg:mx-0 w-fit">
+                <Zap size={10}/> Official Tournament Fixtures
+              </div>
 
-          {/* Heading */}
-          <h1
-            className="text-5xl md:text-7xl leading-none mb-1 animate-fade-up gold-text tracking-wide"
-            style={{ animationDelay: "0.15s" }}
-          >
-            FIFA World Cup
-          </h1>
-          <h2
-            className="text-8xl md:text-[10rem] text-white mb-4 animate-fade-up year-text leading-none"
-            style={{ animationDelay: "0.2s", letterSpacing: "-0.04em" }}
-          >
-            2026
-          </h2>
+              {/* Title */}
+              <h1
+                className="hero-title animate-fade-up mb-2"
+                style={{
+                  animationDelay: "0.1s",
+                  fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
+                  color: "#FFFFFF",
+                  textShadow: "0 0 60px rgba(22,163,74,0.15)",
+                }}
+              >
+                FIFA
+              </h1>
+              <h1
+                className="hero-title animate-fade-up mb-1"
+                style={{
+                  animationDelay: "0.14s",
+                  fontSize: "clamp(2.2rem, 5.5vw, 4.2rem)",
+                  background: "linear-gradient(135deg, #CBD5E1 0%, #94A3B8 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                World Cup
+              </h1>
+              <h2
+                className="hero-title animate-fade-up mb-6"
+                style={{
+                  animationDelay: "0.18s",
+                  fontSize: "clamp(5rem, 14vw, 10rem)",
+                  letterSpacing: "-0.03em",
+                  background: "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.5) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  lineHeight: 0.85,
+                }}
+              >
+                2026
+              </h2>
 
-          {/* Host countries strip */}
-          <div className="animate-fade-up" style={{ animationDelay: "0.25s" }}>
-            <div className="host-strip">
-              <span className="text-sm font-semibold text-gray-300">USA</span>
-              <div className="host-sep" />
-              <span className="text-sm font-semibold text-gray-300">
-                Canada
-              </span>
-              <div className="host-sep" />
-              <span className="text-sm font-semibold text-gray-300">
-                Mexico
-              </span>
+              {/* Host strip */}
+              <div className="animate-fade-up mb-6 flex justify-center lg:justify-start" style={{ animationDelay: "0.22s" }}>
+                <div className="host-strip">
+                  <span className="text-sm font-semibold" style={{ color: "#CBD5E1" }}>USA</span>
+                  <div className="host-sep"/>
+                  <span className="text-sm font-semibold" style={{ color: "#CBD5E1" }}>Canada</span>
+                  <div className="host-sep"/>
+                  <span className="text-sm font-semibold" style={{ color: "#CBD5E1" }}>Mexico</span>
+                </div>
+              </div>
+
+              <p
+                className="text-sm mb-8 animate-fade-up"
+                style={{ animationDelay: "0.26s", color: "#475569" }}
+              >
+                সব সময়{" "}
+                <span style={{ color: "#22C55E" }}>Bangladesh Standard Time (UTC+6)</span>{" "}
+                অনুযায়ী
+              </p>
+
+              {/* Search */}
+              <form
+                onSubmit={handleSearch}
+                className="max-w-lg mx-auto lg:mx-0 animate-fade-up"
+                style={{ animationDelay: "0.32s" }}
+              >
+                <div className="search-wrapper">
+                  <Search size={18} className="search-icon" style={{ color: "#22C55E" }}/>
+                  <input
+                    type="text"
+                    className="field-input search-input"
+                    placeholder="দল খুঁজুন (যেমন Brazil, Germany…)"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <button type="submit" className="btn-primary search-btn">খুঁজুন</button>
+                </div>
+              </form>
+
+              {/* CTA buttons */}
+              <div className="flex items-center gap-3 mt-5 justify-center lg:justify-start animate-fade-up" style={{ animationDelay: "0.38s" }}>
+                <button
+                  onClick={() => navigate("/by-date")}
+                  className="btn-primary px-6 py-2.5 text-sm rounded-xl inline-flex items-center gap-2"
+                >
+                  <CalendarDays size={14}/> Match Schedule
+                </button>
+                <button
+                  onClick={() => navigate("/by-team")}
+                  className="btn-ghost px-6 py-2.5 text-sm rounded-xl inline-flex items-center gap-2"
+                >
+                  <Users size={14}/> By Team
+                </button>
+              </div>
+            </div>
+
+            {/* Right: Trophy Graphic */}
+            <div
+              className="flex-1 flex items-center justify-center animate-fade-up"
+              style={{ animationDelay: "0.2s", minHeight: "320px" }}
+            >
+              <TrophyGraphic/>
             </div>
           </div>
-
-          <p
-            className="text-sm text-gray-500 mt-3 mb-10 animate-fade-up"
-            style={{ animationDelay: "0.3s" }}
-          >
-            সব সময়{" "}
-            <span style={{ color: "#00D84C" }}>
-              Bangladesh Standard Time (UTC+6)
-            </span>{" "}
-            অনুযায়ী
-          </p>
-
-          {/* Search */}
-          <form
-            onSubmit={handleSearch}
-            className="max-w-xl mx-auto relative animate-fade-up"
-            style={{ animationDelay: "0.35s" }}
-          >
-            <div className="search-wrapper">
-              <Search
-                size={18}
-                className="search-icon"
-                style={{ color: "#00D84C" }}
-              />
-              <input
-                type="text"
-                className="field-input search-input"
-                placeholder="দল খুঁজুন (যেমন Brazil, Germany…)"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button type="submit" className="btn-gold search-btn">
-                খুঁজুন
-              </button>
-            </div>
-          </form>
         </div>
       </section>
 
       {/* ─── STATS ─────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 pb-14 animate-section">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-14 animate-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            {
-              icon: CalendarDays,
-              label: "Total Matches",
-              value: fixtures.length,
-              color: "#00D84C",
-            },
-            {
-              icon: Users,
-              label: "Participating Teams",
-              value: TEAM_COUNT,
-              color: "#39FF8A",
-            },
-            {
-              icon: Trophy,
-              label: "Groups",
-              value: GROUPS.length,
-              color: "#00A83A",
-            },
-            {
-              icon: Globe,
-              label: "Host Countries",
-              value: 3,
-              color: "#A0FFD0",
-            },
+            { icon: CalendarDays, label: "Total Matches",     value: fixtures.length, color: "#22C55E" },
+            { icon: Users,        label: "Participating Teams",value: TEAM_COUNT,      color: "#4ADE80" },
+            { icon: Trophy,       label: "Groups",            value: GROUPS.length,   color: "#16A34A" },
+            { icon: Globe,        label: "Host Countries",    value: 3,               color: "#86EFAC" },
           ].map(({ icon: Icon, label, value, color }) => (
             <div key={label} className="stat-card px-5 py-6 text-center">
-              <div className="stat-icon-wrap" style={{ "--stat-color": color }}>
-                <Icon size={20} style={{ color }} />
+              <div className="stat-icon-wrap">
+                <Icon size={20} style={{ color }}/>
               </div>
-              <div className="text-3xl md:text-4xl font-black text-white mb-1">
-                <AnimCounter value={value} />
+              <div
+                className="mb-1 text-white"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 800 }}
+              >
+                <AnimCounter value={value}/>
               </div>
-              <div className="text-xs text-gray-400 font-semibold tracking-wide uppercase">
+              <div className="text-xs font-semibold tracking-wide uppercase" style={{ color: "#64748B" }}>
                 {label}
               </div>
             </div>
@@ -618,20 +668,20 @@ export default function Home() {
       </section>
 
       {/* ─── NEXT MATCH TICKER ─────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 pb-6 animate-section">
-        <NextMatchTicker />
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-6 animate-section">
+        <NextMatchTicker/>
       </section>
 
       {/* ─── TODAY'S MATCHES ───────────────────────────── */}
-      <TodaySection navigate={navigate} />
+      <TodaySection navigate={navigate}/>
 
       {/* ─── QUICK NAV ─────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 pb-16 animate-section">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16 animate-section">
         <div className="flex items-center gap-4 mb-6">
           <h3 className="section-title">
-            <Flame size={17} style={{ color: "#00D84C" }} /> Browse Fixtures
+            <Flame size={16} style={{ color: "#22C55E" }}/> Browse Fixtures
           </h3>
-          <div className="section-line" />
+          <div className="section-line"/>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
@@ -640,9 +690,9 @@ export default function Home() {
               icon: Users,
               title: "Fixtures by Team",
               desc: `All ${TEAM_COUNT} teams — select any to view their full tournament schedule`,
-              iconBg: "rgba(0,168,58,0.15)",
-              iconBorder: "rgba(0,216,76,0.3)",
-              iconColor: "#00D84C",
+              iconBg: "rgba(22,163,74,0.12)",
+              iconBorder: "rgba(22,163,74,0.28)",
+              iconColor: "#22C55E",
               badge: "48 Teams",
             },
             {
@@ -650,9 +700,9 @@ export default function Home() {
               icon: CalendarDays,
               title: "Fixtures by Date",
               desc: "Browse all matches day-by-day — Group Stage through the Final",
-              iconBg: "rgba(0,100,40,0.15)",
-              iconBorder: "rgba(0,216,76,0.25)",
-              iconColor: "#39FF8A",
+              iconBg: "rgba(14,53,84,0.5)",
+              iconBorder: "rgba(22,163,74,0.2)",
+              iconColor: "#4ADE80",
               badge: "Jun–Jul",
             },
           ].map((item) => (
@@ -664,124 +714,103 @@ export default function Home() {
             >
               <div
                 className="nav-card-icon"
-                style={{
-                  background: item.iconBg,
-                  border: `1px solid ${item.iconBorder}`,
-                }}
+                style={{ background: item.iconBg, border: `1px solid ${item.iconBorder}` }}
               >
-                <item.icon size={24} style={{ color: item.iconColor }} />
+                <item.icon size={24} style={{ color: item.iconColor }}/>
               </div>
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2.5 mb-1">
-                  <span className="text-xl text-white tracking-wide">
+                <div className="flex items-center gap-2.5 mb-1.5">
+                  <span
+                    className="text-white"
+                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.2rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}
+                  >
                     {item.title}
                   </span>
                   <span
-                    className="text-xs font-bold px-2 py-0.5 rounded-full"
-                    style={{
-                      background: "rgba(0,216,76,0.1)",
-                      color: "#00D84C",
-                      border: "1px solid rgba(0,216,76,0.2)",
-                    }}
+                    className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ background: "rgba(22,163,74,0.1)", color: "#22C55E", border: "1px solid rgba(22,163,74,0.2)" }}
                   >
                     {item.badge}
                   </span>
                 </div>
-                <div className="text-sm text-gray-400">{item.desc}</div>
+                <div className="text-sm" style={{ color: "#64748B" }}>{item.desc}</div>
               </div>
-              <ChevronRight
-                size={20}
-                className="flex-shrink-0 text-gray-600 nav-arrow"
-              />
+              <ChevronRight size={20} className="flex-shrink-0 nav-arrow" style={{ color: "#475569" }}/>
             </button>
           ))}
         </div>
       </section>
 
       {/* ─── GROUPS ────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 pb-16 animate-section">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16 animate-section">
         <div className="flex items-center gap-4 mb-6">
           <h3 className="section-title">
-            <Star size={16} style={{ color: "#00D84C" }} /> Tournament Groups
+            <Star size={15} style={{ color: "#22C55E" }}/> Tournament Groups
           </h3>
-          <div className="section-line" />
+          <div className="section-line"/>
         </div>
-        <GroupsSection navigate={navigate} />
-        <p className="mt-5 text-sm text-gray-600 font-medium">
+        <GroupsSection navigate={navigate}/>
+        <p className="mt-5 text-sm font-medium" style={{ color: "#475569" }}>
           12 groups · 4 teams per group · 72 group stage matches total
         </p>
       </section>
 
       {/* ─── HOST STADIUMS ─────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 pb-24 animate-section">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-24 animate-section">
         <div className="flex items-center gap-4 mb-6">
           <h3 className="section-title">
-            <MapPin size={16} style={{ color: "#00D84C" }} /> Host Stadiums
+            <MapPin size={15} style={{ color: "#22C55E" }}/> Host Stadiums
           </h3>
-          <div className="section-line" />
+          <div className="section-line"/>
         </div>
-
-        {/* Country sections */}
         {[
           {
-            flag: "🇺🇸",
-            country: "United States",
+            flag: "🇺🇸", country: "United States",
             venues: [
-              { name: "MetLife Stadium", city: "New York/NJ" },
-              { name: "SoFi Stadium", city: "Los Angeles" },
-              { name: "AT&T Stadium", city: "Dallas" },
-              { name: "Hard Rock Stadium", city: "Miami" },
-              { name: "Levi's Stadium", city: "San Francisco" },
-              { name: "Mercedes-Benz Stadium", city: "Atlanta" },
-              { name: "Gillette Stadium", city: "Boston" },
-              { name: "Arrowhead Stadium", city: "Kansas City" },
-              { name: "Lincoln Financial Field", city: "Philadelphia" },
-              { name: "Lumen Field", city: "Seattle" },
-              { name: "NRG Stadium", city: "Houston" },
+              { name: "MetLife Stadium",         city: "New York/NJ"     },
+              { name: "SoFi Stadium",             city: "Los Angeles"     },
+              { name: "AT&T Stadium",             city: "Dallas"          },
+              { name: "Hard Rock Stadium",        city: "Miami"           },
+              { name: "Levi's Stadium",           city: "San Francisco"   },
+              { name: "Mercedes-Benz Stadium",    city: "Atlanta"         },
+              { name: "Gillette Stadium",         city: "Boston"          },
+              { name: "Arrowhead Stadium",        city: "Kansas City"     },
+              { name: "Lincoln Financial Field",  city: "Philadelphia"    },
+              { name: "Lumen Field",              city: "Seattle"         },
+              { name: "NRG Stadium",              city: "Houston"         },
             ],
           },
           {
-            flag: "🇲🇽",
-            country: "Mexico",
+            flag: "🇲🇽", country: "Mexico",
             venues: [
-              { name: "Estadio Azteca", city: "Mexico City" },
-              { name: "Estadio BBVA", city: "Monterrey" },
-              { name: "Estadio Akron", city: "Guadalajara" },
+              { name: "Estadio Azteca", city: "Mexico City"  },
+              { name: "Estadio BBVA",   city: "Monterrey"    },
+              { name: "Estadio Akron",  city: "Guadalajara"  },
             ],
           },
           {
-            flag: "🇨🇦",
-            country: "Canada",
+            flag: "🇨🇦", country: "Canada",
             venues: [
-              { name: "BMO Field", city: "Toronto" },
-              { name: "BC Place", city: "Vancouver" },
+              { name: "BMO Field", city: "Toronto"   },
+              { name: "BC Place",  city: "Vancouver" },
             ],
           },
         ].map((section, si) => (
           <div key={section.country} className="mb-8">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-lg">{section.flag}</span>
-              <span className="text-base tracking-wider text-gray-300">
-                {section.country}
-              </span>
-              <div
-                className="flex-1 h-px"
-                style={{ background: "rgba(0,216,76,0.1)" }}
-              />
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="text-xl">{section.flag}</span>
+              <span className="text-sm tracking-wider font-medium" style={{ color: "#CBD5E1" }}>{section.country}</span>
+              <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }}/>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {section.venues.map((v, i) => (
                 <div
                   key={v.name}
                   className="venue-card card-stagger"
-                  style={{
-                    animationDelay: `${(si * section.venues.length + i) * 35}ms`,
-                  }}
+                  style={{ animationDelay: `${(si * section.venues.length + i) * 30}ms` }}
                 >
-                  <div className="font-semibold text-white text-xs leading-snug">
-                    {v.name}
-                  </div>
-                  <div className="text-gray-500 text-xs mt-0.5">{v.city}</div>
+                  <div className="font-semibold text-white text-xs leading-snug">{v.name}</div>
+                  <div className="text-xs mt-0.5" style={{ color: "#475569" }}>{v.city}</div>
                 </div>
               ))}
             </div>

@@ -8,45 +8,45 @@ import { groupByDate, formatDate } from "../utils/dateUtils";
 export default function FixturesByDate() {
   const [selectedDate, setSelectedDate] = useState(null);
   const groupedFixtures = useMemo(() => groupByDate(fixtures), []);
-  const matchesForDate = useMemo(() => {
+  const matchesForDate  = useMemo(() => {
     if (!selectedDate) return [];
     return groupedFixtures[selectedDate] || [];
   }, [selectedDate, groupedFixtures]);
 
   return (
-    <div style={{ background: "var(--bg, #03080A)", minHeight: "100vh" }}>
-      <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="page-bg" style={{ minHeight: "100vh" }}>
+      <div className="max-w-5xl mx-auto px-4 md:px-6 py-10">
+
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{
-                background: "linear-gradient(135deg, rgba(0,126,51,0.35), rgba(0,126,51,0.15))",
-                border: "1px solid rgba(0,200,83,0.35)",
-              }}
+              className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{ background: "rgba(22,163,74,0.12)", border: "1px solid rgba(22,163,74,0.28)" }}
             >
-              <CalendarDays size={18} style={{ color: "#69F0AE" }} />
+              <CalendarDays size={20} style={{ color: "#22C55E" }}/>
             </div>
-            <h1 className="text-4xl text-white tracking-wide">Fixtures by Date</h1>
+            <h1
+              className="text-white"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.04em" }}
+            >
+              Fixtures by Date
+            </h1>
           </div>
-          <p className="text-gray-400 text-sm pl-12">
+          <p className="text-sm pl-14" style={{ color: "#64748B" }}>
             একটি তারিখ বেছে নিন এবং সেদিনের সব ম্যাচ দেখুন।
           </p>
         </div>
 
-        {/* Date selector */}
+        {/* Date selector card */}
         <div
           className="p-5 mb-8 rounded-2xl"
-          style={{
-            background: "linear-gradient(135deg, rgba(10,23,16,0.95), rgba(15,32,22,0.90))",
-            border: "1px solid rgba(0,200,83,0.2)",
-          }}
+          style={{ background: "var(--card)", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <label className="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+          <label className="block text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#64748B" }}>
             Select Date
           </label>
-          <DateSelector fixtures={fixtures} selectedDate={selectedDate} onSelect={setSelectedDate} />
+          <DateSelector fixtures={fixtures} selectedDate={selectedDate} onSelect={setSelectedDate}/>
         </div>
 
         {/* Selected date header */}
@@ -55,51 +55,61 @@ export default function FixturesByDate() {
             <div className="flex items-center gap-3 mb-4">
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "linear-gradient(135deg, #00C853, #00E676)" }}
+                style={{ background: "linear-gradient(135deg, #15803D, #16A34A)" }}
               >
-                <CalendarDays size={18} color="#050d0a" />
+                <CalendarDays size={18} color="#fff"/>
               </div>
               <div>
                 <h2 className="text-xl font-bold text-white">{formatDate(selectedDate)}</h2>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm" style={{ color: "#64748B" }}>
                   {matchesForDate.length} match{matchesForDate.length !== 1 ? "es" : ""} scheduled
                 </p>
               </div>
             </div>
-            <hr className="gold-line" />
+            <hr className="gold-line"/>
           </div>
         )}
 
         {/* Fixtures grid */}
         {selectedDate && matchesForDate.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {matchesForDate.map((match) => (
-              <MatchCard key={match.id} match={match} />
+            {matchesForDate.map((match, i) => (
+              <div key={match.id} className="card-stagger" style={{ animationDelay: `${i * 60}ms` }}>
+                <MatchCard match={match}/>
+              </div>
             ))}
           </div>
         )}
 
-        {/* Empty: no date */}
+        {/* Placeholder */}
         {!selectedDate && (
-          <div className="text-center py-20 fade-in">
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-              style={{ background: "rgba(0,200,83,0.08)", border: "1px solid rgba(0,200,83,0.2)" }}
-            >
-              <CalendarDays size={28} style={{ color: "#00C853" }} />
-            </div>
-            <h3 className="text-lg font-semibold text-white mb-2">কোনো তারিখ নির্বাচিত হয়নি</h3>
-            <p className="text-gray-500 text-sm max-w-sm mx-auto">
-              উপরের date picker থেকে একটি তারিখ বেছে নিন।
+          <div
+            className="text-center py-16 rounded-2xl"
+            style={{ background: "var(--card)", border: "1px solid rgba(255,255,255,0.06)" }}
+          >
+            <div className="text-5xl mb-4">📅</div>
+            <p className="text-white text-lg mb-2" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, textTransform: "uppercase" }}>
+              Select a Date
+            </p>
+            <p className="text-sm" style={{ color: "#64748B" }}>
+              Use the date picker above to browse fixtures.
             </p>
           </div>
         )}
 
+        {/* No matches for date */}
         {selectedDate && matchesForDate.length === 0 && (
-          <div className="text-center py-16 fade-in">
-            <Info size={32} className="mx-auto mb-3 text-gray-600" />
-            <h3 className="text-base font-semibold text-white mb-1">No fixtures found</h3>
-            <p className="text-gray-500 text-sm">No matches scheduled for {formatDate(selectedDate)}.</p>
+          <div
+            className="text-center py-16 rounded-2xl"
+            style={{ background: "var(--card)", border: "1px solid rgba(255,255,255,0.06)" }}
+          >
+            <div className="text-5xl mb-4">😔</div>
+            <p className="text-white text-lg mb-2" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, textTransform: "uppercase" }}>
+              No Matches
+            </p>
+            <p className="text-sm" style={{ color: "#64748B" }}>
+              No matches scheduled for this date.
+            </p>
           </div>
         )}
       </div>
