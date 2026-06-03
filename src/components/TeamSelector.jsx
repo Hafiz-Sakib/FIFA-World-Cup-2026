@@ -51,9 +51,22 @@ export default function TeamSelector({ selectedTeam, onSelect }) {
   };
 
   return (
+    <>
+      {/* Invisible overlay: closes dropdown on outside click, prevents content bleed-through */}
+      {open && (
+        <div
+          className="fixed inset-0"
+          style={{ zIndex: 9998 }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            closeDropdown();
+          }}
+        />
+      )}
     <div
       ref={containerRef}
       className="relative w-full"
+      style={{ zIndex: open ? 9999 : "auto", position: "relative" }}
       onBlur={handleBlur}
     >
       {/* ── Trigger ── */}
@@ -109,7 +122,7 @@ export default function TeamSelector({ selectedTeam, onSelect }) {
         <div
           className="absolute left-0 right-0 mt-1 rounded-xl shadow-2xl"
           style={{
-            background: "##0a1710",
+            background: "#0a1710",
             border: "1px solid rgba(0,200,83,0.3)",
             zIndex: 9999,
           }}
@@ -202,5 +215,6 @@ export default function TeamSelector({ selectedTeam, onSelect }) {
         </div>
       )}
     </div>
+    </>
   );
 }

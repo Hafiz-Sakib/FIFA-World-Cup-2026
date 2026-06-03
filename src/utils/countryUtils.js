@@ -1,28 +1,30 @@
 export const COUNTRY_CODES = {
   // Group A
-  Mexico: "MX", Poland: "PL", "South Africa": "ZA", Cameroon: "CM",
+  Mexico: "MX", "South Africa": "ZA", "South Korea": "KR", Czechia: "CZ",
   // Group B
-  USA: "US", Honduras: "HN", Panama: "PA", Uruguay: "UY",
+  Canada: "CA", "Bosnia-Herzegovina": "BA", Qatar: "QA", Switzerland: "CH",
   // Group C
-  Germany: "DE", Japan: "JP", Australia: "AU", "New Zealand": "NZ",
+  Brazil: "BR", Morocco: "MA", Haiti: "HT", Scotland: "GB-SCT",
   // Group D
-  France: "FR", "Saudi Arabia": "SA", Denmark: "DK", Peru: "PE",
+  USA: "US", Paraguay: "PY", Australia: "AU", Turkey: "TR",
   // Group E
-  Spain: "ES", Venezuela: "VE", Portugal: "PT", Algeria: "DZ",
+  Germany: "DE", Curacao: "CW", "Ivory Coast": "CI", Ecuador: "EC",
   // Group F
-  Brazil: "BR", Serbia: "RS", Croatia: "HR", "Trinidad and Tobago": "TT",
+  Netherlands: "NL", Japan: "JP", Sweden: "SE", Tunisia: "TN",
   // Group G
-  Netherlands: "NL", Senegal: "SN", "South Korea": "KR", Nigeria: "NG",
+  Belgium: "BE", Egypt: "EG", Iran: "IR", "New Zealand": "NZ",
   // Group H
-  Argentina: "AR", Iran: "IR", Morocco: "MA", Haiti: "HT",
+  Spain: "ES", "Cape Verde": "CV", "Saudi Arabia": "SA", Uruguay: "UY",
   // Group I
-  England: "GB-ENG", Egypt: "EG", Colombia: "CO", Turkey: "TR",
+  France: "FR", Senegal: "SN", Iraq: "IQ", Norway: "NO",
   // Group J
-  Belgium: "BE", Ukraine: "UA", Switzerland: "CH", Mali: "ML",
+  Argentina: "AR", Algeria: "DZ", Austria: "AT", Jordan: "JO",
   // Group K
-  Ecuador: "EC", "Costa Rica": "CR", Hungary: "HU", "Côte d'Ivoire": "CI",
+  Portugal: "PT", Congo: "CG", Uzbekistan: "UZ", Colombia: "CO",
   // Group L
-  Italy: "IT", Cuba: "CU", Norway: "NO", TBD: null,
+  England: "GB-ENG", Croatia: "HR", Ghana: "GH", Panama: "PA",
+  // Extra / fallback
+  TBD: null,
 };
 
 export function getCountryCode(teamName) {
