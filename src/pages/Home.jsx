@@ -1,8 +1,18 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Trophy, Users, CalendarDays, Globe, Search, ChevronRight,
-  Zap, MapPin, Clock, Flame, Star, ArrowRight,
+  Trophy,
+  Users,
+  CalendarDays,
+  Globe,
+  Search,
+  ChevronRight,
+  Zap,
+  MapPin,
+  Clock,
+  Flame,
+  Star,
+  ArrowRight,
 } from "lucide-react";
 import fixtures from "../data/fixtures.json";
 import MatchCard from "../components/MatchCard";
@@ -12,10 +22,18 @@ import { sortByDateTime } from "../utils/dateUtils";
 
 /* ── Constants ─────────────────────────────────────────── */
 const TOURNAMENT_START = "2026-06-12"; // BDT date of first match
-const TOURNAMENT_END   = "2026-07-20"; // BDT date after final
+const TOURNAMENT_END = "2026-07-20"; // BDT date after final
 
 const GROUP_STAGE = fixtures.filter(
-  (f) => !["Round of 32","Round of 16","Quarter-Final","Semi-Final","Third Place","Final"].includes(f.group),
+  (f) =>
+    ![
+      "Round of 32",
+      "Round of 16",
+      "Quarter-Final",
+      "Semi-Final",
+      "Third Place",
+      "Final",
+    ].includes(f.group),
 );
 const TEAM_COUNT = getAllTeams().length;
 const GROUPS = [...new Set(GROUP_STAGE.map((f) => f.group))].sort();
@@ -38,8 +56,8 @@ function getCountdown(targetDateStr) {
   const target = new Date(targetDateStr + "T00:00:00+06:00");
   const diff = target - now;
   if (diff <= 0) return null;
-  const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((diff % (1000 * 60)) / 1000);
   return { days, hours, minutes, seconds };
@@ -65,16 +83,19 @@ function AnimCounter({ value, duration = 1200 }) {
 
 /* ── Floating Particles ─────────────────────────────────── */
 function Particles() {
-  const particles = useMemo(() =>
-    Array.from({ length: 22 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      delay: Math.random() * 6,
-      duration: Math.random() * 8 + 6,
-      opacity: Math.random() * 0.4 + 0.1,
-    })), []);
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 22 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 3 + 1,
+        delay: Math.random() * 6,
+        duration: Math.random() * 8 + 6,
+        opacity: Math.random() * 0.4 + 0.1,
+      })),
+    [],
+  );
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -94,7 +115,7 @@ function Particles() {
         />
       ))}
       {/* Soccer ball icons */}
-      {[0,1,2,3].map((i) => (
+      {[0, 1, 2, 3].map((i) => (
         <div
           key={`ball-${i}`}
           className="particle-ball"
@@ -116,9 +137,7 @@ function Particles() {
 function CountdownBox({ label, value }) {
   return (
     <div className="countdown-box">
-      <div className="countdown-num">
-        {String(value).padStart(2, "0")}
-      </div>
+      <div className="countdown-num">{String(value).padStart(2, "0")}</div>
       <div className="countdown-label">{label}</div>
     </div>
   );
@@ -131,14 +150,17 @@ function TodaySection({ navigate }) {
 
   useEffect(() => {
     if (today < TOURNAMENT_START) {
-      const id = setInterval(() => setCountdown(getCountdown(TOURNAMENT_START)), 1000);
+      const id = setInterval(
+        () => setCountdown(getCountdown(TOURNAMENT_START)),
+        1000,
+      );
       return () => clearInterval(id);
     }
   }, [today]);
 
-  const todayMatches = useMemo(() =>
-    sortByDateTime(fixtures.filter((f) => f.date === today)),
-    [today]
+  const todayMatches = useMemo(
+    () => sortByDateTime(fixtures.filter((f) => f.date === today)),
+    [today],
   );
 
   // ── State 1: Before tournament ──
@@ -148,21 +170,29 @@ function TodaySection({ navigate }) {
         <div className="pre-tournament-banner">
           <div className="pre-tournament-glow" />
           <div className="relative z-10 text-center py-10 px-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-bold tracking-widest uppercase"
-              style={{ background: "rgba(0,200,83,0.1)", border: "1px solid rgba(0,200,83,0.3)", color: "#00C853" }}>
+            <div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-bold tracking-widest uppercase"
+              style={{
+                background: "rgba(0,200,83,0.1)",
+                border: "1px solid rgba(0,200,83,0.3)",
+                color: "#00C853",
+              }}
+            >
               <Zap size={11} /> Tournament Countdown
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">
               টুর্নামেন্ট শুরু হতে আর
             </h2>
             <p className="text-gray-400 text-sm mb-8">
-              First match: <span style={{ color: "#00E676" }}>11 June 2026</span> — Estadio Azteca, Mexico City
+              First match:{" "}
+              <span style={{ color: "#00E676" }}>11 June 2026</span> — Estadio
+              Azteca, Mexico City
             </p>
             {countdown && (
               <div className="flex items-center justify-center gap-3 md:gap-5 flex-wrap">
-                <CountdownBox label="Days"    value={countdown.days} />
+                <CountdownBox label="Days" value={countdown.days} />
                 <div className="countdown-sep">:</div>
-                <CountdownBox label="Hours"   value={countdown.hours} />
+                <CountdownBox label="Hours" value={countdown.hours} />
                 <div className="countdown-sep">:</div>
                 <CountdownBox label="Minutes" value={countdown.minutes} />
                 <div className="countdown-sep">:</div>
@@ -217,16 +247,30 @@ function TodaySection({ navigate }) {
               {todayMatches.length > 0 ? "আজকের ম্যাচ" : "Today's Schedule"}
             </h2>
             <p className="text-xs text-gray-500">
-              {new Date().toLocaleDateString("en-GB", { weekday:"long", day:"numeric", month:"long", year:"numeric" })} · BST
+              {new Date().toLocaleDateString("en-GB", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}{" "}
+              · BST
             </p>
           </div>
         </div>
         <button
           onClick={() => navigate("/by-date")}
           className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
-          style={{ color: "#00C853", border: "1px solid rgba(0,200,83,0.25)", background: "rgba(0,200,83,0.06)" }}
-          onMouseEnter={(e) => e.currentTarget.style.background = "rgba(0,200,83,0.12)"}
-          onMouseLeave={(e) => e.currentTarget.style.background = "rgba(0,200,83,0.06)"}
+          style={{
+            color: "#00C853",
+            border: "1px solid rgba(0,200,83,0.25)",
+            background: "rgba(0,200,83,0.06)",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.background = "rgba(0,200,83,0.12)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.background = "rgba(0,200,83,0.06)")
+          }
         >
           সব তারিখ <ArrowRight size={12} />
         </button>
@@ -235,8 +279,12 @@ function TodaySection({ navigate }) {
       {todayMatches.length === 0 ? (
         <div className="no-matches-today">
           <div className="text-3xl mb-3">📅</div>
-          <p className="text-white font-semibold text-sm mb-1">আজ কোনো ম্যাচ নেই</p>
-          <p className="text-gray-500 text-xs">No matches scheduled for today. Check the full schedule below.</p>
+          <p className="text-white font-semibold text-sm mb-1">
+            আজ কোনো ম্যাচ নেই
+          </p>
+          <p className="text-gray-500 text-xs">
+            No matches scheduled for today. Check the full schedule below.
+          </p>
           <button
             onClick={() => navigate("/by-date")}
             className="mt-4 btn-gold px-5 py-2 text-xs rounded-xl inline-flex items-center gap-1.5"
@@ -279,7 +327,9 @@ function GroupsSection({ navigate }) {
                 <button
                   key={team}
                   type="button"
-                  onClick={() => navigate("/by-team", { state: { selectedTeam: team } })}
+                  onClick={() =>
+                    navigate("/by-team", { state: { selectedTeam: team } })
+                  }
                   className="team-row"
                 >
                   <FlagIcon teamName={team} size={18} />
@@ -296,8 +346,8 @@ function GroupsSection({ navigate }) {
 
 /* ── Home Page ──────────────────────────────────────────── */
 export default function Home() {
-  const [search, setSearch]       = useState("");
-  const [scrollY, setScrollY]     = useState(0);
+  const [search, setSearch] = useState("");
+  const [scrollY, setScrollY] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -308,12 +358,12 @@ export default function Home() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (search.trim()) navigate("/by-team", { state: { searchQuery: search.trim() } });
+    if (search.trim())
+      navigate("/by-team", { state: { searchQuery: search.trim() } });
   };
 
   return (
     <div className="hero-bg pitch-lines min-h-screen">
-
       {/* ── HERO ── */}
       <section className="relative overflow-hidden">
         <Particles />
@@ -335,7 +385,10 @@ export default function Home() {
           </div>
 
           {/* Trophy emoji with pulse */}
-          <div className="trophy-icon animate-fade-down" style={{ animationDelay: "0.1s" }}>
+          <div
+            className="trophy-icon animate-fade-down"
+            style={{ animationDelay: "0.1s" }}
+          >
             🏆
           </div>
 
@@ -352,12 +405,20 @@ export default function Home() {
             2026
           </h2>
 
-          <p className="text-gray-400 text-base md:text-lg mb-1 animate-fade-up" style={{ animationDelay: "0.25s" }}>
-            🇺🇸 USA · 🇨🇦 Canada · 🇲🇽 Mexico
+          <p
+            className="text-gray-400 text-base md:text-lg mb-1 animate-fade-up"
+            style={{ animationDelay: "0.25s" }}
+          >
+            USA · Canada · Mexico
           </p>
-          <p className="text-sm text-gray-500 mb-10 animate-fade-up" style={{ animationDelay: "0.3s" }}>
+          <p
+            className="text-sm text-gray-500 mb-10 animate-fade-up"
+            style={{ animationDelay: "0.3s" }}
+          >
             সব সময়{" "}
-            <span style={{ color: "#00C853" }}>Bangladesh Standard Time (UTC+6)</span>{" "}
+            <span style={{ color: "#00C853" }}>
+              Bangladesh Standard Time (UTC+6)
+            </span>{" "}
             অনুযায়ী
           </p>
 
@@ -368,7 +429,11 @@ export default function Home() {
             style={{ animationDelay: "0.35s" }}
           >
             <div className="search-wrapper">
-              <Search size={18} className="search-icon" style={{ color: "#00C853" }} />
+              <Search
+                size={18}
+                className="search-icon"
+                style={{ color: "#00C853" }}
+              />
               <input
                 type="text"
                 className="field-input search-input"
@@ -391,12 +456,39 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-4 pb-12 animate-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: CalendarDays, label: "Total Matches",       value: fixtures.length, color: "#00E676", suffix: "" },
-            { icon: Users,        label: "Participating Teams", value: TEAM_COUNT,       color: "#69F0AE", suffix: "" },
-            { icon: Trophy,       label: "Groups",              value: GROUPS.length,   color: "#00C853", suffix: "" },
-            { icon: Globe,        label: "Host Countries",      value: 3,               color: "#B9F6CA", suffix: "" },
+            {
+              icon: CalendarDays,
+              label: "Total Matches",
+              value: fixtures.length,
+              color: "#00E676",
+              suffix: "",
+            },
+            {
+              icon: Users,
+              label: "Participating Teams",
+              value: TEAM_COUNT,
+              color: "#69F0AE",
+              suffix: "",
+            },
+            {
+              icon: Trophy,
+              label: "Groups",
+              value: GROUPS.length,
+              color: "#00C853",
+              suffix: "",
+            },
+            {
+              icon: Globe,
+              label: "Host Countries",
+              value: 3,
+              color: "#B9F6CA",
+              suffix: "",
+            },
           ].map(({ icon: Icon, label, value, color }) => (
-            <div key={label} className="stat-card px-5 py-5 text-center stat-card-anim">
+            <div
+              key={label}
+              className="stat-card px-5 py-5 text-center stat-card-anim"
+            >
               <div className="stat-icon-wrap" style={{ "--stat-color": color }}>
                 <Icon size={20} style={{ color }} />
               </div>
@@ -443,15 +535,23 @@ export default function Home() {
             >
               <div
                 className="nav-card-icon"
-                style={{ background: item.iconBg, border: `1px solid ${item.iconBorder}` }}
+                style={{
+                  background: item.iconBg,
+                  border: `1px solid ${item.iconBorder}`,
+                }}
               >
                 <item.icon size={22} style={{ color: item.iconColor }} />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="font-bold text-white text-base mb-0.5">{item.title}</div>
+                <div className="font-bold text-white text-base mb-0.5">
+                  {item.title}
+                </div>
                 <div className="text-sm text-gray-400">{item.desc}</div>
               </div>
-              <ChevronRight size={18} className="flex-shrink-0 text-gray-500 nav-arrow" />
+              <ChevronRight
+                size={18}
+                className="flex-shrink-0 text-gray-500 nav-arrow"
+              />
             </button>
           ))}
         </div>
@@ -475,30 +575,38 @@ export default function Home() {
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {[
-            { name: "MetLife Stadium",         city: "New York/NJ",  country: "🇺🇸" },
-            { name: "SoFi Stadium",            city: "Los Angeles",  country: "🇺🇸" },
-            { name: "AT&T Stadium",            city: "Dallas",       country: "🇺🇸" },
-            { name: "Hard Rock Stadium",       city: "Miami",        country: "🇺🇸" },
-            { name: "Levi's Stadium",          city: "San Francisco",country: "🇺🇸" },
-            { name: "Mercedes-Benz Stadium",   city: "Atlanta",      country: "🇺🇸" },
-            { name: "Gillette Stadium",        city: "Boston",       country: "🇺🇸" },
-            { name: "Arrowhead Stadium",       city: "Kansas City",  country: "🇺🇸" },
-            { name: "Lincoln Financial Field", city: "Philadelphia", country: "🇺🇸" },
-            { name: "Lumen Field",             city: "Seattle",      country: "🇺🇸" },
-            { name: "NRG Stadium",             city: "Houston",      country: "🇺🇸" },
-            { name: "Estadio Azteca",          city: "Mexico City",  country: "🇲🇽" },
-            { name: "Estadio BBVA",            city: "Monterrey",    country: "🇲🇽" },
-            { name: "Estadio Akron",           city: "Guadalajara",  country: "🇲🇽" },
-            { name: "BMO Field",               city: "Toronto",      country: "🇨🇦" },
-            { name: "BC Place",                city: "Vancouver",    country: "🇨🇦" },
+            { name: "MetLife Stadium", city: "New York/NJ", country: "🇺🇸" },
+            { name: "SoFi Stadium", city: "Los Angeles", country: "🇺🇸" },
+            { name: "AT&T Stadium", city: "Dallas", country: "🇺🇸" },
+            { name: "Hard Rock Stadium", city: "Miami", country: "🇺🇸" },
+            { name: "Levi's Stadium", city: "San Francisco", country: "🇺🇸" },
+            { name: "Mercedes-Benz Stadium", city: "Atlanta", country: "🇺🇸" },
+            { name: "Gillette Stadium", city: "Boston", country: "🇺🇸" },
+            { name: "Arrowhead Stadium", city: "Kansas City", country: "🇺🇸" },
+            {
+              name: "Lincoln Financial Field",
+              city: "Philadelphia",
+              country: "🇺🇸",
+            },
+            { name: "Lumen Field", city: "Seattle", country: "🇺🇸" },
+            { name: "NRG Stadium", city: "Houston", country: "🇺🇸" },
+            { name: "Estadio Azteca", city: "Mexico City", country: "🇲🇽" },
+            { name: "Estadio BBVA", city: "Monterrey", country: "🇲🇽" },
+            { name: "Estadio Akron", city: "Guadalajara", country: "🇲🇽" },
+            { name: "BMO Field", city: "Toronto", country: "🇨🇦" },
+            { name: "BC Place", city: "Vancouver", country: "🇨🇦" },
           ].map((v, i) => (
             <div
               key={v.name}
               className="venue-card card-stagger"
               style={{ animationDelay: `${i * 40}ms` }}
             >
-              <div className="font-semibold text-white text-xs leading-snug">{v.name}</div>
-              <div className="text-gray-500 text-xs mt-0.5">{v.country} {v.city}</div>
+              <div className="font-semibold text-white text-xs leading-snug">
+                {v.name}
+              </div>
+              <div className="text-gray-500 text-xs mt-0.5">
+                {v.country} {v.city}
+              </div>
             </div>
           ))}
         </div>
