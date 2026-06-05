@@ -497,9 +497,11 @@ function FootballAnimator({ kickSide, kickCount }) {
   const ballRef = useRef(null);
   const [ballState, setBallState] = useState({
     x: 50,
+    y: 50,
     rotate: 0,
     scale: 1,
     shadow: 0.3,
+    landed: false,
   });
   const animRef = useRef(null);
   const prevKickRef = useRef({ side: null, count: 0 });
@@ -515,25 +517,41 @@ function FootballAnimator({ kickSide, kickCount }) {
 
     if (animRef.current) cancelAnimationFrame(animRef.current);
 
-    const toX = kickSide === "left" ? 20 : 80;
-    const fromX = kickSide === "left" ? 80 : 20;
+    // Ball always starts from centre and flies toward the scoring goal
+    const fromX = 50;
+    const toX = kickSide === "right" ? 85 : 15;
     const startTime = performance.now();
-    const duration = 480;
+    const duration = 520;
 
     const animate = (now) => {
       const p = Math.min((now - startTime) / duration, 1);
       const ease = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
       const x = fromX + (toX - fromX) * ease;
-      // arc: peak at midpoint
+      // parabolic arc: peak at midpoint, ball rises then falls
       const arc = Math.sin(p * Math.PI);
-      const scale = 1 + arc * 0.35;
-      const shadow = 0.3 - arc * 0.2;
-      const rotDir = kickSide === "left" ? 1 : -1;
-      const rotate = rotDir * p * 360;
-      setBallState({ x, rotate, scale, shadow });
+      const y = 50 - arc * 28; // rise up 28% then fall back
+      const scale = 1 + arc * 0.4;
+      const shadow = 0.35 - arc * 0.25;
+      const rotDir = kickSide === "right" ? 1 : -1;
+      const rotate = rotDir * p * 540; // 1.5 full spins
+      const landed = p >= 1;
+      setBallState({ x, y, rotate, scale, shadow, landed });
       if (p < 1) animRef.current = requestAnimationFrame(animate);
-      else
-        setBallState({ x: toX, rotate: rotDir * 360, scale: 1, shadow: 0.3 });
+      else {
+        // landing bounce
+        setBallState({
+          x: toX,
+          y: 50,
+          rotate: rotDir * 540,
+          scale: 1.2,
+          shadow: 0.15,
+          landed: true,
+        });
+        setTimeout(
+          () => setBallState((s) => ({ ...s, scale: 1, shadow: 0.3 })),
+          160,
+        );
+      }
     };
     animRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animRef.current);
@@ -542,12 +560,15 @@ function FootballAnimator({ kickSide, kickCount }) {
   // Idle gentle bob when nothing happening
   const [idlePhase, setIdlePhase] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setIdlePhase((p) => p + 0.06), 50);
+    const id = setInterval(() => setIdlePhase((p) => p + 0.055), 50);
     return () => clearInterval(id);
   }, []);
 
-  const idleBob = kickSide === null ? Math.sin(idlePhase) * 3 : 0;
-  const idleRotate = kickSide === null ? idlePhase * 12 : ballState.rotate;
+  const idleBob = kickSide === null ? Math.sin(idlePhase) * 3.5 : 0;
+  const idleRotate = kickSide === null ? idlePhase * 10 : ballState.rotate;
+  const ballX = kickSide === null ? 50 : ballState.x;
+  const ballY = kickSide === null ? 50 : ballState.y;
+  const ballScale = kickSide === null ? 1 : ballState.scale;
 
   return (
     <div
@@ -596,41 +617,41 @@ function FootballAnimator({ kickSide, kickCount }) {
         }}
       />
 
-      {/* shadow */}
+      {/* shadow - tracks ball X but stays at bottom, shrinks when ball is high */}
       <div
         style={{
           position: "absolute",
-          left: `calc(${kickSide === null ? 50 : ballState.x}% - 14px)`,
+          left: `calc(${ballX}% - 14px)`,
           bottom: 4,
           width: 28,
           height: 7,
           borderRadius: "50%",
           background: `rgba(0,0,0,${kickSide === null ? 0.3 : ballState.shadow})`,
           filter: "blur(3px)",
-          transition: kickSide === null ? "none" : undefined,
-          transform: `scaleX(${kickSide === null ? 1 : ballState.scale * 0.8})`,
+          transform: `scaleX(${kickSide === null ? 1 : ballScale * 0.75})`,
         }}
       />
 
-      {/* ball */}
+      {/* ball - positioned using ballX/ballY */}
       <div
         ref={ballRef}
         style={{
           position: "absolute",
-          left: `calc(${kickSide === null ? 50 : ballState.x}% - 16px)`,
+          left: `calc(${ballX}% - 16px)`,
           top:
             kickSide === null
               ? `calc(50% - 16px + ${idleBob}px)`
-              : `calc(50% - ${16 * (kickSide === null ? 1 : ballState.scale)}px)`,
+              : `calc(${ballY}% - ${16 * ballScale}px)`,
           fontSize: 32,
           lineHeight: 1,
-          transform: `rotate(${kickSide === null ? idleRotate : ballState.rotate}deg) scale(${kickSide === null ? 1 : ballState.scale})`,
+          transform: `rotate(${kickSide === null ? idleRotate : ballState.rotate}deg) scale(${ballScale})`,
           filter:
-            kickSide !== null && ballState.scale > 1.1
-              ? "drop-shadow(0 0 10px rgba(34,197,94,0.7))"
+            kickSide !== null && ballScale > 1.15
+              ? "drop-shadow(0 0 12px rgba(34,197,94,0.85)) drop-shadow(0 0 4px rgba(255,255,255,0.3))"
               : "drop-shadow(0 4px 8px rgba(0,0,0,0.4))",
           userSelect: "none",
           willChange: "transform, left, top",
+          transition: ballState.landed ? "transform 0.16s ease" : undefined,
         }}
       >
         ⚽
@@ -652,69 +673,87 @@ function PitchAnimation({
 }) {
   const [frame, setFrame] = useState(0);
   const [goalFlash, setGoalFlash] = useState(null); // 'left' | 'right' | null
+  const [kickFrame, setKickFrame] = useState(0); // frame counter for kick animation
   const prevKick = useRef(null);
 
   // Animate ball continuously on pitch
   useEffect(() => {
-    const id = setInterval(() => setFrame((f) => f + 1), 40);
+    const id = setInterval(() => {
+      setFrame((f) => f + 1);
+      if (kickSide) setKickFrame((f) => f + 1);
+    }, 40);
     return () => clearInterval(id);
-  }, []);
+  }, [kickSide]);
 
   // Flash goal net when kick happens
   useEffect(() => {
     if (kickSide && kickSide !== prevKick.current) {
       prevKick.current = kickSide;
+      setKickFrame(0);
       setGoalFlash(kickSide);
-      const t = setTimeout(() => setGoalFlash(null), 700);
+      const t = setTimeout(() => setGoalFlash(null), 900);
       return () => clearTimeout(t);
     }
   }, [kickSide]);
 
-  // Ball trajectory: figure-8 idle path, or rush toward goal on kick
+  // Ball trajectory
   const t = frame / 60;
+  // During a kick: ball travels from centre toward the scoring goal
+  // kickSide="right" means team1 scored → ball goes to right goal (x≈92)
+  // kickSide="left"  means team2 scored → ball goes to left  goal (x≈8)
+  const kickProgress = Math.min(kickFrame / 14, 1); // 14 frames ≈ 560ms
+  const kickEase =
+    kickProgress < 0.5
+      ? 2 * kickProgress * kickProgress
+      : -1 + (4 - 2 * kickProgress) * kickProgress;
   const ballX =
-    kickSide === "left"
-      ? 12 + Math.sin(frame / 4) * 3
-      : kickSide === "right"
-        ? 88 - Math.sin(frame / 4) * 3
-        : 50 + Math.sin(t * 1.3) * 28;
-  const ballY = 50 + Math.sin(t * 2.6) * 18;
+    kickSide === "right"
+      ? 50 + 42 * kickEase // 50 → 92
+      : kickSide === "left"
+        ? 50 - 42 * kickEase // 50 → 8
+        : 50 + Math.sin(t * 1.3) * 26; // idle wander
+  const ballY = kickSide
+    ? 50 - Math.sin(kickProgress * Math.PI) * 20 // arc over pitch during kick
+    : 50 + Math.sin(t * 2.6) * 16;
   const ballRotate =
-    frame * (kickSide === "left" ? -6 : kickSide === "right" ? 6 : 4);
-  const ballScale = kickSide ? 1.3 : 1 + Math.sin(t * 2.6) * 0.08;
+    frame * (kickSide === "left" ? -5 : kickSide === "right" ? 5 : 3.5);
+  const ballScale = kickSide
+    ? 1 + Math.sin(kickProgress * Math.PI) * 0.35
+    : 1 + Math.sin(t * 2.6) * 0.07;
 
-  // Player dots: 2 per team moving around
+  // Player dots: cluster toward ball position
+  const bx = ballX; // ball's current x%
   const players = [
-    // Team 1 (left side)
+    // Team 1 (green) — left half, 1 player chases ball
     {
-      x: 25 + Math.sin(t * 0.7 + 0) * 8,
-      y: 35 + Math.cos(t * 0.9 + 0) * 12,
+      x: Math.min(48, bx * 0.55 + Math.sin(t * 0.7 + 0) * 6),
+      y: 38 + Math.cos(t * 0.9 + 0) * 11,
       color: "#22C55E",
     },
     {
-      x: 30 + Math.sin(t * 0.6 + 1) * 7,
-      y: 60 + Math.cos(t * 0.8 + 1) * 10,
+      x: 28 + Math.sin(t * 0.6 + 1) * 7,
+      y: 62 + Math.cos(t * 0.8 + 1) * 9,
       color: "#22C55E",
     },
     {
-      x: 18 + Math.sin(t * 0.5 + 2) * 5,
-      y: 50 + Math.cos(t * 1.0 + 2) * 8,
+      x: 16 + Math.sin(t * 0.5 + 2) * 4,
+      y: 50 + Math.cos(t * 1.0 + 2) * 7,
       color: "#22C55E",
     },
-    // Team 2 (right side)
+    // Team 2 (blue) — right half, 1 player chases ball
     {
-      x: 75 + Math.sin(t * 0.7 + 3) * 8,
-      y: 38 + Math.cos(t * 0.9 + 3) * 12,
+      x: Math.max(52, bx * 0.55 + 45 + Math.sin(t * 0.7 + 3) * 6),
+      y: 42 + Math.cos(t * 0.9 + 3) * 11,
       color: "#60A5FA",
     },
     {
-      x: 70 + Math.sin(t * 0.6 + 4) * 7,
-      y: 62 + Math.cos(t * 0.8 + 4) * 10,
+      x: 72 + Math.sin(t * 0.6 + 4) * 7,
+      y: 60 + Math.cos(t * 0.8 + 4) * 9,
       color: "#60A5FA",
     },
     {
-      x: 82 + Math.sin(t * 0.5 + 5) * 5,
-      y: 50 + Math.cos(t * 1.0 + 5) * 8,
+      x: 84 + Math.sin(t * 0.5 + 5) * 4,
+      y: 50 + Math.cos(t * 1.0 + 5) * 7,
       color: "#60A5FA",
     },
   ];
@@ -854,7 +893,7 @@ function PitchAnimation({
             height="36"
             fill={
               goalFlash === "left"
-                ? "rgba(34,197,94,0.4)"
+                ? "rgba(96,165,250,0.45)"
                 : "rgba(34,197,94,0.06)"
             }
             stroke="rgba(34,197,94,0.4)"
@@ -897,7 +936,7 @@ function PitchAnimation({
             height="36"
             fill={
               goalFlash === "right"
-                ? "rgba(96,165,250,0.4)"
+                ? "rgba(34,197,94,0.45)"
                 : "rgba(34,197,94,0.06)"
             }
             stroke="rgba(34,197,94,0.4)"
@@ -987,9 +1026,9 @@ function PitchAnimation({
               width="400"
               height="200"
               fill={
-                goalFlash === "left"
-                  ? "rgba(34,197,94,0.08)"
-                  : "rgba(96,165,250,0.08)"
+                goalFlash === "right"
+                  ? "rgba(34,197,94,0.09)"
+                  : "rgba(96,165,250,0.09)"
               }
               style={{ animation: "none" }}
             />
@@ -1020,6 +1059,20 @@ function PitchAnimation({
           >
             {team2.toUpperCase()}
           </text>
+
+          {/* Live score display in centre */}
+          <text
+            x="200"
+            y="22"
+            textAnchor="middle"
+            fontSize="11"
+            fontWeight="900"
+            fill="rgba(255,255,255,0.85)"
+            fontFamily="'Barlow Condensed',sans-serif"
+            letterSpacing="2"
+          >
+            {score1} – {score2}
+          </text>
         </svg>
 
         {/* Goal flash text */}
@@ -1031,13 +1084,13 @@ function PitchAnimation({
               left: "50%",
               transform: "translate(-50%,-50%)",
               fontFamily: "'Barlow Condensed',sans-serif",
-              fontSize: "2rem",
+              fontSize: "2.2rem",
               fontWeight: 900,
-              color: goalFlash === "left" ? "#4ADE80" : "#93C5FD",
-              textShadow: "0 0 20px currentColor",
-              letterSpacing: "4px",
+              color: goalFlash === "right" ? "#4ADE80" : "#93C5FD",
+              textShadow: "0 0 24px currentColor, 0 0 48px currentColor",
+              letterSpacing: "5px",
               pointerEvents: "none",
-              animation: "goalFlashAnim 0.7s ease forwards",
+              animation: "goalFlashAnim 0.9s ease forwards",
             }}
           >
             GOAL!
@@ -1047,10 +1100,10 @@ function PitchAnimation({
 
       <style>{`
         @keyframes goalFlashAnim {
-          0%   { opacity:0; transform:translate(-50%,-50%) scale(0.6); }
-          30%  { opacity:1; transform:translate(-50%,-50%) scale(1.15); }
-          70%  { opacity:1; transform:translate(-50%,-50%) scale(1); }
-          100% { opacity:0; transform:translate(-50%,-50%) scale(0.9); }
+          0%   { opacity:0; transform:translate(-50%,-50%) scale(0.5); }
+          25%  { opacity:1; transform:translate(-50%,-50%) scale(1.2); }
+          65%  { opacity:1; transform:translate(-50%,-50%) scale(1.05); }
+          100% { opacity:0; transform:translate(-50%,-50%) scale(0.85); }
         }
       `}</style>
     </div>
@@ -1079,8 +1132,8 @@ function ScorePredictorWidget() {
     setTimeout(() => setPulse(null), 350);
 
     if (delta > 0) {
-      // kick towards scoring team's side
-      const dir = side === "s1" ? "left" : "right";
+      // team1 (s1) scores → ball flies RIGHT into team2's goal; team2 (s2) scores → ball flies LEFT
+      const dir = side === "s1" ? "right" : "left";
       setKickSide(dir);
       setKickCount((c) => c + 1);
       if (kickResetRef.current) clearTimeout(kickResetRef.current);
@@ -1418,6 +1471,107 @@ function ScorePredictorWidget() {
           </div>
         </div>
       </div>
+
+      {/* ── Win probability bar + reset ── */}
+      {(curScores.s1 > 0 || curScores.s2 > 0) &&
+        (() => {
+          const total = curScores.s1 + curScores.s2;
+          const pct1 =
+            total === 0 ? 50 : Math.round((curScores.s1 / total) * 100);
+          const pct2 = 100 - pct1;
+          return (
+            <div style={{ padding: "10px 18px 0" }}>
+              {/* bar */}
+              <div
+                style={{
+                  display: "flex",
+                  borderRadius: 6,
+                  overflow: "hidden",
+                  height: 6,
+                  marginBottom: 6,
+                }}
+              >
+                <div
+                  style={{
+                    width: `${pct1}%`,
+                    background: "linear-gradient(90deg,#16a34a,#22c55e)",
+                    transition: "width 0.4s ease",
+                  }}
+                />
+                <div
+                  style={{
+                    width: `${pct2}%`,
+                    background: "linear-gradient(90deg,#3b82f6,#60a5fa)",
+                    transition: "width 0.4s ease",
+                  }}
+                />
+              </div>
+              {/* labels */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.62rem",
+                    fontWeight: 700,
+                    color: "#22C55E",
+                    fontFamily: "'Barlow Condensed',sans-serif",
+                  }}
+                >
+                  {pct1}% {cur.team1}
+                </span>
+                <button
+                  onClick={() => {
+                    setScores((prev) => ({
+                      ...prev,
+                      [active]: { s1: 0, s2: 0 },
+                    }));
+                    setKickSide(null);
+                  }}
+                  style={{
+                    fontSize: "0.58rem",
+                    fontWeight: 700,
+                    color: "#475569",
+                    background: "none",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    borderRadius: 6,
+                    padding: "2px 8px",
+                    cursor: "pointer",
+                    letterSpacing: "0.5px",
+                    textTransform: "uppercase",
+                    transition: "color 0.15s, border-color 0.15s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "#94A3B8";
+                    e.currentTarget.style.borderColor =
+                      "rgba(255,255,255,0.15)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "#475569";
+                    e.currentTarget.style.borderColor =
+                      "rgba(255,255,255,0.06)";
+                  }}
+                >
+                  Reset
+                </button>
+                <span
+                  style={{
+                    fontSize: "0.62rem",
+                    fontWeight: 700,
+                    color: "#60A5FA",
+                    fontFamily: "'Barlow Condensed',sans-serif",
+                  }}
+                >
+                  {cur.team2} {pct2}%
+                </span>
+              </div>
+            </div>
+          );
+        })()}
 
       {/* ── Football Pitch Animation ── */}
       <PitchAnimation
