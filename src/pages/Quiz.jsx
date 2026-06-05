@@ -980,7 +980,7 @@ function shuffle(arr) {
 export default function Quiz() {
   const [mode, setMode] = useState("menu"); // menu | playing | result
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedDifficulty, setSelectedDifficulty] = useState("All");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("Combined");
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -1002,7 +1002,7 @@ export default function Quiz() {
     "Players",
     "Venues",
   ];
-  const difficulties = ["All", "Easy", "Medium", "Hard"];
+  const difficulties = ["Combined", "Easy", "Medium", "Hard"];
 
   useEffect(() => {
     if (timerActive && timeLeft > 0 && !answered) {
@@ -1314,7 +1314,8 @@ export default function Quiz() {
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {difficulties.map((diff) => {
-                  const dc = diff !== "All" ? DIFFICULTY_COLORS[diff] : null;
+                  const dc =
+                    diff !== "Combined" ? DIFFICULTY_COLORS[diff] : null;
                   const active = selectedDifficulty === diff;
                   return (
                     <button
