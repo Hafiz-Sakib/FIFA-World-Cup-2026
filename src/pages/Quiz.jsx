@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 const ALL_QUESTIONS = [
-  // Basics
+  // ── HISTORY ──────────────────────────────────────────────
   {
     id: 1,
     category: "History",
@@ -29,31 +29,6 @@ const ALL_QUESTIONS = [
     id: 2,
     category: "History",
     difficulty: "Easy",
-    question: "Where is FIFA World Cup 2026 being hosted?",
-    options: [
-      "USA only",
-      "USA & Canada",
-      "USA, Canada & Mexico",
-      "Mexico & USA",
-    ],
-    answer: 2,
-    explanation:
-      "The 2026 World Cup is jointly hosted by USA, Canada, and Mexico — the first World Cup with 3 host countries.",
-  },
-  {
-    id: 3,
-    category: "History",
-    difficulty: "Easy",
-    question: "How many teams will participate in the 2026 FIFA World Cup?",
-    options: ["32", "40", "48", "64"],
-    answer: 2,
-    explanation:
-      "FIFA expanded the tournament to 48 teams from the previous 32-team format.",
-  },
-  {
-    id: 4,
-    category: "History",
-    difficulty: "Easy",
     question: "Which nation won the inaugural FIFA World Cup in 1930?",
     options: ["Brazil", "Argentina", "Uruguay", "Italy"],
     answer: 2,
@@ -61,40 +36,205 @@ const ALL_QUESTIONS = [
       "Uruguay won the first World Cup in 1930, hosted on home soil.",
   },
   {
-    id: 5,
-    category: "2026 Edition",
-    difficulty: "Medium",
-    question: "How many groups are in the 2026 FIFA World Cup?",
-    options: ["8", "10", "12", "16"],
+    id: 3,
+    category: "History",
+    difficulty: "Easy",
+    question: "What colour jersey does Brazil traditionally wear?",
+    options: ["White", "Blue", "Yellow", "Green"],
     answer: 2,
-    explanation: "The 2026 World Cup features 12 groups of 4 teams each.",
+    explanation:
+      "Brazil is famous for their iconic yellow (Canarinho) jerseys.",
+  },
+  {
+    id: 4,
+    category: "History",
+    difficulty: "Easy",
+    question: "Who won the 2018 FIFA World Cup?",
+    options: ["Brazil", "Croatia", "France", "Belgium"],
+    answer: 2,
+    explanation:
+      "France won the 2018 World Cup in Russia, defeating Croatia 4-2 in the final.",
+  },
+  {
+    id: 5,
+    category: "History",
+    difficulty: "Easy",
+    question: "The 2022 FIFA World Cup was held in which country?",
+    options: ["Saudi Arabia", "UAE", "Qatar", "Bahrain"],
+    answer: 2,
+    explanation:
+      "Qatar hosted the 2022 World Cup, the first in the Middle East.",
   },
   {
     id: 6,
-    category: "2026 Edition",
-    difficulty: "Medium",
-    question: "Which stadium will host the 2026 World Cup Final?",
-    options: [
-      "SoFi Stadium",
-      "AT&T Stadium",
-      "MetLife Stadium",
-      "Hard Rock Stadium",
-    ],
-    answer: 2,
+    category: "History",
+    difficulty: "Easy",
+    question: "Which country hosted the 2014 FIFA World Cup?",
+    options: ["Argentina", "Brazil", "Colombia", "Chile"],
+    answer: 1,
     explanation:
-      "MetLife Stadium in New York/New Jersey will host the 2026 World Cup Final.",
+      "Brazil hosted the 2014 World Cup. Germany won the title, beating Argentina 1-0 in the final.",
   },
   {
     id: 7,
-    category: "2026 Edition",
-    difficulty: "Medium",
-    question: "When does the 2026 FIFA World Cup start?",
-    options: ["June 1", "June 8", "June 11", "June 12"],
-    answer: 3,
-    explanation: "The 2026 World Cup kicks off on June 12, 2026.",
+    category: "History",
+    difficulty: "Easy",
+    question: "Who won the 2014 FIFA World Cup?",
+    options: ["Argentina", "Brazil", "Germany", "France"],
+    answer: 2,
+    explanation:
+      "Germany beat Argentina 1-0 (AET) in the 2014 final in Rio de Janeiro.",
   },
   {
     id: 8,
+    category: "History",
+    difficulty: "Easy",
+    question: "Which country won the 2010 FIFA World Cup?",
+    options: ["Brazil", "Argentina", "Spain", "Germany"],
+    answer: 2,
+    explanation:
+      "Spain won their first World Cup in 2010, beating Netherlands 1-0 (AET) in Johannesburg.",
+  },
+  {
+    id: 9,
+    category: "History",
+    difficulty: "Easy",
+    question: "In which year did Argentina win their first World Cup?",
+    options: ["1974", "1978", "1982", "1986"],
+    answer: 1,
+    explanation: "Argentina won their first World Cup in 1978, hosted at home.",
+  },
+  {
+    id: 10,
+    category: "History",
+    difficulty: "Medium",
+    question: "Which player won the Golden Ball at the 2022 World Cup?",
+    options: [
+      "Kylian Mbappé",
+      "Lionel Messi",
+      "Julián Álvarez",
+      "Antoine Griezmann",
+    ],
+    answer: 1,
+    explanation:
+      "Lionel Messi won the Golden Ball as the best player at the 2022 World Cup in Qatar.",
+  },
+  {
+    id: 11,
+    category: "History",
+    difficulty: "Medium",
+    question: "Who was the top scorer at the 2022 FIFA World Cup?",
+    options: [
+      "Lionel Messi",
+      "Kylian Mbappé",
+      "Olivier Giroud",
+      "Julián Álvarez",
+    ],
+    answer: 1,
+    explanation:
+      "Kylian Mbappé scored 8 goals at the 2022 World Cup, winning the Golden Boot.",
+  },
+  {
+    id: 12,
+    category: "History",
+    difficulty: "Medium",
+    question: "Which country hosted the 1998 FIFA World Cup?",
+    options: ["England", "Spain", "France", "Italy"],
+    answer: 2,
+    explanation:
+      "France hosted and won the 1998 World Cup, beating Brazil 3-0 in the final.",
+  },
+  {
+    id: 13,
+    category: "History",
+    difficulty: "Medium",
+    question: "The 2002 World Cup was jointly hosted by which two countries?",
+    options: [
+      "Japan & China",
+      "South Korea & Japan",
+      "China & South Korea",
+      "Japan & Australia",
+    ],
+    answer: 1,
+    explanation:
+      "Japan and South Korea jointly hosted the 2002 World Cup — the first in Asia.",
+  },
+  {
+    id: 14,
+    category: "History",
+    difficulty: "Medium",
+    question: "Which team did England beat in the 1966 World Cup final?",
+    options: ["France", "Portugal", "West Germany", "Soviet Union"],
+    answer: 2,
+    explanation:
+      "England beat West Germany 4-2 (AET) in the 1966 final at Wembley.",
+  },
+  {
+    id: 15,
+    category: "History",
+    difficulty: "Medium",
+    question:
+      "Which African nation first reached the World Cup quarter-finals in 1990?",
+    options: ["Nigeria", "Cameroon", "Senegal", "Morocco"],
+    answer: 1,
+    explanation:
+      "Cameroon reached the quarter-finals at Italia 1990, becoming the first African team to do so.",
+  },
+  {
+    id: 16,
+    category: "History",
+    difficulty: "Medium",
+    question: "Who scored the famous 'Hand of God' goal in 1986?",
+    options: ["Pelé", "Ronaldo", "Diego Maradona", "Romario"],
+    answer: 2,
+    explanation:
+      "Diego Maradona scored the infamous 'Hand of God' goal against England at the 1986 World Cup in Mexico.",
+  },
+  {
+    id: 17,
+    category: "History",
+    difficulty: "Hard",
+    question: "How many times has Italy won the FIFA World Cup?",
+    options: ["2", "3", "4", "5"],
+    answer: 2,
+    explanation:
+      "Italy has won the World Cup 4 times: 1934, 1938, 1982, and 2006.",
+  },
+  {
+    id: 18,
+    category: "History",
+    difficulty: "Hard",
+    question:
+      "Which World Cup final ended 0-0 after extra time, decided by penalties?",
+    options: ["1990", "1994", "2006", "Both 1994 and 2006"],
+    answer: 3,
+    explanation:
+      "Both the 1994 final (Brazil vs Italy) and the 2006 final (Italy vs France) ended 0-0 and were decided by penalties.",
+  },
+  {
+    id: 19,
+    category: "History",
+    difficulty: "Hard",
+    question: "Which country has hosted the World Cup twice?",
+    options: ["England", "France", "Italy", "Mexico"],
+    answer: 3,
+    explanation:
+      "Mexico hosted the World Cup in both 1970 and 1986, and will co-host again in 2026.",
+  },
+  {
+    id: 20,
+    category: "History",
+    difficulty: "Hard",
+    question: "Who scored the winning goal in the 2010 World Cup final?",
+    options: ["Fernando Torres", "David Villa", "Andrés Iniesta", "Xavi"],
+    answer: 2,
+    explanation:
+      "Andrés Iniesta scored in the 116th minute of extra time to give Spain a 1-0 win over the Netherlands.",
+  },
+
+  // ── RECORDS ──────────────────────────────────────────────
+  {
+    id: 21,
     category: "Records",
     difficulty: "Hard",
     question: "Who is the all-time top scorer in FIFA World Cup history?",
@@ -104,7 +244,7 @@ const ALL_QUESTIONS = [
       "Miroslav Klose of Germany holds the record with 16 World Cup goals.",
   },
   {
-    id: 9,
+    id: 22,
     category: "Records",
     difficulty: "Hard",
     question:
@@ -120,17 +260,7 @@ const ALL_QUESTIONS = [
       "Peter Shilton of England holds the record with 10 World Cup clean sheets.",
   },
   {
-    id: 10,
-    category: "History",
-    difficulty: "Medium",
-    question: "The 2022 FIFA World Cup was held in which country?",
-    options: ["Saudi Arabia", "UAE", "Qatar", "Bahrain"],
-    answer: 2,
-    explanation:
-      "Qatar hosted the 2022 World Cup, the first in the Middle East.",
-  },
-  {
-    id: 11,
+    id: 23,
     category: "Records",
     difficulty: "Medium",
     question: "Which country has appeared in the most World Cup finals?",
@@ -140,38 +270,17 @@ const ALL_QUESTIONS = [
       "Germany (including West Germany) has appeared in 8 World Cup finals.",
   },
   {
-    id: 12,
-    category: "2026 Edition",
-    difficulty: "Easy",
-    question: "How many matches will be played in total at the 2026 World Cup?",
-    options: ["48", "64", "80", "104"],
-    answer: 3,
-    explanation:
-      "The 2026 World Cup will feature 104 matches, compared to 64 in the 2022 edition.",
-  },
-  {
-    id: 13,
-    category: "History",
+    id: 24,
+    category: "Records",
     difficulty: "Hard",
-    question: "Who scored the fastest goal in World Cup history?",
-    options: ["Clint Dempsey", "Hakan Şükür", "Bryan Robson", "Emile Heskey"],
-    answer: 1,
-    explanation:
-      "Hakan Şükür of Turkey scored after just 11 seconds against South Korea in 2002.",
-  },
-  {
-    id: 14,
-    category: "2026 Edition",
-    difficulty: "Medium",
-    question:
-      "Which of these cities is NOT a host city for the 2026 World Cup?",
-    options: ["Seattle", "Boston", "Chicago", "Miami"],
+    question: "What is the record margin of victory in a World Cup match?",
+    options: ["7-0", "9-0", "10-1", "12-0"],
     answer: 2,
     explanation:
-      "Chicago is not a host city. The US host cities include New York/NJ, LA, Dallas, Miami, SF, Atlanta, Boston, Kansas City, Philadelphia, Seattle, and Houston.",
+      "Hungary beat El Salvador 10-1 in 1982, the biggest ever World Cup win.",
   },
   {
-    id: 15,
+    id: 25,
     category: "Records",
     difficulty: "Hard",
     question:
@@ -187,42 +296,184 @@ const ALL_QUESTIONS = [
       "Hungary scored 27 goals in the 1954 World Cup, the most by any team in a single tournament.",
   },
   {
-    id: 16,
-    category: "History",
-    difficulty: "Easy",
-    question: "What colour jersey does Brazil traditionally wear?",
-    options: ["White", "Blue", "Yellow", "Green"],
-    answer: 2,
-    explanation:
-      "Brazil is famous for their iconic yellow (Canarinho) jerseys.",
-  },
-  {
-    id: 17,
-    category: "History",
-    difficulty: "Medium",
-    question: "Which player won the Golden Ball at the 2022 World Cup?",
-    options: [
-      "Kylian Mbappé",
-      "Lionel Messi",
-      "Julián Álvarez",
-      "Antoine Griezmann",
-    ],
-    answer: 1,
-    explanation:
-      "Lionel Messi won the Golden Ball as the best player at the 2022 World Cup in Qatar.",
-  },
-  {
-    id: 18,
+    id: 26,
     category: "Records",
     difficulty: "Hard",
-    question: "What is the record margin of victory in a World Cup match?",
-    options: ["7-0", "9-0", "10-1", "12-0"],
-    answer: 2,
+    question: "Who scored the fastest goal in World Cup history?",
+    options: ["Clint Dempsey", "Hakan Şükür", "Bryan Robson", "Emile Heskey"],
+    answer: 1,
     explanation:
-      "Hungary beat El Salvador 10-1 in 1982, the biggest ever World Cup win.",
+      "Hakan Şükür of Turkey scored after just 11 seconds against South Korea in 2002.",
   },
   {
-    id: 19,
+    id: 27,
+    category: "Records",
+    difficulty: "Medium",
+    question:
+      "Who holds the record for most World Cup appearances as a player?",
+    options: [
+      "Lothar Matthäus",
+      "Gianluigi Buffon",
+      "Lionel Messi",
+      "Rafael Márquez",
+    ],
+    answer: 0,
+    explanation:
+      "Lothar Matthäus of Germany played in 25 World Cup matches across 5 tournaments.",
+  },
+  {
+    id: 28,
+    category: "Records",
+    difficulty: "Hard",
+    question: "Just Fontaine scored how many goals in the 1958 World Cup?",
+    options: ["11", "12", "13", "14"],
+    answer: 2,
+    explanation:
+      "Just Fontaine of France scored 13 goals at the 1958 World Cup — a single-tournament record that still stands.",
+  },
+  {
+    id: 29,
+    category: "Records",
+    difficulty: "Hard",
+    question: "Which player was sent off in a World Cup final?",
+    options: ["Zinedine Zidane", "Luis Suárez", "Marco Materazzi", "Ronaldo"],
+    answer: 0,
+    explanation:
+      "Zinedine Zidane was infamously sent off in the 2006 World Cup final after headbutting Marco Materazzi.",
+  },
+  {
+    id: 30,
+    category: "Records",
+    difficulty: "Medium",
+    question: "Which country has never missed a World Cup?",
+    options: ["France", "Germany", "Brazil", "Argentina"],
+    answer: 2,
+    explanation:
+      "Brazil is the only nation to have qualified for every single FIFA World Cup since 1930.",
+  },
+  {
+    id: 31,
+    category: "Records",
+    difficulty: "Hard",
+    question:
+      "How many goals were scored in the Germany vs Brazil semi-final at the 2014 World Cup?",
+    options: ["5", "6", "7", "8"],
+    answer: 3,
+    explanation:
+      "Germany thrashed Brazil 7-1 in Belo Horizonte — one of the most shocking results in World Cup history.",
+  },
+  {
+    id: 32,
+    category: "Records",
+    difficulty: "Medium",
+    question: "Which player has won the most World Cup winners' medals?",
+    options: ["Pelé", "Ronaldo (Brazil)", "Cafú", "Didier Deschamps"],
+    answer: 0,
+    explanation:
+      "Pelé won 3 World Cup winners' medals (1958, 1962, 1970) — more than any other player.",
+  },
+  {
+    id: 33,
+    category: "Records",
+    difficulty: "Hard",
+    question: "Which World Cup had the highest average goals per game?",
+    options: ["1930", "1950", "1954", "1958"],
+    answer: 2,
+    explanation:
+      "The 1954 World Cup in Switzerland averaged 5.38 goals per game, the highest ever.",
+  },
+  {
+    id: 34,
+    category: "Records",
+    difficulty: "Hard",
+    question: "Who is the youngest player ever to score in a World Cup?",
+    options: ["Pelé", "Cesc Fàbregas", "Wayne Rooney", "Rubén Marcos"],
+    answer: 0,
+    explanation:
+      "Pelé scored at 17 years and 239 days at the 1958 World Cup — still the record.",
+  },
+  {
+    id: 35,
+    category: "Records",
+    difficulty: "Medium",
+    question: "How many times has France won the World Cup?",
+    options: ["1", "2", "3", "4"],
+    answer: 1,
+    explanation:
+      "France has won the World Cup twice — in 1998 (at home) and 2018 (in Russia).",
+  },
+
+  // ── 2026 EDITION ──────────────────────────────────────────
+  {
+    id: 36,
+    category: "2026 Edition",
+    difficulty: "Easy",
+    question: "Where is FIFA World Cup 2026 being hosted?",
+    options: [
+      "USA only",
+      "USA & Canada",
+      "USA, Canada & Mexico",
+      "Mexico & USA",
+    ],
+    answer: 2,
+    explanation:
+      "The 2026 World Cup is jointly hosted by USA, Canada, and Mexico — the first World Cup with 3 host countries.",
+  },
+  {
+    id: 37,
+    category: "2026 Edition",
+    difficulty: "Easy",
+    question: "How many teams will participate in the 2026 FIFA World Cup?",
+    options: ["32", "40", "48", "64"],
+    answer: 2,
+    explanation:
+      "FIFA expanded the tournament to 48 teams from the previous 32-team format.",
+  },
+  {
+    id: 38,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "How many groups are in the 2026 FIFA World Cup?",
+    options: ["8", "10", "12", "16"],
+    answer: 2,
+    explanation: "The 2026 World Cup features 12 groups of 4 teams each.",
+  },
+  {
+    id: 39,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "Which stadium will host the 2026 World Cup Final?",
+    options: [
+      "SoFi Stadium",
+      "AT&T Stadium",
+      "MetLife Stadium",
+      "Hard Rock Stadium",
+    ],
+    answer: 2,
+    explanation:
+      "MetLife Stadium in New York/New Jersey will host the 2026 World Cup Final.",
+  },
+  {
+    id: 40,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "When does the 2026 FIFA World Cup start?",
+    options: ["June 1", "June 8", "June 11", "June 12"],
+    answer: 3,
+    explanation: "The 2026 World Cup kicks off on June 12, 2026.",
+  },
+  {
+    id: 41,
+    category: "2026 Edition",
+    difficulty: "Easy",
+    question: "How many matches will be played in total at the 2026 World Cup?",
+    options: ["48", "64", "80", "104"],
+    answer: 3,
+    explanation:
+      "The 2026 World Cup will feature 104 matches, compared to 64 in the 2022 edition.",
+  },
+  {
+    id: 42,
     category: "2026 Edition",
     difficulty: "Easy",
     question: "How many host countries are there for the 2026 World Cup?",
@@ -232,14 +483,454 @@ const ALL_QUESTIONS = [
       "Three countries — USA, Canada, and Mexico — jointly host the 2026 World Cup.",
   },
   {
-    id: 20,
-    category: "History",
+    id: 43,
+    category: "2026 Edition",
     difficulty: "Medium",
-    question: "Who won the 2018 FIFA World Cup?",
-    options: ["Brazil", "Croatia", "France", "Belgium"],
+    question:
+      "Which of these cities is NOT a host city for the 2026 World Cup?",
+    options: ["Seattle", "Boston", "Chicago", "Miami"],
     answer: 2,
     explanation:
-      "France won the 2018 World Cup in Russia, defeating Croatia 4-2 in the final.",
+      "Chicago is not a host city. US cities include New York/NJ, LA, Dallas, Miami, SF, Atlanta, Boston, Kansas City, Philadelphia, Seattle, and Houston.",
+  },
+  {
+    id: 44,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "Which Mexican stadium will host matches at the 2026 World Cup?",
+    options: [
+      "Estadio Azteca",
+      "Estadio Jalisco",
+      "Estadio Universitario",
+      "Estadio Olímpico",
+    ],
+    answer: 0,
+    explanation:
+      "Estadio Azteca in Mexico City is one of the 2026 host venues — it will become the first stadium to host World Cup matches three times (1970, 1986, 2026).",
+  },
+  {
+    id: 45,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question:
+      "How many teams from each group advance to the Round of 32 in 2026?",
+    options: ["1", "2", "3", "4"],
+    answer: 1,
+    explanation:
+      "The top 2 from each of the 12 groups advance automatically, plus 8 best third-placed teams — totalling 32 teams.",
+  },
+  {
+    id: 46,
+    category: "2026 Edition",
+    difficulty: "Hard",
+    question: "Which Canadian city will host 2026 World Cup matches?",
+    options: ["Montreal", "Toronto", "Vancouver", "Both Toronto and Vancouver"],
+    answer: 3,
+    explanation:
+      "Both Toronto (BMO Field) and Vancouver (BC Place) are Canadian host cities for the 2026 World Cup.",
+  },
+  {
+    id: 47,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "In which group is Brazil placed for the 2026 World Cup?",
+    options: ["Group A", "Group B", "Group C", "Group D"],
+    answer: 2,
+    explanation: "Brazil is in Group C alongside Morocco, Haiti, and Scotland.",
+  },
+  {
+    id: 48,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "Which group contains Argentina at the 2026 World Cup?",
+    options: ["Group H", "Group I", "Group J", "Group K"],
+    answer: 2,
+    explanation:
+      "Argentina is in Group J alongside Algeria, Austria, and Jordan.",
+  },
+  {
+    id: 49,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "England is placed in which group for the 2026 World Cup?",
+    options: ["Group J", "Group K", "Group L", "Group M"],
+    answer: 2,
+    explanation: "England is in Group L alongside Croatia, Ghana, and Panama.",
+  },
+  {
+    id: 50,
+    category: "2026 Edition",
+    difficulty: "Hard",
+    question: "Which group contains France at the 2026 World Cup?",
+    options: ["Group G", "Group H", "Group I", "Group J"],
+    answer: 2,
+    explanation: "France is in Group I alongside Senegal, Iraq, and Norway.",
+  },
+  {
+    id: 51,
+    category: "2026 Edition",
+    difficulty: "Hard",
+    question: "Which two teams are in Group B along with Canada and Qatar?",
+    options: [
+      "Bosnia-Herzegovina & Switzerland",
+      "USA & Mexico",
+      "Scotland & Ireland",
+      "Serbia & Croatia",
+    ],
+    answer: 0,
+    explanation:
+      "Group B consists of Canada, Bosnia-Herzegovina, Qatar, and Switzerland.",
+  },
+  {
+    id: 52,
+    category: "2026 Edition",
+    difficulty: "Hard",
+    question: "Germany is grouped with which teams in the 2026 World Cup?",
+    options: [
+      "Brazil, Argentina, Spain",
+      "Curacao, Ivory Coast, Ecuador",
+      "France, Norway, Senegal",
+      "Netherlands, Japan, Sweden",
+    ],
+    answer: 1,
+    explanation:
+      "Germany is in Group E with Curaçao, Ivory Coast, and Ecuador.",
+  },
+  {
+    id: 53,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "When does the 2026 FIFA World Cup final take place?",
+    options: ["July 15", "July 17", "July 19", "July 21"],
+    answer: 2,
+    explanation:
+      "The 2026 World Cup final is scheduled for July 19, 2026 at MetLife Stadium.",
+  },
+  {
+    id: 54,
+    category: "2026 Edition",
+    difficulty: "Hard",
+    question:
+      "Which is the only CONCACAF nation other than USA, Canada and Mexico at the 2026 World Cup?",
+    options: ["Honduras", "Costa Rica", "Panama", "Jamaica"],
+    answer: 2,
+    explanation:
+      "Panama qualified from CONCACAF alongside the three host nations. They are in Group L.",
+  },
+  {
+    id: 55,
+    category: "2026 Edition",
+    difficulty: "Hard",
+    question: "Which group contains Spain at the 2026 World Cup?",
+    options: ["Group F", "Group G", "Group H", "Group I"],
+    answer: 2,
+    explanation:
+      "Spain is in Group H alongside Cape Verde, Saudi Arabia, and Uruguay.",
+  },
+
+  // ── PLAYERS ──────────────────────────────────────────────
+  {
+    id: 56,
+    category: "Players",
+    difficulty: "Easy",
+    question: "Lionel Messi plays for which national team?",
+    options: ["Brazil", "Uruguay", "Argentina", "Chile"],
+    answer: 2,
+    explanation:
+      "Lionel Messi represents Argentina and led them to World Cup glory in 2022.",
+  },
+  {
+    id: 57,
+    category: "Players",
+    difficulty: "Easy",
+    question: "Which country does Kylian Mbappé represent?",
+    options: ["Belgium", "France", "Ivory Coast", "Senegal"],
+    answer: 1,
+    explanation:
+      "Kylian Mbappé is French and was the top scorer at the 2022 World Cup.",
+  },
+  {
+    id: 58,
+    category: "Players",
+    difficulty: "Easy",
+    question: "Cristiano Ronaldo plays for which national team?",
+    options: ["Spain", "Brazil", "Portugal", "Italy"],
+    answer: 2,
+    explanation:
+      "Cristiano Ronaldo is Portuguese and has captained Portugal at multiple World Cups.",
+  },
+  {
+    id: 59,
+    category: "Players",
+    difficulty: "Medium",
+    question:
+      "Which Brazilian legend scored a famous bicycle kick against Wales in the 1958 World Cup?",
+    options: ["Garrincha", "Zico", "Pelé", "Ronaldo"],
+    answer: 2,
+    explanation:
+      "Pelé scored a stunning bicycle kick in the 1958 semi-final — he was only 17.",
+  },
+  {
+    id: 60,
+    category: "Players",
+    difficulty: "Medium",
+    question:
+      "Which player captained France to World Cup glory in both 1998 and as manager in 2018?",
+    options: [
+      "Laurent Blanc",
+      "Zinedine Zidane",
+      "Didier Deschamps",
+      "Thierry Henry",
+    ],
+    answer: 2,
+    explanation:
+      "Didier Deschamps captained France in 1998 and managed them to the 2018 title — one of only three people to win the World Cup as both player and manager.",
+  },
+  {
+    id: 61,
+    category: "Players",
+    difficulty: "Medium",
+    question: "Who won the Golden Boot at the 2018 FIFA World Cup?",
+    options: [
+      "Antoine Griezmann",
+      "Harry Kane",
+      "Romelu Lukaku",
+      "Cristiano Ronaldo",
+    ],
+    answer: 1,
+    explanation:
+      "Harry Kane of England scored 6 goals to win the Golden Boot at Russia 2018.",
+  },
+  {
+    id: 62,
+    category: "Players",
+    difficulty: "Medium",
+    question:
+      "Which goalkeeper saved a record 5 penalties at the 2022 World Cup?",
+    options: [
+      "Alisson Becker",
+      "Dominik Livaković",
+      "Emiliano Martínez",
+      "Yann Sommer",
+    ],
+    answer: 2,
+    explanation:
+      "Emiliano Martínez (Dibu) saved 5 penalties across the knockout rounds and the final shoot-out to help Argentina win in 2022.",
+  },
+  {
+    id: 63,
+    category: "Players",
+    difficulty: "Hard",
+    question:
+      "Which player scored in every game of the 1970 World Cup for Brazil?",
+    options: ["Pelé", "Jairzinho", "Tostão", "Rivelino"],
+    answer: 1,
+    explanation:
+      "Jairzinho scored in all 6 of Brazil's games at the 1970 World Cup — an unprecedented feat.",
+  },
+  {
+    id: 64,
+    category: "Players",
+    difficulty: "Hard",
+    question: "Who was the first player to score in four different World Cups?",
+    options: ["Pelé", "Uwe Seeler", "Cristiano Ronaldo", "Miroslav Klose"],
+    answer: 1,
+    explanation:
+      "Uwe Seeler of West Germany scored in 1958, 1962, 1966, and 1970 — later matched by Pelé and others.",
+  },
+  {
+    id: 65,
+    category: "Players",
+    difficulty: "Hard",
+    question:
+      "Which player won both the Golden Boot and Golden Ball at the 2022 World Cup?",
+    options: [
+      "Kylian Mbappé",
+      "Lionel Messi",
+      "Emiliano Martínez",
+      "Luka Modrić",
+    ],
+    answer: 1,
+    explanation:
+      "Lionel Messi won the Golden Ball (best player) while Kylian Mbappé won the Golden Boot (top scorer). Martínez won the Golden Glove.",
+  },
+
+  // ── STADIUMS & VENUES ────────────────────────────────────
+  {
+    id: 66,
+    category: "Venues",
+    difficulty: "Medium",
+    question: "In which city is the Estadio Azteca located?",
+    options: ["Guadalajara", "Monterrey", "Mexico City", "Puebla"],
+    answer: 2,
+    explanation:
+      "Estadio Azteca is in Mexico City and has hosted the 1970 and 1986 World Cup finals.",
+  },
+  {
+    id: 67,
+    category: "Venues",
+    difficulty: "Easy",
+    question:
+      "Which country's Maracanã stadium hosted the 2014 World Cup final?",
+    options: ["Argentina", "Brazil", "Chile", "Uruguay"],
+    answer: 1,
+    explanation:
+      "The Maracanã in Rio de Janeiro, Brazil, hosted the 2014 World Cup final.",
+  },
+  {
+    id: 68,
+    category: "Venues",
+    difficulty: "Medium",
+    question:
+      "What is the approximate capacity of MetLife Stadium, the 2026 final venue?",
+    options: ["65,000", "75,000", "82,000", "90,000"],
+    answer: 2,
+    explanation:
+      "MetLife Stadium has a capacity of over 82,000 making it one of the largest in the NFL.",
+  },
+  {
+    id: 69,
+    category: "Venues",
+    difficulty: "Hard",
+    question: "Which 2026 host stadium is nicknamed 'The Jerry World'?",
+    options: [
+      "SoFi Stadium",
+      "AT&T Stadium",
+      "Lumen Field",
+      "Arrowhead Stadium",
+    ],
+    answer: 1,
+    explanation:
+      "AT&T Stadium in Arlington, Texas — nicknamed 'The Jerry World' after Cowboys owner Jerry Jones — is one of the 2026 host venues.",
+  },
+  {
+    id: 70,
+    category: "Venues",
+    difficulty: "Medium",
+    question: "Which city's stadium hosted the 2006 World Cup final?",
+    options: ["Munich", "Hamburg", "Frankfurt", "Berlin"],
+    answer: 3,
+    explanation:
+      "The Olympiastadion in Berlin hosted the 2006 World Cup final, where Italy beat France on penalties.",
+  },
+
+  // ── GENERAL / FUN ────────────────────────────────────────
+  {
+    id: 71,
+    category: "History",
+    difficulty: "Easy",
+    question: "How often is the FIFA World Cup held?",
+    options: [
+      "Every 2 years",
+      "Every 3 years",
+      "Every 4 years",
+      "Every 5 years",
+    ],
+    answer: 2,
+    explanation: "The FIFA World Cup is held every 4 years.",
+  },
+  {
+    id: 72,
+    category: "History",
+    difficulty: "Easy",
+    question: "What shape is a standard football (soccer ball)?",
+    options: ["Cube", "Sphere", "Cylinder", "Pyramid"],
+    answer: 1,
+    explanation:
+      "A football is a sphere, typically made of 32 panels (pentagons and hexagons).",
+  },
+  {
+    id: 73,
+    category: "History",
+    difficulty: "Medium",
+    question: "Which continent has won the most World Cup titles?",
+    options: ["Europe", "South America", "North America", "Africa"],
+    answer: 0,
+    explanation:
+      "Europe has won 12 World Cups (Italy ×4, Germany ×4, France ×2, England ×1, Spain ×1) vs South America's 10.",
+  },
+  {
+    id: 74,
+    category: "Records",
+    difficulty: "Medium",
+    question:
+      "What was the score in the famous 1970 World Cup final between Brazil and Italy?",
+    options: ["2-1", "3-2", "4-1", "3-1"],
+    answer: 2,
+    explanation:
+      "Brazil beat Italy 4-1 in the 1970 World Cup final in Mexico City — Pelé scored the opening goal.",
+  },
+  {
+    id: 75,
+    category: "History",
+    difficulty: "Hard",
+    question:
+      "Which nation boycotted the 1966 World Cup over a dispute about African representation?",
+    options: [
+      "South Africa",
+      "Egypt",
+      "All African nations except Morocco",
+      "Nigeria",
+    ],
+    answer: 2,
+    explanation:
+      "All African nations except Morocco boycotted the 1966 World Cup, protesting FIFA's allocation of only half a place to Africa.",
+  },
+  {
+    id: 76,
+    category: "2026 Edition",
+    difficulty: "Easy",
+    question:
+      "USA, Canada and Mexico will all host the World Cup in 2026. Which of them hosted previously?",
+    options: ["Only USA", "Only Mexico", "USA and Mexico", "All three"],
+    answer: 2,
+    explanation:
+      "The USA hosted in 1994 and Mexico hosted in 1970 and 1986. Canada has never hosted before.",
+  },
+  {
+    id: 77,
+    category: "Players",
+    difficulty: "Medium",
+    question:
+      "Which German player scored the winning goal in the 2014 World Cup final?",
+    options: ["Thomas Müller", "Toni Kroos", "Mario Götze", "Miroslav Klose"],
+    answer: 2,
+    explanation:
+      "Mario Götze, a substitute, scored the winning goal in the 113th minute of extra time.",
+  },
+  {
+    id: 78,
+    category: "Records",
+    difficulty: "Hard",
+    question: "Which player has appeared in the most World Cup final matches?",
+    options: ["Pelé", "Cafu", "Lothar Matthäus", "Paolo Maldini"],
+    answer: 1,
+    explanation:
+      "Cafu played in three World Cup finals (1994, 1998, 2002), winning twice with Brazil.",
+  },
+  {
+    id: 79,
+    category: "History",
+    difficulty: "Medium",
+    question: "Who was the coach of France when they won the 2018 World Cup?",
+    options: [
+      "Laurent Blanc",
+      "Raymond Domenech",
+      "Didier Deschamps",
+      "Zinedine Zidane",
+    ],
+    answer: 2,
+    explanation: "Didier Deschamps coached France to the 2018 title in Russia.",
+  },
+  {
+    id: 80,
+    category: "2026 Edition",
+    difficulty: "Medium",
+    question: "How many teams from Africa will qualify for the 2026 World Cup?",
+    options: ["5", "6", "8", "9"],
+    answer: 3,
+    explanation:
+      "With the expanded 48-team format, Africa gets 9 places at the 2026 World Cup, up from 5 in 2022.",
   },
 ];
 
@@ -258,6 +949,16 @@ const CATEGORY_COLORS = {
     bg: "rgba(234,179,8,0.12)",
     border: "rgba(234,179,8,0.3)",
     text: "#EAB308",
+  },
+  Players: {
+    bg: "rgba(168,85,247,0.12)",
+    border: "rgba(168,85,247,0.3)",
+    text: "#C084FC",
+  },
+  Venues: {
+    bg: "rgba(20,184,166,0.12)",
+    border: "rgba(20,184,166,0.3)",
+    text: "#2DD4BF",
   },
 };
 
@@ -293,31 +994,33 @@ export default function Quiz() {
   const [showExplanation, setShowExplanation] = useState(false);
   const timerRef = useRef(null);
 
-  const categories = ["All", "History", "2026 Edition", "Records"];
+  const categories = [
+    "All",
+    "History",
+    "Records",
+    "2026 Edition",
+    "Players",
+    "Venues",
+  ];
   const difficulties = ["All", "Easy", "Medium", "Hard"];
 
   useEffect(() => {
     if (timerActive && timeLeft > 0 && !answered) {
       timerRef.current = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     } else if (timeLeft === 0 && !answered) {
-      handleAnswer(-1); // time out
+      handleAnswer(-1);
     }
     return () => clearTimeout(timerRef.current);
   }, [timerActive, timeLeft, answered]);
 
   function startQuiz() {
     let pool = ALL_QUESTIONS;
-
     if (selectedCategory !== "All")
       pool = pool.filter((q) => q.category === selectedCategory);
-
     if (selectedDifficulty !== "All")
       pool = pool.filter((q) => q.difficulty === selectedDifficulty);
-
-    // Always 10 random questions
     const num = Math.min(10, pool.length);
     const picked = shuffle(pool).slice(0, num);
-
     setQuestions(picked);
     setCurrent(0);
     setScore(0);
@@ -392,7 +1095,6 @@ export default function Quiz() {
         }}
       >
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
-          {/* Header */}
           <div style={{ textAlign: "center", marginBottom: 40 }}>
             <div
               style={{
@@ -446,12 +1148,12 @@ export default function Quiz() {
               style={{
                 color: "#64748B",
                 fontSize: "0.9rem",
-                maxWidth: 400,
+                maxWidth: 420,
                 margin: "0 auto",
               }}
             >
-              {ALL_QUESTIONS.length} questions across History, Records & the
-              2026 Edition. Can you get a perfect score?
+              {ALL_QUESTIONS.length} questions across History, Records, Players,
+              Venues & the 2026 Edition. Can you get a perfect score?
             </p>
           </div>
 
@@ -471,7 +1173,7 @@ export default function Quiz() {
                 value: ALL_QUESTIONS.length,
                 color: "#22C55E",
               },
-              { icon: Shield, label: "Categories", value: 3, color: "#60A5FA" },
+              { icon: Shield, label: "Categories", value: 5, color: "#60A5FA" },
               { icon: Clock, label: "Sec / Q", value: 20, color: "#EAB308" },
             ].map(({ icon: Icon, label, value, color }) => (
               <div
@@ -644,7 +1346,6 @@ export default function Quiz() {
             </div>
           </div>
 
-          {/* Start button */}
           <button
             onClick={startQuiz}
             style={{
@@ -870,11 +1571,10 @@ export default function Quiz() {
           {/* Options */}
           <div style={{ display: "grid", gap: 10 }}>
             {q.options.map((opt, i) => {
-              let bg = "var(--card)";
-              let border = "rgba(255,255,255,0.07)";
-              let color = "#CBD5E1";
-              let icon = null;
-
+              let bg = "var(--card)",
+                border = "rgba(255,255,255,0.07)",
+                color = "#CBD5E1",
+                icon = null;
               if (answered) {
                 if (i === q.answer) {
                   bg = "rgba(22,163,74,0.15)";
@@ -890,7 +1590,6 @@ export default function Quiz() {
                   color = "#334155";
                 }
               }
-
               return (
                 <button
                   key={i}
@@ -1036,7 +1735,6 @@ export default function Quiz() {
         }}
       >
         <div style={{ maxWidth: 640, margin: "0 auto" }}>
-          {/* Score card */}
           <div
             style={{
               background: "var(--card)",
@@ -1102,8 +1800,6 @@ export default function Quiz() {
             >
               {pct}% correct
             </div>
-
-            {/* Stats */}
             <div
               style={{
                 display: "grid",
@@ -1223,7 +1919,6 @@ export default function Quiz() {
             </div>
           </div>
 
-          {/* Buttons */}
           <div
             style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}
           >
