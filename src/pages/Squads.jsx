@@ -250,66 +250,111 @@ function PlayerCard({ player, index }) {
               alt={player.name}
               onError={() => setImgErr(true)}
               style={{
-                width: 56, height: 56, borderRadius: "50%",
+                width: 56,
+                height: 56,
+                borderRadius: "50%",
                 objectFit: "cover",
                 border: `2.5px solid ${pos.border}`,
                 boxShadow: `0 0 12px ${pos.glow}`,
               }}
             />
           ) : (
-            <div style={{
-              width: 56, height: 56, borderRadius: "50%",
-              background: pos.bg, border: `2.5px solid ${pos.border}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              boxShadow: `0 0 12px ${pos.glow}`,
-            }}>
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: "50%",
+                background: pos.bg,
+                border: `2.5px solid ${pos.border}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: `0 0 12px ${pos.glow}`,
+              }}
+            >
               <User size={22} style={{ color: pos.text }} />
             </div>
           )}
           {/* Jersey number badge */}
-          <div style={{
-            position: "absolute", bottom: -4, right: -5,
-            background: pos.bg, border: `1.5px solid ${pos.border}`,
-            borderRadius: 7, padding: "1px 6px",
-            fontSize: 11, fontWeight: 800, color: pos.text,
-            lineHeight: 1.4, boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
-          }}>
+          <div
+            style={{
+              position: "absolute",
+              bottom: -4,
+              right: -5,
+              background: pos.bg,
+              border: `1.5px solid ${pos.border}`,
+              borderRadius: 7,
+              padding: "1px 6px",
+              fontSize: 11,
+              fontWeight: 800,
+              color: pos.text,
+              lineHeight: 1.4,
+              boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
+            }}
+          >
             #{player.number}
           </div>
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{
-            fontFamily: "'Barlow Condensed', sans-serif",
-            fontSize: "1rem", fontWeight: 800, color: "#ffffff",
-            whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-            letterSpacing: "0.02em",
-          }} title={player.name}>
+          <div
+            style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: "1rem",
+              fontWeight: 800,
+              color: "#ffffff",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              letterSpacing: "0.02em",
+            }}
+            title={player.name}
+          >
             {player.name}
           </div>
-          <div style={{
-            display: "inline-flex", alignItems: "center",
-            marginTop: 5, padding: "2px 9px", borderRadius: 100,
-            background: pos.bg, border: `1px solid ${pos.border}`,
-            fontSize: 10, fontWeight: 700, color: pos.text,
-            letterSpacing: "0.5px", textTransform: "uppercase",
-          }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              marginTop: 5,
+              padding: "2px 9px",
+              borderRadius: 100,
+              background: pos.bg,
+              border: `1px solid ${pos.border}`,
+              fontSize: 10,
+              fontWeight: 700,
+              color: pos.text,
+              letterSpacing: "0.5px",
+              textTransform: "uppercase",
+            }}
+          >
             {pos.label}
           </div>
         </div>
       </div>
 
       {/* Details */}
-      <div style={{
-        borderTop: `1px solid ${pos.border}`,
-        paddingTop: 8,
-        display: "flex", flexDirection: "column", gap: 6,
-      }}>
+      <div
+        style={{
+          borderTop: `1px solid ${pos.border}`,
+          paddingTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          gap: 6,
+        }}
+      >
         {dob && (
           <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
             <Cake size={12} style={{ color: pos.text, flexShrink: 0 }} />
             <span style={{ fontSize: 11, color: "#94a3b8" }}>Born:</span>
-            <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+            <span
+              style={{
+                fontSize: 11,
+                color: "#fff",
+                fontWeight: 600,
+                marginLeft: "auto",
+              }}
+            >
               {dob}
             </span>
           </div>
@@ -318,7 +363,14 @@ function PlayerCard({ player, index }) {
           <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
             <User size={12} style={{ color: pos.text, flexShrink: 0 }} />
             <span style={{ fontSize: 11, color: "#94a3b8" }}>Age:</span>
-            <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+            <span
+              style={{
+                fontSize: 11,
+                color: "#fff",
+                fontWeight: 600,
+                marginLeft: "auto",
+              }}
+            >
               {age} years
             </span>
           </div>
@@ -327,7 +379,14 @@ function PlayerCard({ player, index }) {
           <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
             <Ruler size={12} style={{ color: pos.text, flexShrink: 0 }} />
             <span style={{ fontSize: 11, color: "#94a3b8" }}>Height:</span>
-            <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+            <span
+              style={{
+                fontSize: 11,
+                color: "#fff",
+                fontWeight: 600,
+                marginLeft: "auto",
+              }}
+            >
               {player.height_cm} cm
             </span>
           </div>
@@ -336,7 +395,14 @@ function PlayerCard({ player, index }) {
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <Hash size={12} style={{ color: pos.text, flexShrink: 0 }} />
           <span style={{ fontSize: 11, color: "#94a3b8" }}>Jersey:</span>
-          <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+          <span
+            style={{
+              fontSize: 11,
+              color: "#fff",
+              fontWeight: 600,
+              marginLeft: "auto",
+            }}
+          >
             #{player.number}
           </span>
         </div>
@@ -344,27 +410,45 @@ function PlayerCard({ player, index }) {
 
       {/* Club with logo */}
       {player.club && (
-        <div style={{
-          display: "flex", alignItems: "center", gap: 8,
-          background: "rgba(0,0,0,0.25)", borderRadius: 10, padding: "7px 10px",
-          border: "1px solid rgba(255,255,255,0.06)",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            background: "rgba(0,0,0,0.25)",
+            borderRadius: 10,
+            padding: "7px 10px",
+            border: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
           {logoSrc && !logoErr ? (
             <img
               src={logoSrc}
               alt={clubName}
               onError={() => setLogoErr(true)}
-              style={{ width: 24, height: 24, objectFit: "contain", flexShrink: 0 }}
+              style={{
+                width: 24,
+                height: 24,
+                objectFit: "contain",
+                flexShrink: 0,
+              }}
             />
           ) : (
             <Building2 size={13} style={{ color: "#64748B", flexShrink: 0 }} />
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <span style={{
-              fontSize: 11, color: "#fff", fontWeight: 600,
-              display: "block", whiteSpace: "nowrap",
-              overflow: "hidden", textOverflow: "ellipsis",
-            }} title={clubName}>
+            <span
+              style={{
+                fontSize: 11,
+                color: "#fff",
+                fontWeight: 600,
+                display: "block",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              title={clubName}
+            >
               {clubName}
             </span>
             {clubCountry && (
@@ -377,10 +461,13 @@ function PlayerCard({ player, index }) {
       )}
 
       {/* Position bar */}
-      <div style={{
-        height: 3, borderRadius: 2,
-        background: `linear-gradient(90deg, ${pos.text}88, ${pos.text}22)`,
-      }} />
+      <div
+        style={{
+          height: 3,
+          borderRadius: 2,
+          background: `linear-gradient(90deg, ${pos.text}88, ${pos.text}22)`,
+        }}
+      />
     </div>
   );
 }
@@ -972,7 +1059,7 @@ export default function Squads() {
           <p className="text-sm pl-14" style={{ color: "#64748B" }}>
             {selectedTeam
               ? `FIFA World Cup 2026 — Full squad for ${selectedTeam}`
-              : "FIFA World Cup 2026 — একটি দল বেছে নিন এবং তাদের পূর্ণ স্কোয়াড দেখুন"}
+              : "FIFA World Cup 2026 — যেকোনো একটি দল দল সিলেক্ট করুন এবং তাদের স্কোয়াড দেখুন!"}
           </p>
         </div>
 

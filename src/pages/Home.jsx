@@ -1785,11 +1785,6 @@ function TodaySection({ navigate }) {
             >
               টুর্নামেন্ট শুরু হতে আর
             </h2>
-            <p className="text-sm mb-10" style={{ color: "#64748B" }}>
-              Opening match:{" "}
-              <span style={{ color: "#22C55E" }}>12 June 2026</span> — Estadio
-              Azteca, Mexico City
-            </p>
             {countdown && (
               <div className="flex items-center justify-center gap-4 md:gap-6 flex-wrap">
                 <CountdownBox label="Days" value={countdown.days} />
@@ -1807,6 +1802,12 @@ function TodaySection({ navigate }) {
               >
                 সময় Bangladesh Standard Time (UTC+6) অনুযায়ী
               </span>
+            </p>
+            <br />
+            <p className="text-sm mb-10" style={{ color: "#64748B" }}>
+              Opening match:{" "}
+              <span style={{ color: "#22C55E" }}>12 June 2026</span> — Estadio
+              Azteca, Mexico City
             </p>
             <div className="flex items-center justify-center gap-3 mt-8 flex-wrap">
               <button
