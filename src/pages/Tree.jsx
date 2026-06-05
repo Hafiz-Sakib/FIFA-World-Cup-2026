@@ -1372,13 +1372,13 @@ export default function Tree() {
 
   const { w: winW } = useWindowSize();
 
-  // Fluid scale for desktop bracket: fits 1300px content into available width
-  // Available = winW - padding (24px * 2)
+  // Fluid scale: shrink on small screens, natural size on large, centered via margin:auto
   const BRACKET_NATURAL_W = 1300;
-  const availW = Math.max(winW - 48, 320);
-  // Only scale down, never up; clamp between 0.45 and 1
-  const bracketScale =
-    winW >= 1300 ? 1 : Math.max(0.45, availW / BRACKET_NATURAL_W);
+  const availW = Math.max(winW - 96, 320);
+  const bracketScale = Math.min(
+    1.0,
+    Math.max(0.45, availW / BRACKET_NATURAL_W),
+  );
 
   const R32_H = 72,
     R32_GAP = 6;
@@ -1434,383 +1434,384 @@ export default function Tree() {
   ];
 
   return (
-    <div className="min-h-screen tree-page">
-      {confettiActive && <ConfettiEffect />}
-      {showShare && (
-        <ShareModal bracket={bracket} onClose={() => setShowShare(false)} />
-      )}
+    <>
+      <div className="min-h-screen tree-page">
+        {confettiActive && <ConfettiEffect />}
+        {showShare && (
+          <ShareModal bracket={bracket} onClose={() => setShowShare(false)} />
+        )}
 
-      <div className="w-full max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 pt-6 pb-8">
-        {/* HEADER */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <div
-                className="w-1 h-7 rounded-full"
-                style={{
-                  background: "linear-gradient(180deg, #22c55e, #16a34a)",
-                }}
-              />
-              <div>
-                <h1
+        <div className="w-full max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 pt-6 pb-8">
+          {/* HEADER */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <div
+                  className="w-1 h-7 rounded-full"
                   style={{
-                    fontFamily: "'Barlow Condensed', sans-serif",
-                    fontSize: "clamp(1.4rem, 4vw, 2.2rem)",
-                    fontWeight: 800,
-                    letterSpacing: "0.04em",
-                    color: "#fff",
-                    lineHeight: 1,
+                    background: "linear-gradient(180deg, #22c55e, #16a34a)",
                   }}
-                >
-                  KNOCKOUT BRACKET
-                </h1>
-                <p className="text-slate-400 text-xs mt-0.5">
-                  Pick group finishers → predict your path to the trophy
-                </p>
+                />
+                <div>
+                  <h1
+                    style={{
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontSize: "clamp(1.4rem, 4vw, 2.2rem)",
+                      fontWeight: 800,
+                      letterSpacing: "0.04em",
+                      color: "#fff",
+                      lineHeight: 1,
+                    }}
+                  >
+                    KNOCKOUT BRACKET
+                  </h1>
+                  <p className="text-slate-400 text-xs mt-0.5">
+                    Pick group finishers → predict your path to the trophy
+                  </p>
+                </div>
               </div>
+            </div>
+
+            <div className="flex items-center gap-3 flex-wrap">
+              <div
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <div
+                  className="w-2 h-2 rounded-full"
+                  style={{ background: r32Ready > 0 ? "#22c55e" : "#475569" }}
+                />
+                <span className="text-slate-400">
+                  {r32Ready}/16 R32 slots filled
+                </span>
+              </div>
+              <div className="hidden md:block" style={{ minWidth: 190 }}>
+                <div className="text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-semibold">
+                  Predictions — {totalPicked}/31
+                </div>
+                <ProgressBar bracket={bracket} />
+              </div>
+              <button
+                onClick={() => setShowGroupPicker((v) => !v)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all"
+                style={{
+                  background: showGroupPicker
+                    ? "rgba(34,197,94,0.15)"
+                    : "rgba(255,255,255,0.06)",
+                  border: showGroupPicker
+                    ? "1px solid rgba(34,197,94,0.3)"
+                    : "1px solid rgba(255,255,255,0.1)",
+                  color: showGroupPicker ? "#4ade80" : "#94a3b8",
+                }}
+              >
+                <Users size={13} /> Groups {showGroupPicker ? "▲" : "▼"}
+              </button>
+              <button
+                onClick={() => setShowShare(true)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all btn-share"
+              >
+                <Share2 size={13} /> Share
+              </button>
+              <button
+                onClick={handleReset}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all btn-reset"
+              >
+                <RotateCcw size={13} /> Reset
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
+          {/* Mobile progress */}
+          <div className="md:hidden mb-4">
+            <div className="text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-semibold">
+              Predictions — {totalPicked}/31
+            </div>
+            <ProgressBar bracket={bracket} />
+          </div>
+
+          {/* GROUP PICKER PANEL */}
+          {showGroupPicker && (
+            <div className="mb-6 group-picker-panel">
+              <GroupPicker
+                groupState={groupState}
+                onPickRank={handlePickRank}
+                thirdBestOrdered={thirdBestOrdered}
+                onPickThirdBest={handlePickThirdBest}
+              />
+              {groupsDone === 12 && (
+                <div className="mt-2 flex items-center gap-2 text-xs text-green-400 justify-center">
+                  <span>
+                    ✅ All groups set! Now predict match winners below.
+                  </span>
+                  <button
+                    onClick={() => setShowGroupPicker(false)}
+                    className="underline text-green-300 hover:text-green-200"
+                  >
+                    Hide groups
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Hint if no groups set */}
+          {r32Ready === 0 && !showGroupPicker && (
             <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs"
+              className="mb-4 flex items-center gap-2 px-4 py-3 rounded-xl text-sm text-slate-400"
               style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px dashed rgba(255,255,255,0.1)",
               }}
             >
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{ background: r32Ready > 0 ? "#22c55e" : "#475569" }}
-              />
-              <span className="text-slate-400">
-                {r32Ready}/16 R32 slots filled
+              <Info size={14} className="text-blue-400 flex-shrink-0" />
+              <span>
+                Open{" "}
+                <button
+                  onClick={() => setShowGroupPicker(true)}
+                  className="text-green-400 underline"
+                >
+                  Group Stage Predictions
+                </button>{" "}
+                to pick group finishers — that unlocks the bracket.
               </span>
             </div>
-            <div className="hidden md:block" style={{ minWidth: 190 }}>
-              <div className="text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-semibold">
-                Predictions — {totalPicked}/31
-              </div>
-              <ProgressBar bracket={bracket} />
-            </div>
-            <button
-              onClick={() => setShowGroupPicker((v) => !v)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all"
+          )}
+
+          {/* DESKTOP BRACKET (≥768px) — fluid scale, centered */}
+          <div className="hidden md:block pb-4" style={{ width: "100%" }}>
+            <div
+              className="bracket-scale-wrap"
               style={{
-                background: showGroupPicker
-                  ? "rgba(34,197,94,0.15)"
-                  : "rgba(255,255,255,0.06)",
-                border: showGroupPicker
-                  ? "1px solid rgba(34,197,94,0.3)"
-                  : "1px solid rgba(255,255,255,0.1)",
-                color: showGroupPicker ? "#4ade80" : "#94a3b8",
+                transformOrigin: "top center",
+                transform: `scale(${bracketScale})`,
+                width: `${BRACKET_NATURAL_W}px`,
+                margin: "0 auto",
+                height: `${Math.round(780 * bracketScale)}px`,
               }}
             >
-              <Users size={13} /> Groups {showGroupPicker ? "▲" : "▼"}
-            </button>
-            <button
-              onClick={() => setShowShare(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all btn-share"
-            >
-              <Share2 size={13} /> Share
-            </button>
-            <button
-              onClick={handleReset}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all btn-reset"
-            >
-              <RotateCcw size={13} /> Reset
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile progress */}
-        <div className="md:hidden mb-4">
-          <div className="text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-semibold">
-            Predictions — {totalPicked}/31
-          </div>
-          <ProgressBar bracket={bracket} />
-        </div>
-
-        {/* GROUP PICKER PANEL */}
-        {showGroupPicker && (
-          <div className="mb-6 group-picker-panel">
-            <GroupPicker
-              groupState={groupState}
-              onPickRank={handlePickRank}
-              thirdBestOrdered={thirdBestOrdered}
-              onPickThirdBest={handlePickThirdBest}
-            />
-            {groupsDone === 12 && (
-              <div className="mt-2 flex items-center gap-2 text-xs text-green-400 justify-center">
-                <span>✅ All groups set! Now predict match winners below.</span>
-                <button
-                  onClick={() => setShowGroupPicker(false)}
-                  className="underline text-green-300 hover:text-green-200"
-                >
-                  Hide groups
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Hint if no groups set */}
-        {r32Ready === 0 && !showGroupPicker && (
-          <div
-            className="mb-4 flex items-center gap-2 px-4 py-3 rounded-xl text-sm text-slate-400"
-            style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "1px dashed rgba(255,255,255,0.1)",
-            }}
-          >
-            <Info size={14} className="text-blue-400 flex-shrink-0" />
-            <span>
-              Open{" "}
-              <button
-                onClick={() => setShowGroupPicker(true)}
-                className="text-green-400 underline"
-              >
-                Group Stage Predictions
-              </button>{" "}
-              to pick group finishers — that unlocks the bracket.
-            </span>
-          </div>
-        )}
-
-        {/* DESKTOP BRACKET (≥768px) — fluid scale */}
-        <div className="hidden md:block pb-4">
-          <div
-            className="bracket-scale-wrap"
-            style={{
-              transformOrigin: "top left",
-              transform: `scale(${bracketScale})`,
-              width: `${BRACKET_NATURAL_W}px`,
-              // The bracket is roughly 700px tall; shrink bottom margin to match
-              marginBottom:
-                bracketScale < 1
-                  ? `${Math.round(-700 * (1 - bracketScale))}px`
-                  : undefined,
-            }}
-          >
-            <div
-              className="flex items-start"
-              style={{ minWidth: BRACKET_NATURAL_W, gap: 0 }}
-            >
-              <RoundCol
-                label="Round of 32"
-                color="#38bdf8"
-                matches={bracket.r32.slice(0, 8)}
-                onPick={handlePick}
-                size="xs"
-                matchHeight={R32_H}
-                matchGap={R32_GAP}
-                justPickedId={justPickedId}
-              />
-              <TreeSVGConnectors
-                side="right"
-                count={8}
-                matchHeight={R32_H}
-                matchGap={R32_GAP}
-              />
-              <RoundCol
-                label="Round of 16"
-                color="#22d3ee"
-                matches={bracket.r16.slice(0, 4)}
-                onPick={handlePick}
-                size="sm"
-                matchHeight={R16_H}
-                matchGap={R32_H * 2 + R32_GAP - R16_H}
-                justPickedId={justPickedId}
-              />
-              <TreeSVGConnectors
-                side="right"
-                count={4}
-                matchHeight={R16_H}
-                matchGap={R32_H * 2 + R32_GAP - R16_H}
-              />
-              <RoundCol
-                label="Quarter-Final"
-                color="#2dd4bf"
-                matches={bracket.qf.slice(0, 2)}
-                onPick={handlePick}
-                size="sm"
-                matchHeight={QF_H}
-                matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
-                justPickedId={justPickedId}
-              />
-              <TreeSVGConnectors
-                side="right"
-                count={2}
-                matchHeight={QF_H}
-                matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
-              />
-
-              {/* LEFT: SF_1 */}
-              <div className="flex flex-col" style={{ marginTop: 20 }}>
-                <div className="text-center mb-2">
-                  <span
-                    style={{
-                      fontSize: "0.58rem",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "#4ade80",
-                      fontWeight: 700,
-                      fontFamily: "'Barlow Condensed', sans-serif",
-                    }}
-                  >
-                    Semi-Final
-                  </span>
-                </div>
-                <div style={{ height: SF_H }}>
-                  <MatchCard
-                    match={bracket.sf[0]}
-                    onPick={handlePick}
-                    size="sm"
-                    justPickedId={justPickedId}
-                  />
-                </div>
-              </div>
-
-              {/* Arrow → Final */}
-              <div className="flex items-center" style={{ marginTop: 40 }}>
-                <svg width={36} height={40} style={{ overflow: "visible" }}>
-                  <line
-                    x1={0}
-                    y1={20}
-                    x2={30}
-                    y2={20}
-                    stroke="rgba(251,191,36,0.5)"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                  <polygon
-                    points="30,15 36,20 30,25"
-                    fill="rgba(251,191,36,0.5)"
-                  />
-                </svg>
-              </div>
-
-              {/* CENTER: FINAL + CHAMPION */}
               <div
-                className="flex flex-col items-center gap-3"
-                style={{ marginTop: 20, minWidth: 165 }}
+                className="flex items-start"
+                style={{ minWidth: BRACKET_NATURAL_W, gap: 0 }}
               >
-                <div className="text-center">
-                  <span
-                    style={{
-                      fontSize: "0.7rem",
-                      letterSpacing: "0.2em",
-                      textTransform: "uppercase",
-                      color: "#fbbf24",
-                      fontWeight: 800,
-                      fontFamily: "'Barlow Condensed', sans-serif",
-                    }}
-                  >
-                    ⚽ Final
-                  </span>
-                </div>
-                <MatchCard
-                  match={bracket.final[0]}
+                <RoundCol
+                  label="Round of 32"
+                  color="#38bdf8"
+                  matches={bracket.r32.slice(0, 8)}
                   onPick={handlePick}
-                  size="md"
+                  size="xs"
+                  matchHeight={R32_H}
+                  matchGap={R32_GAP}
                   justPickedId={justPickedId}
                 />
-                <ChampionDisplay champion={bracket.champion} />
-              </div>
+                <TreeSVGConnectors
+                  side="right"
+                  count={8}
+                  matchHeight={R32_H}
+                  matchGap={R32_GAP}
+                />
+                <RoundCol
+                  label="Round of 16"
+                  color="#22d3ee"
+                  matches={bracket.r16.slice(0, 4)}
+                  onPick={handlePick}
+                  size="sm"
+                  matchHeight={R16_H}
+                  matchGap={R32_H * 2 + R32_GAP - R16_H}
+                  justPickedId={justPickedId}
+                />
+                <TreeSVGConnectors
+                  side="right"
+                  count={4}
+                  matchHeight={R16_H}
+                  matchGap={R32_H * 2 + R32_GAP - R16_H}
+                />
+                <RoundCol
+                  label="Quarter-Final"
+                  color="#2dd4bf"
+                  matches={bracket.qf.slice(0, 2)}
+                  onPick={handlePick}
+                  size="sm"
+                  matchHeight={QF_H}
+                  matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
+                  justPickedId={justPickedId}
+                />
+                <TreeSVGConnectors
+                  side="right"
+                  count={2}
+                  matchHeight={QF_H}
+                  matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
+                />
 
-              {/* Arrow ← Final */}
-              <div className="flex items-center" style={{ marginTop: 40 }}>
-                <svg width={36} height={40} style={{ overflow: "visible" }}>
-                  <line
-                    x1={6}
-                    y1={20}
-                    x2={36}
-                    y2={20}
-                    stroke="rgba(251,191,36,0.5)"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                  <polygon
-                    points="6,15 0,20 6,25"
-                    fill="rgba(251,191,36,0.5)"
-                  />
-                </svg>
-              </div>
-
-              {/* RIGHT: SF_2 */}
-              <div className="flex flex-col" style={{ marginTop: 20 }}>
-                <div className="text-center mb-2">
-                  <span
-                    style={{
-                      fontSize: "0.58rem",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "#4ade80",
-                      fontWeight: 700,
-                      fontFamily: "'Barlow Condensed', sans-serif",
-                    }}
-                  >
-                    Semi-Final
-                  </span>
+                {/* LEFT: SF_1 */}
+                <div className="flex flex-col" style={{ marginTop: 20 }}>
+                  <div className="text-center mb-2">
+                    <span
+                      style={{
+                        fontSize: "0.58rem",
+                        letterSpacing: "0.18em",
+                        textTransform: "uppercase",
+                        color: "#4ade80",
+                        fontWeight: 700,
+                        fontFamily: "'Barlow Condensed', sans-serif",
+                      }}
+                    >
+                      Semi-Final
+                    </span>
+                  </div>
+                  <div style={{ height: SF_H }}>
+                    <MatchCard
+                      match={bracket.sf[0]}
+                      onPick={handlePick}
+                      size="sm"
+                      justPickedId={justPickedId}
+                    />
+                  </div>
                 </div>
-                <div style={{ height: SF_H }}>
+
+                {/* Arrow → Final */}
+                <div className="flex items-center" style={{ marginTop: 40 }}>
+                  <svg width={36} height={40} style={{ overflow: "visible" }}>
+                    <line
+                      x1={0}
+                      y1={20}
+                      x2={30}
+                      y2={20}
+                      stroke="rgba(251,191,36,0.5)"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <polygon
+                      points="30,15 36,20 30,25"
+                      fill="rgba(251,191,36,0.5)"
+                    />
+                  </svg>
+                </div>
+
+                {/* CENTER: FINAL + CHAMPION */}
+                <div
+                  className="flex flex-col items-center gap-3"
+                  style={{ marginTop: 20, minWidth: 165 }}
+                >
+                  <div className="text-center">
+                    <span
+                      style={{
+                        fontSize: "0.7rem",
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        color: "#fbbf24",
+                        fontWeight: 800,
+                        fontFamily: "'Barlow Condensed', sans-serif",
+                      }}
+                    >
+                      ⚽ Final
+                    </span>
+                  </div>
                   <MatchCard
-                    match={bracket.sf[1]}
+                    match={bracket.final[0]}
                     onPick={handlePick}
-                    size="sm"
+                    size="md"
                     justPickedId={justPickedId}
                   />
+                  <ChampionDisplay champion={bracket.champion} />
                 </div>
-              </div>
 
-              <TreeSVGConnectors
-                side="left"
-                count={2}
-                matchHeight={QF_H}
-                matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
-              />
-              <RoundCol
-                label="Quarter-Final"
-                color="#2dd4bf"
-                matches={bracket.qf.slice(2, 4)}
-                onPick={handlePick}
-                size="sm"
-                matchHeight={QF_H}
-                matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
-                justPickedId={justPickedId}
-              />
-              <TreeSVGConnectors
-                side="left"
-                count={4}
-                matchHeight={R16_H}
-                matchGap={R32_H * 2 + R32_GAP - R16_H}
-              />
-              <RoundCol
-                label="Round of 16"
-                color="#22d3ee"
-                matches={bracket.r16.slice(4, 8)}
-                onPick={handlePick}
-                size="sm"
-                matchHeight={R16_H}
-                matchGap={R32_H * 2 + R32_GAP - R16_H}
-                justPickedId={justPickedId}
-              />
-              <TreeSVGConnectors
-                side="left"
-                count={8}
-                matchHeight={R32_H}
-                matchGap={R32_GAP}
-              />
-              <RoundCol
-                label="Round of 32"
-                color="#38bdf8"
-                matches={bracket.r32.slice(8, 16)}
-                onPick={handlePick}
-                size="xs"
-                matchHeight={R32_H}
-                matchGap={R32_GAP}
-                justPickedId={justPickedId}
-              />
+                {/* Arrow ← Final */}
+                <div className="flex items-center" style={{ marginTop: 40 }}>
+                  <svg width={36} height={40} style={{ overflow: "visible" }}>
+                    <line
+                      x1={6}
+                      y1={20}
+                      x2={36}
+                      y2={20}
+                      stroke="rgba(251,191,36,0.5)"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <polygon
+                      points="6,15 0,20 6,25"
+                      fill="rgba(251,191,36,0.5)"
+                    />
+                  </svg>
+                </div>
+
+                {/* RIGHT: SF_2 */}
+                <div className="flex flex-col" style={{ marginTop: 20 }}>
+                  <div className="text-center mb-2">
+                    <span
+                      style={{
+                        fontSize: "0.58rem",
+                        letterSpacing: "0.18em",
+                        textTransform: "uppercase",
+                        color: "#4ade80",
+                        fontWeight: 700,
+                        fontFamily: "'Barlow Condensed', sans-serif",
+                      }}
+                    >
+                      Semi-Final
+                    </span>
+                  </div>
+                  <div style={{ height: SF_H }}>
+                    <MatchCard
+                      match={bracket.sf[1]}
+                      onPick={handlePick}
+                      size="sm"
+                      justPickedId={justPickedId}
+                    />
+                  </div>
+                </div>
+
+                <TreeSVGConnectors
+                  side="left"
+                  count={2}
+                  matchHeight={QF_H}
+                  matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
+                />
+                <RoundCol
+                  label="Quarter-Final"
+                  color="#2dd4bf"
+                  matches={bracket.qf.slice(2, 4)}
+                  onPick={handlePick}
+                  size="sm"
+                  matchHeight={QF_H}
+                  matchGap={R16_H * 2 + (R32_H * 2 + R32_GAP) - R16_H - QF_H}
+                  justPickedId={justPickedId}
+                />
+                <TreeSVGConnectors
+                  side="left"
+                  count={4}
+                  matchHeight={R16_H}
+                  matchGap={R32_H * 2 + R32_GAP - R16_H}
+                />
+                <RoundCol
+                  label="Round of 16"
+                  color="#22d3ee"
+                  matches={bracket.r16.slice(4, 8)}
+                  onPick={handlePick}
+                  size="sm"
+                  matchHeight={R16_H}
+                  matchGap={R32_H * 2 + R32_GAP - R16_H}
+                  justPickedId={justPickedId}
+                />
+                <TreeSVGConnectors
+                  side="left"
+                  count={8}
+                  matchHeight={R32_H}
+                  matchGap={R32_GAP}
+                />
+                <RoundCol
+                  label="Round of 32"
+                  color="#38bdf8"
+                  matches={bracket.r32.slice(8, 16)}
+                  onPick={handlePick}
+                  size="xs"
+                  matchHeight={R32_H}
+                  matchGap={R32_GAP}
+                  justPickedId={justPickedId}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -1846,9 +1847,8 @@ export default function Tree() {
           </span>
         </div>
       </div>
-
       <TreeStyles />
-    </div>
+    </>
   );
 }
 
