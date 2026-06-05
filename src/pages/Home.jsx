@@ -3115,6 +3115,66 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              <div
+                className="animate-fade-up mb-3"
+                style={{ animationDelay: "0.24s" }}
+              >
+                <a
+                  href="/fifa_2026_fixture_BST.pdf"
+                  download="FIFA_2026_Fixtures_BST.pdf"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    padding: "9px 18px",
+                    borderRadius: 10,
+                    background: "rgba(22,163,74,0.12)",
+                    border: "1px solid rgba(22,163,74,0.35)",
+                    color: "#4ADE80",
+                    fontSize: "0.8rem",
+                    fontWeight: 700,
+                    fontFamily: "'Barlow Condensed','Hind Siliguri',sans-serif",
+                    letterSpacing: "0.5px",
+                    textDecoration: "none",
+                    textTransform: "uppercase",
+                    transition: "all 0.2s",
+                    backdropFilter: "blur(8px)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(22,163,74,0.22)";
+                    e.currentTarget.style.borderColor = "rgba(22,163,74,0.6)";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 6px 20px rgba(22,163,74,0.2)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(22,163,74,0.12)";
+                    e.currentTarget.style.borderColor = "rgba(22,163,74,0.35)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  <span
+                    style={{ fontFamily: "'Hind Siliguri','Inter',sans-serif" }}
+                  >
+                    ফিক্সচার ডাউনলোড করুন
+                  </span>
+                </a>
+              </div>
               <p
                 className="text-sm mb-8 animate-fade-up"
                 style={{ animationDelay: "0.26s", color: "#475569" }}

@@ -97,6 +97,26 @@ export default function Footer() {
 
         <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-2 text-xs" style={{ color: "#475569" }}>
           <span>© 2026 FIFA World Cup Fixture Tracker. Personal use only.</span>
+          <div className="flex items-center gap-1.5">
+            Made with{" "}
+            <span style={{ color: "#ef4444", fontSize: "1rem" }}>❤️</span>{" "}
+            by{" "}
+            <a
+              href="https://hafizsakib.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#22C55E",
+                fontWeight: 700,
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = "#4ADE80"}
+              onMouseLeave={e => e.currentTarget.style.color = "#22C55E"}
+            >
+              Mohammad Hafizur Rahman Sakib
+            </a>
+          </div>
           <div className="flex items-center gap-2">
             <Zap size={11} style={{ color: "#22C55E" }}/>
             <span>All times in Bangladesh Standard Time (UTC+6)</span>
