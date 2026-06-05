@@ -7,29 +7,24 @@ import Home from "../pages/Home";
 import FixturesByTeam from "../pages/FixturesByTeam";
 import FixturesByDate from "../pages/FixturesByDate";
 import Squads from "../pages/Squads";
+import Quiz from "../pages/Quiz";
 import NotFound from "../pages/NotFound";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
-      {/* Sticky Navbar */}
       <Navbar />
-
-      {/* Page content */}
       <main className="min-h-screen">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/by-team" element={<FixturesByTeam />} />
           <Route path="/by-date" element={<FixturesByDate />} />
           <Route path="/squads"  element={<Squads />} />
-          {/* Fallback */}
+          <Route path="/quiz"    element={<Quiz />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-
       <Footer />
-
-      {/* Scroll to top floating button */}
       <ScrollToTop />
     </BrowserRouter>
   );
