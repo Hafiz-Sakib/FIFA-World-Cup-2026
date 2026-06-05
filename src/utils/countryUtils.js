@@ -1,29 +1,22 @@
 export const COUNTRY_CODES = {
-  // Group A
-  Mexico: "MX", "South Africa": "ZA", "South Korea": "KR", Czechia: "CZ",
-  // Group B
+  // ── FIFA WC 2026 actual 48 participants ──
+  Mexico: "MX", "South Korea": "KR", Czechia: "CZ",
   Canada: "CA", "Bosnia-Herzegovina": "BA", Qatar: "QA", Switzerland: "CH",
-  // Group C
   Brazil: "BR", Morocco: "MA", Haiti: "HT", Scotland: "GB-SCT",
-  // Group D
   USA: "US", Paraguay: "PY", Australia: "AU", Turkey: "TR",
-  // Group E
   Germany: "DE", Curacao: "CW", "Ivory Coast": "CI", Ecuador: "EC",
-  // Group F
   Netherlands: "NL", Japan: "JP", Sweden: "SE", Tunisia: "TN",
-  // Group G
   Belgium: "BE", Egypt: "EG", Iran: "IR", "New Zealand": "NZ",
-  // Group H
   Spain: "ES", "Cape Verde": "CV", "Saudi Arabia": "SA", Uruguay: "UY",
-  // Group I
   France: "FR", Senegal: "SN", Iraq: "IQ", Norway: "NO",
-  // Group J
   Argentina: "AR", Algeria: "DZ", Austria: "AT", Jordan: "JO",
-  // Group K
   Portugal: "PT", Congo: "CG", Uzbekistan: "UZ", Colombia: "CO",
-  // Group L
   England: "GB-ENG", Croatia: "HR", Ghana: "GH", Panama: "PA",
-  // Extra / fallback
+  "South Africa": "ZA",
+  // ── Extra teams (user fan-zone / not in 2026 groups) ──
+  Denmark: "DK", Serbia: "RS", Poland: "PL", Ukraine: "UA",
+  Chile: "CL", Peru: "PE", Venezuela: "VE", Nigeria: "NG",
+  Cameroon: "CM", Italy: "IT",
   TBD: null,
 };
 
