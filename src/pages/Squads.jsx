@@ -18,6 +18,7 @@ import {
 import squadsData from "../data/fifa_wc2026_squads.json";
 import FlagIcon from "../components/FlagIcon";
 import { COUNTRY_CODES } from "../utils/countryUtils";
+import { getClubLogo } from "../utils/clubLogoMap";
 
 /* ── Design tokens ── */
 const POSITION_COLORS = {
@@ -205,24 +206,30 @@ function StatPill({ icon: Icon, label, value, color }) {
 /* ── Player Card ── */
 function PlayerCard({ player, index }) {
   const [imgErr, setImgErr] = useState(false);
-  const [flipped, setFlipped] = useState(false);
+  const [logoErr, setLogoErr] = useState(false);
   const pos = POSITION_COLORS[player.pos] || POSITION_COLORS.MF;
   const age = calcAge(player.dob);
   const dob = formatDOB(player.dob);
 
-  // Extract club country from parentheses e.g. "FC Barcelona (ESP)"
   const clubMatch = player.club
     ? player.club.match(/^(.+?)\s*\(([A-Z]{2,3})\)$/)
     : null;
   const clubName = clubMatch ? clubMatch[1] : player.club;
   const clubCountry = clubMatch ? clubMatch[2] : null;
 
+  const logoSrc = getClubLogo(player.club);
+
   return (
     <div
-      onClick={() => setFlipped((f) => !f)}
       style={{
-        perspective: "1000px",
-        cursor: "pointer",
+        background: pos.gradient,
+        border: `1px solid ${pos.border}`,
+        borderRadius: 14,
+        padding: "14px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        boxShadow: `0 4px 20px rgba(0,0,0,0.3)`,
         animation: `cardSlideIn 0.4s ease both`,
         animationDelay: `${(index % 12) * 45}ms`,
       }}
@@ -232,404 +239,148 @@ function PlayerCard({ player, index }) {
           from { opacity: 0; transform: translateY(18px) scale(0.96); }
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
-        .player-card-inner {
-          position: relative;
-          width: 100%;
-          height: 210px;
-          transform-style: preserve-3d;
-          transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .player-card-inner.flipped {
-          transform: rotateY(180deg);
-        }
-        .card-face {
-          position: absolute;
-          inset: 0;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          border-radius: 14px;
-          overflow: hidden;
-        }
-        .card-back {
-          transform: rotateY(180deg);
-        }
       `}</style>
 
-      <div className={`player-card-inner${flipped ? " flipped" : ""}`}>
-        {/* FRONT */}
-        <div
-          className="card-face"
-          style={{
-            background: pos.gradient,
-            border: `1px solid ${pos.border}`,
-            boxShadow: flipped
-              ? "none"
-              : `0 4px 20px rgba(0,0,0,0.3), 0 0 0 0 ${pos.glow}`,
-            padding: "14px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-          }}
-        >
-          {/* Top: avatar + name */}
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
-            <div style={{ position: "relative", flexShrink: 0 }}>
-              {!imgErr ? (
-                <img
-                  src={player.image}
-                  alt={player.name}
-                  onError={() => setImgErr(true)}
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    border: `2.5px solid ${pos.border}`,
-                    boxShadow: `0 0 12px ${pos.glow}`,
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: "50%",
-                    background: pos.bg,
-                    border: `2.5px solid ${pos.border}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: `0 0 12px ${pos.glow}`,
-                  }}
-                >
-                  <User size={22} style={{ color: pos.text }} />
-                </div>
-              )}
-              {/* Jersey number badge */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: -4,
-                  right: -5,
-                  background: pos.bg,
-                  border: `1.5px solid ${pos.border}`,
-                  borderRadius: 7,
-                  padding: "1px 6px",
-                  fontSize: 11,
-                  fontWeight: 800,
-                  color: pos.text,
-                  lineHeight: 1.4,
-                  boxShadow: `0 2px 6px rgba(0,0,0,0.4)`,
-                }}
-              >
-                #{player.number}
-              </div>
-            </div>
-
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: "1rem",
-                  fontWeight: 800,
-                  color: "#ffffff",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  letterSpacing: "0.02em",
-                }}
-                title={player.name}
-              >
-                {player.name}
-              </div>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  marginTop: 5,
-                  padding: "2px 9px",
-                  borderRadius: 100,
-                  background: pos.bg,
-                  border: `1px solid ${pos.border}`,
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: pos.text,
-                  letterSpacing: "0.5px",
-                  textTransform: "uppercase",
-                }}
-              >
-                {pos.label}
-              </div>
-            </div>
-          </div>
-
-          {/* Stats grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 5,
-              paddingTop: 8,
-              borderTop: "1px solid rgba(255,255,255,0.07)",
-            }}
-          >
-            {age !== null && (
-              <StatPill icon={User} label="Age" value={age} color={pos.text} />
-            )}
-            {player.height_cm && (
-              <StatPill
-                icon={Ruler}
-                label="Height"
-                value={`${player.height_cm} cm`}
-                color={pos.text}
-              />
-            )}
-          </div>
-
-          {/* Club */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              background: "rgba(0,0,0,0.2)",
-              borderRadius: 8,
-              padding: "6px 9px",
-            }}
-          >
-            <Building2 size={11} style={{ color: "#64748B", flexShrink: 0 }} />
-            <span
+      {/* Top: avatar + name + position */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
+        <div style={{ position: "relative", flexShrink: 0 }}>
+          {!imgErr ? (
+            <img
+              src={player.image}
+              alt={player.name}
+              onError={() => setImgErr(true)}
               style={{
-                fontSize: 11,
-                color: "#ffffff",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                flex: 1,
+                width: 56, height: 56, borderRadius: "50%",
+                objectFit: "cover",
+                border: `2.5px solid ${pos.border}`,
+                boxShadow: `0 0 12px ${pos.glow}`,
               }}
-              title={player.club}
-            >
-              {clubName}
-              {clubCountry && (
-                <span style={{ color: "#475569", marginLeft: 4 }}>
-                  · {clubCountry}
-                </span>
-              )}
-            </span>
-          </div>
-
-          {/* Flip hint */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 4,
-              fontSize: 9,
-              color: "#ffffff",
-              letterSpacing: "0.5px",
-            }}
-          >
-            <span>TAP FOR DETAILS</span>
+            />
+          ) : (
+            <div style={{
+              width: 56, height: 56, borderRadius: "50%",
+              background: pos.bg, border: `2.5px solid ${pos.border}`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: `0 0 12px ${pos.glow}`,
+            }}>
+              <User size={22} style={{ color: pos.text }} />
+            </div>
+          )}
+          {/* Jersey number badge */}
+          <div style={{
+            position: "absolute", bottom: -4, right: -5,
+            background: pos.bg, border: `1.5px solid ${pos.border}`,
+            borderRadius: 7, padding: "1px 6px",
+            fontSize: 11, fontWeight: 800, color: pos.text,
+            lineHeight: 1.4, boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
+          }}>
+            #{player.number}
           </div>
         </div>
 
-        {/* BACK */}
-        <div
-          className="card-face card-back"
-          style={{
-            background: "rgba(7,24,44,0.97)",
-            border: `1px solid ${pos.border}`,
-            padding: "14px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
-          }}
-        >
-          {/* Header */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginBottom: 2,
-            }}
-          >
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "50%",
-                background: pos.bg,
-                border: `2px solid ${pos.border}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <span style={{ fontSize: 13, fontWeight: 800, color: pos.text }}>
-                {player.number}
-              </span>
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: "0.9rem",
-                  fontWeight: 800,
-                  color: "#fff",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {player.name}
-              </div>
-              <div
-                style={{
-                  fontSize: 10,
-                  color: pos.text,
-                  fontWeight: 600,
-                  letterSpacing: "0.5px",
-                }}
-              >
-                {pos.label}
-              </div>
-            </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: "1rem", fontWeight: 800, color: "#ffffff",
+            whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+            letterSpacing: "0.02em",
+          }} title={player.name}>
+            {player.name}
           </div>
-
-          <div
-            style={{
-              borderTop: `1px solid ${pos.border}`,
-              paddingTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              gap: 6,
-            }}
-          >
-            {/* DOB */}
-            {dob && (
-              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                <Cake size={12} style={{ color: pos.text, flexShrink: 0 }} />
-                <span style={{ fontSize: 11, color: "#ffffff" }}>Born:</span>
-                <span
-                  style={{
-                    fontSize: 11,
-                    color: "#fff",
-                    fontWeight: 600,
-                    marginLeft: "auto",
-                  }}
-                >
-                  {dob}
-                </span>
-              </div>
-            )}
-            {/* Age */}
-            {age !== null && (
-              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                <User size={12} style={{ color: pos.text, flexShrink: 0 }} />
-                <span style={{ fontSize: 11, color: "#ffffff" }}>Age:</span>
-                <span
-                  style={{
-                    fontSize: 11,
-                    color: "#fff",
-                    fontWeight: 600,
-                    marginLeft: "auto",
-                  }}
-                >
-                  {age} years
-                </span>
-              </div>
-            )}
-            {/* Height */}
-            {player.height_cm && (
-              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                <Ruler size={12} style={{ color: pos.text, flexShrink: 0 }} />
-                <span style={{ fontSize: 11, color: "#ffffff" }}>Height:</span>
-                <span
-                  style={{
-                    fontSize: 11,
-                    color: "#ffffff",
-                    fontWeight: 600,
-                    marginLeft: "auto",
-                  }}
-                >
-                  {player.height_cm} cm
-                </span>
-              </div>
-            )}
-            {/* Club */}
-            {player.club && (
-              <div
-                style={{ display: "flex", alignItems: "flex-start", gap: 7 }}
-              >
-                <Building2
-                  size={12}
-                  style={{ color: pos.text, flexShrink: 0, marginTop: 1 }}
-                />
-                <span style={{ fontSize: 11, color: "#ffffff", flexShrink: 0 }}>
-                  Club:
-                </span>
-                <span
-                  style={{
-                    fontSize: 11,
-                    color: "#ffffff",
-                    fontWeight: 600,
-                    textAlign: "right",
-                    marginLeft: "auto",
-                    wordBreak: "break-word",
-                    maxWidth: "65%",
-                  }}
-                >
-                  {clubName}
-                  {clubCountry && (
-                    <span
-                      style={{
-                        color: pos.text,
-                        display: "block",
-                        fontSize: 10,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {clubCountry}
-                    </span>
-                  )}
-                </span>
-              </div>
-            )}
-            {/* Jersey */}
-            <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-              <Hash size={12} style={{ color: pos.text, flexShrink: 0 }} />
-              <span style={{ fontSize: 11, color: "#ffffff" }}>Jersey:</span>
-              <span
-                style={{
-                  fontSize: 11,
-                  color: "#fff",
-                  fontWeight: 600,
-                  marginLeft: "auto",
-                }}
-              >
-                #{player.number}
-              </span>
-            </div>
+          <div style={{
+            display: "inline-flex", alignItems: "center",
+            marginTop: 5, padding: "2px 9px", borderRadius: 100,
+            background: pos.bg, border: `1px solid ${pos.border}`,
+            fontSize: 10, fontWeight: 700, color: pos.text,
+            letterSpacing: "0.5px", textTransform: "uppercase",
+          }}>
+            {pos.label}
           </div>
-
-          {/* Position indicator bar */}
-          <div
-            style={{
-              marginTop: "auto",
-              height: 3,
-              borderRadius: 2,
-              background: `linear-gradient(90deg, ${pos.text}88, ${pos.text}22)`,
-            }}
-          />
         </div>
       </div>
+
+      {/* Details */}
+      <div style={{
+        borderTop: `1px solid ${pos.border}`,
+        paddingTop: 8,
+        display: "flex", flexDirection: "column", gap: 6,
+      }}>
+        {dob && (
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <Cake size={12} style={{ color: pos.text, flexShrink: 0 }} />
+            <span style={{ fontSize: 11, color: "#94a3b8" }}>Born:</span>
+            <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+              {dob}
+            </span>
+          </div>
+        )}
+        {age !== null && (
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <User size={12} style={{ color: pos.text, flexShrink: 0 }} />
+            <span style={{ fontSize: 11, color: "#94a3b8" }}>Age:</span>
+            <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+              {age} years
+            </span>
+          </div>
+        )}
+        {player.height_cm && (
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <Ruler size={12} style={{ color: pos.text, flexShrink: 0 }} />
+            <span style={{ fontSize: 11, color: "#94a3b8" }}>Height:</span>
+            <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+              {player.height_cm} cm
+            </span>
+          </div>
+        )}
+        {/* Jersey */}
+        <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+          <Hash size={12} style={{ color: pos.text, flexShrink: 0 }} />
+          <span style={{ fontSize: 11, color: "#94a3b8" }}>Jersey:</span>
+          <span style={{ fontSize: 11, color: "#fff", fontWeight: 600, marginLeft: "auto" }}>
+            #{player.number}
+          </span>
+        </div>
+      </div>
+
+      {/* Club with logo */}
+      {player.club && (
+        <div style={{
+          display: "flex", alignItems: "center", gap: 8,
+          background: "rgba(0,0,0,0.25)", borderRadius: 10, padding: "7px 10px",
+          border: "1px solid rgba(255,255,255,0.06)",
+        }}>
+          {logoSrc && !logoErr ? (
+            <img
+              src={logoSrc}
+              alt={clubName}
+              onError={() => setLogoErr(true)}
+              style={{ width: 24, height: 24, objectFit: "contain", flexShrink: 0 }}
+            />
+          ) : (
+            <Building2 size={13} style={{ color: "#64748B", flexShrink: 0 }} />
+          )}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <span style={{
+              fontSize: 11, color: "#fff", fontWeight: 600,
+              display: "block", whiteSpace: "nowrap",
+              overflow: "hidden", textOverflow: "ellipsis",
+            }} title={clubName}>
+              {clubName}
+            </span>
+            {clubCountry && (
+              <span style={{ fontSize: 10, color: pos.text, fontWeight: 500 }}>
+                {clubCountry}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Position bar */}
+      <div style={{
+        height: 3, borderRadius: 2,
+        background: `linear-gradient(90deg, ${pos.text}88, ${pos.text}22)`,
+      }} />
     </div>
   );
 }
