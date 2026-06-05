@@ -41,6 +41,14 @@ function getFlagUrl(team) {
   return `https://flagcdn.com/w80/${code.toLowerCase()}.png`;
 }
 
+function sortById(round) {
+  return [...round].sort((a, b) => {
+    const numA = parseInt(a.id.split("_")[1] || 0);
+    const numB = parseInt(b.id.split("_")[1] || 0);
+    return numA - numB;
+  });
+}
+
 const GROUP_NAMES = [
   "A",
   "B",
@@ -203,9 +211,15 @@ function buildBracketFromGroups(groupState, thirdBestOrdered) {
     winner: null,
   }));
 
-  const r16 = R16_FROM.map((s) => ({ ...s, t1: null, t2: null, winner: null }));
-  const qf = QF_FROM.map((s) => ({ ...s, t1: null, t2: null, winner: null }));
-  const sf = SF_FROM.map((s) => ({ ...s, t1: null, t2: null, winner: null }));
+  const r16 = sortById(
+    R16_FROM.map((s) => ({ ...s, t1: null, t2: null, winner: null })),
+  );
+  const qf = sortById(
+    QF_FROM.map((s) => ({ ...s, t1: null, t2: null, winner: null })),
+  );
+  const sf = sortById(
+    SF_FROM.map((s) => ({ ...s, t1: null, t2: null, winner: null })),
+  );
   const final = [
     { id: "FINAL", t1: null, t2: null, winner: null, from: ["SF_1", "SF_2"] },
   ];
@@ -1162,9 +1176,9 @@ function ConfettiEffect() {
 function rebuildBracketTeams(prevBracket, groupState, thirdBestOrdered) {
   const nb = {
     r32: prevBracket.r32.map((m) => ({ ...m })),
-    r16: prevBracket.r16.map((m) => ({ ...m })),
-    qf: prevBracket.qf.map((m) => ({ ...m })),
-    sf: prevBracket.sf.map((m) => ({ ...m })),
+    r16: sortById(prevBracket.r16.map((m) => ({ ...m }))),
+    qf: sortById(prevBracket.qf.map((m) => ({ ...m }))),
+    sf: sortById(prevBracket.sf.map((m) => ({ ...m }))),
     final: prevBracket.final.map((m) => ({ ...m })),
     champion: prevBracket.champion,
   };
@@ -1224,9 +1238,9 @@ function rebuildBracketTeams(prevBracket, groupState, thirdBestOrdered) {
 function pickWinner(prevBracket, matchId, winner) {
   const nb = {
     r32: prevBracket.r32.map((m) => ({ ...m })),
-    r16: prevBracket.r16.map((m) => ({ ...m })),
-    qf: prevBracket.qf.map((m) => ({ ...m })),
-    sf: prevBracket.sf.map((m) => ({ ...m })),
+    r16: sortById(prevBracket.r16.map((m) => ({ ...m }))),
+    qf: sortById(prevBracket.qf.map((m) => ({ ...m }))),
+    sf: sortById(prevBracket.sf.map((m) => ({ ...m }))),
     final: prevBracket.final.map((m) => ({ ...m })),
     champion: prevBracket.champion,
   };
