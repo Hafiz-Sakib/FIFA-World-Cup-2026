@@ -17,6 +17,7 @@ const NAV_LINKS = [
   { to: "/by-date", label: "Dates", icon: CalendarDays },
   { to: "/squads", label: "Squads", icon: Shirt },
   { to: "/quiz", label: "Quiz", icon: Brain },
+  { to: "/tree", label: "Tree", icon: Brain },
 ];
 
 export default function Navbar() {

@@ -19,8 +19,9 @@ export default function AppRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/by-team" element={<FixturesByTeam />} />
           <Route path="/by-date" element={<FixturesByDate />} />
-          <Route path="/squads"  element={<Squads />} />
-          <Route path="/quiz"    element={<Quiz />} />
+          <Route path="/squads" element={<Squads />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/tree" element={<Bracket />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
