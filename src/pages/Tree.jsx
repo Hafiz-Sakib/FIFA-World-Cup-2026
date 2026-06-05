@@ -472,9 +472,13 @@ function GroupPicker({
   };
 
   return (
+    //Group picker container — fixed width, centered, with header and tabs
+    //Changes by Sakib!
     <div
       className="rounded-2xl overflow-hidden"
       style={{
+        maxWidth: "620px", // ← ADD or change this
+        margin: "0 auto", // ← ADD this (centers it)
         background: "rgba(7,36,58,0.92)",
         border: "1px solid rgba(255,255,255,0.07)",
       }}
@@ -538,7 +542,7 @@ function GroupPicker({
       </div>
 
       {/* Active group — narrower layout */}
-      <div className="p-3" style={{ maxWidth: 520 }}>
+      <div className="p-12" style={{ maxWidth: 520 }}>
         <div
           className="text-xs text-slate-400 mb-2"
           style={{
