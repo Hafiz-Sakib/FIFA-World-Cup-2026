@@ -2924,27 +2924,41 @@ export default function Home() {
                 className="animate-fade-up mb-6 flex justify-center lg:justify-start"
                 style={{ animationDelay: "0.22s" }}
               >
-                <div className="host-strip">
-                  <span
-                    className="text-sm font-semibold"
-                    style={{ color: "#CBD5E1" }}
-                  >
-                    USA
-                  </span>
-                  <div className="host-sep" />
-                  <span
-                    className="text-sm font-semibold"
-                    style={{ color: "#CBD5E1" }}
-                  >
-                    Canada
-                  </span>
-                  <div className="host-sep" />
-                  <span
-                    className="text-sm font-semibold"
-                    style={{ color: "#CBD5E1" }}
-                  >
-                    Mexico
-                  </span>
+                <div
+                  className="animate-fade-up mb-6 flex justify-center lg:justify-start"
+                  style={{ animationDelay: "0.22s" }}
+                >
+                  <div className="host-strip flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                      <FlagIcon teamName="USA" size={22} />
+                      <span
+                        className="text-sm font-semibold"
+                        style={{ color: "#CBD5E1" }}
+                      >
+                        USA
+                      </span>
+                    </div>
+                    <div className="host-sep" />
+                    <div className="flex items-center gap-1.5">
+                      <FlagIcon teamName="Canada" size={22} />
+                      <span
+                        className="text-sm font-semibold"
+                        style={{ color: "#CBD5E1" }}
+                      >
+                        Canada
+                      </span>
+                    </div>
+                    <div className="host-sep" />
+                    <div className="flex items-center gap-1.5">
+                      <FlagIcon teamName="Mexico" size={22} />
+                      <span
+                        className="text-sm font-semibold"
+                        style={{ color: "#CBD5E1" }}
+                      >
+                        Mexico
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <p
