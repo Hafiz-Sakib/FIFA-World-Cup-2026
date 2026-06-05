@@ -9,6 +9,7 @@ import {
   Zap,
   Shirt,
   Brain,
+  Network,
 } from "lucide-react";
 
 const NAV_LINKS = [
@@ -17,7 +18,7 @@ const NAV_LINKS = [
   { to: "/by-date", label: "Dates", icon: CalendarDays },
   { to: "/squads", label: "Squads", icon: Shirt },
   { to: "/quiz", label: "Quiz", icon: Brain },
-  { to: "/tree", label: "Tree", icon: Brain },
+  { to: "/tree", label: "Tree", icon: Network },
 ];
 
 export default function Navbar() {

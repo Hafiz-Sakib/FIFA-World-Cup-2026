@@ -27,7 +27,7 @@ function getFlagUrl(team) {
 }
 
 /* ─────────────────────────────────────────────
-   INITIAL BRACKET DATA
+   INITIAL Tree DATA
 ───────────────────────────────────────────── */
 const INITIAL_R32 = [
   { id: "R32_1", t1: "Germany", t2: "Australia", seed1: "1E", seed2: "3D" },
@@ -376,9 +376,9 @@ function ChampionDisplay({ champion }) {
 }
 
 /* ─────────────────────────────────────────────
-   SVG BRACKET CONNECTORS
+   SVG Tree CONNECTORS
 ───────────────────────────────────────────── */
-function BracketSVGConnectors({ side, count, matchHeight, matchGap }) {
+function TreeSVGConnectors({ side, count, matchHeight, matchGap }) {
   // count = number of matches in this column
   // pairs: [0,1], [2,3], etc. → outputs to next round
   const pairs = Math.floor(count / 2);
@@ -640,7 +640,7 @@ function ShareModal({ state, onClose }) {
       ? `🥈 Finalists: ${state.final[0].t1 || "?"} vs ${state.final[0].t2 || "?"}`
       : "",
     ``,
-    `Make your predictions at FIFA WC 2026 Bracket!`,
+    `Make your predictions at FIFA WC 2026 Tree!`,
   ]
     .filter((l) => l !== undefined)
     .join("\n");
@@ -697,9 +697,9 @@ function ShareModal({ state, onClose }) {
 }
 
 /* ─────────────────────────────────────────────
-   MAIN BRACKET PAGE
+   MAIN Tree PAGE
 ───────────────────────────────────────────── */
-export default function Bracket() {
+export default function Tree() {
   const [state, setState] = useState(buildInitialState);
   const [openRound, setOpenRound] = useState("r32");
   const [justPickedId, setJustPickedId] = useState(null);
@@ -841,7 +841,7 @@ export default function Bracket() {
   ];
 
   return (
-    <div className="min-h-screen bracket-page">
+    <div className="min-h-screen Tree-page">
       {/* Confetti */}
       {confettiActive && <ConfettiEffect />}
 
@@ -872,7 +872,7 @@ export default function Bracket() {
                     lineHeight: 1,
                   }}
                 >
-                  KNOCKOUT BRACKET
+                  KNOCKOUT Tree
                 </h1>
                 <p className="text-slate-400 text-xs mt-0.5">
                   Click teams to predict winners · selections cascade
@@ -914,7 +914,7 @@ export default function Bracket() {
           <ProgressBar state={state} />
         </div>
 
-        {/* ── DESKTOP BRACKET (≥1024px) ── */}
+        {/* ── DESKTOP Tree (≥1024px) ── */}
         <div className="hidden lg:block overflow-x-auto pb-4">
           <div className="flex items-start" style={{ minWidth: 1300, gap: 0 }}>
             {/* LEFT: R32 (8 matches) */}
@@ -929,7 +929,7 @@ export default function Bracket() {
               justPickedId={justPickedId}
             />
 
-            <BracketSVGConnectors
+            <TreeSVGConnectors
               side="right"
               count={8}
               matchHeight={R32_H}
@@ -948,7 +948,7 @@ export default function Bracket() {
               justPickedId={justPickedId}
             />
 
-            <BracketSVGConnectors
+            <TreeSVGConnectors
               side="right"
               count={4}
               matchHeight={R16_H}
@@ -967,7 +967,7 @@ export default function Bracket() {
               justPickedId={justPickedId}
             />
 
-            <BracketSVGConnectors
+            <TreeSVGConnectors
               side="right"
               count={2}
               matchHeight={QF_H}
@@ -1089,7 +1089,7 @@ export default function Bracket() {
               </div>
             </div>
 
-            <BracketSVGConnectors
+            <TreeSVGConnectors
               side="left"
               count={2}
               matchHeight={QF_H}
@@ -1108,7 +1108,7 @@ export default function Bracket() {
               justPickedId={justPickedId}
             />
 
-            <BracketSVGConnectors
+            <TreeSVGConnectors
               side="left"
               count={4}
               matchHeight={R16_H}
@@ -1127,7 +1127,7 @@ export default function Bracket() {
               justPickedId={justPickedId}
             />
 
-            <BracketSVGConnectors
+            <TreeSVGConnectors
               side="left"
               count={8}
               matchHeight={R32_H}
@@ -1308,7 +1308,7 @@ export default function Bracket() {
         </div>
       </div>
 
-      <BracketStyles />
+      <TreeStyles />
     </div>
   );
 }
@@ -1353,10 +1353,10 @@ function ConfettiEffect() {
 /* ─────────────────────────────────────────────
    STYLES
 ───────────────────────────────────────────── */
-function BracketStyles() {
+function TreeStyles() {
   return (
     <style>{`
-      .bracket-page {
+      .Tree-page {
         background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(22,163,74,0.08) 0%, transparent 70%), #001b2a;
       }
 

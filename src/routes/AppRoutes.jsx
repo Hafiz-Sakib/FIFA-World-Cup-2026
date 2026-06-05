@@ -6,6 +6,7 @@ import ScrollToTop from "../components/ScrollToTop";
 import Home from "../pages/Home";
 import FixturesByTeam from "../pages/FixturesByTeam";
 import FixturesByDate from "../pages/FixturesByDate";
+import Tree from "../pages/Tree";
 import Squads from "../pages/Squads";
 import Quiz from "../pages/Quiz";
 import NotFound from "../pages/NotFound";
@@ -21,7 +22,7 @@ export default function AppRoutes() {
           <Route path="/by-date" element={<FixturesByDate />} />
           <Route path="/squads" element={<Squads />} />
           <Route path="/quiz" element={<Quiz />} />
-          <Route path="/tree" element={<Bracket />} />
+          <Route path="/tree" element={<Tree />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
