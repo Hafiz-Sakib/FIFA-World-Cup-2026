@@ -1017,7 +1017,7 @@ export default function Quiz() {
     let pool = ALL_QUESTIONS;
     if (selectedCategory !== "All")
       pool = pool.filter((q) => q.category === selectedCategory);
-    if (selectedDifficulty !== "All")
+    if (selectedDifficulty !== "Combined")
       pool = pool.filter((q) => q.difficulty === selectedDifficulty);
     const num = Math.min(10, pool.length);
     const picked = shuffle(pool).slice(0, num);
