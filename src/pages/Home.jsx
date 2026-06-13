@@ -58,9 +58,14 @@ GROUP_STAGE.forEach((f) => {
 });
 
 function getTodayBDT() {
-  const now = new Date();
-  const bdt = new Date(now.getTime() + 6 * 60 * 60 * 1000);
-  return bdt.toISOString().slice(0, 10);
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Dhaka",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  })
+    .format(new Date())
+    .replace(/\//g, "-");
 }
 function getCountdown(targetDateStr) {
   const now = new Date();
@@ -1780,9 +1785,12 @@ function MatchMarquee() {
 function NextMatchTicker() {
   const today = getTodayBDT();
   const next = useMemo(() => {
-    const future = fixtures.filter(
-      (f) => f.date >= today && f.team1 !== "TBD" && f.team2 !== "TBD",
-    );
+    const now = new Date(); // or better: use BDT time
+    const future = fixtures.filter((f) => {
+      if (f.team1 === "TBD" || f.team2 === "TBD") return false;
+      const matchDate = new Date(f.date + "T" + f.time + ":00"); // assuming time format HH:MM
+      return matchDate > now;
+    });
     return sortByDateTime(future)[0] || null;
   }, [today]);
   const [ref, inView] = useInView();
